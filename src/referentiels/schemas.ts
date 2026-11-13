@@ -1,33 +1,6 @@
 import { z } from 'zod';
-
-/** Référence vers un passage d'un document officiel de docs/sources/. */
-export const referenceSource = z.object({
-  ref: z.string().min(1),
-  page: z.string().min(1),
-  extrait: z.string().min(1),
-});
-
-export const documentSource = z.object({
-  id: z.string().min(1),
-  document: z.string().min(1),
-  fichier: z.string().regex(/^docs\/sources\/.+\.pdf$/, 'doit pointer vers un PDF de docs/sources/'),
-});
-
-export const dateIso = z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'format attendu AAAA-MM-JJ');
-
-export const versionSemver = z.string().regex(/^\d+\.\d+\.\d+$/, 'version semver attendue (x.y.z)');
-
-/** Vérifie que chaque "ref" de source pointe vers une entrée du tableau "sources". */
-export function verifierRefsSources(
-  sources: ReadonlyArray<{ id: string }>,
-  refs: ReadonlyArray<[string, (string | number)[]]>,
-  ctx: z.RefinementCtx,
-): void {
-  const ids = new Set(sources.map((s) => s.id));
-  for (const [id, path] of refs) {
-    if (!ids.has(id)) ctx.addIssue({ code: 'custom', path, message: `source "${id}" absente de "sources"` });
-  }
-}
+import { dateIso, documentSource, referenceSource, verifierRefsSources, versionSemver } from './communs';
+import { schemaAutoquestionnaire, schemaFiche, schemaLiaisons, schemaMapping, verifierCoherenceSaisie } from './schemaSaisie';
 
 export const schemaReferentielTranche = z
   .object({
@@ -61,6 +34,10 @@ export const schemaReferentielTranche = z
         )
         .min(1),
     }),
+    autoquestionnaire: schemaAutoquestionnaire,
+    ficheReperage: schemaFiche,
+    liaisons: schemaLiaisons,
+    mapping: schemaMapping,
   })
   .strict()
   .superRefine((ref, ctx) => {
@@ -76,9 +53,13 @@ export const schemaReferentielTranche = z
         [ref.tranche.source.ref, ['tranche', 'source', 'ref']],
         [ref.ouvertureSession.source.ref, ['ouvertureSession', 'source', 'ref']],
         [ref.testsApplicables.source.ref, ['testsApplicables', 'source', 'ref']],
+        [ref.autoquestionnaire.source.ref, ['autoquestionnaire', 'source', 'ref']],
+        [ref.ficheReperage.source.ref, ['ficheReperage', 'source', 'ref']],
+        [ref.mapping.source.ref, ['mapping', 'source', 'ref']],
       ],
       ctx,
     );
+    verifierCoherenceSaisie(ref, ctx);
   });
 
 export type ReferentielTranche = z.infer<typeof schemaReferentielTranche>;

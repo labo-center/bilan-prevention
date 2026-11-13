@@ -28,3 +28,10 @@ export function scoresReels(): ReferentielScores {
 export function lireScores(): Record<string, unknown> {
   return JSON.parse(lireReferentielsReels()['referentiels/scores.json']!) as Record<string, unknown>;
 }
+
+/** Référentiel de tranche 45-50 réel, validé. */
+export function tranche4550Reelle() {
+  const r = chargerReferentiels(lireReferentielsReels());
+  if (!r.ok) throw new Error(`référentiels invalides : ${JSON.stringify(r.erreurs)}`);
+  return r.tranches.find((t) => t.tranche.id === '45-50')!;
+}

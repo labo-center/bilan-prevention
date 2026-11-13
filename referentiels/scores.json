@@ -8,7 +8,31 @@
     { "id": "autoquestionnaire-45-50", "document": "Autoquestionnaire Mon Bilan Prévention 45-50 ans", "fichier": "docs/sources/Mon-bilan-prevention-autoquestionnaire-45-50ans.pdf" }
   ],
 
+  "thematiques": {
+    "source": { "ref": "fiches-thematiques", "page": "2", "extrait": "Table des matières des 17 fiches thématiques synthétiques" },
+    "items": [
+      { "id": "alimentation", "libelle": "Alimentation", "pageFiche": 3 },
+      { "id": "activite-physique", "libelle": "Activité physique et sédentarité", "pageFiche": 5 },
+      { "id": "addictions", "libelle": "Tabac, alcool et autres addictions", "pageFiche": 7 },
+      { "id": "bien-etre-mental-social", "libelle": "Bien-être mental et social", "pageFiche": 9 },
+      { "id": "sommeil", "libelle": "Sommeil", "pageFiche": 11 },
+      { "id": "cancers", "libelle": "Prévention des cancers", "pageFiche": 13 },
+      { "id": "maladies-chroniques", "libelle": "Prévention des autres maladies chroniques", "pageFiche": 15 },
+      { "id": "perte-autonomie", "libelle": "Prévention de la perte d’autonomie", "pageFiche": 17 },
+      { "id": "bucco-dentaire", "libelle": "Santé bucco-dentaire", "pageFiche": 19 },
+      { "id": "vaccinations", "libelle": "Vaccinations", "pageFiche": 21 },
+      { "id": "sante-sexuelle", "libelle": "Santé sexuelle", "pageFiche": 23 },
+      { "id": "menopause", "libelle": "Ménopause", "pageFiche": 25 },
+      { "id": "violences", "libelle": "Violences", "pageFiche": 27 },
+      { "id": "sante-environnement", "libelle": "Santé et environnement", "pageFiche": 29 },
+      { "id": "acces-droits", "libelle": "Accès aux droits", "pageFiche": 31 },
+      { "id": "sante-auditive", "libelle": "Santé auditive", "pageFiche": 33 },
+      { "id": "chlordecone", "libelle": "Chlordécone", "pageFiche": 35 }
+    ]
+  },
+
   "imc": {
+    "thematique": "alimentation",
     "source": { "ref": "livret", "page": "11", "extrait": "Repérer le surpoids, l’obésité, la dénutrition (pesée, taille, IMC) - aucun seuil fourni" },
     "decimales": 1,
     "seuils": [
@@ -21,6 +45,7 @@
   },
 
   "pressionArterielle": {
+    "thematique": "maladies-chroniques",
     "source": { "ref": "livret", "page": "29 et 41", "extrait": "Annexe III : au minimum 2 mesures, la première fois aux deux bras (considérer le bras où la mesure est la plus haute). Annexe VI, maladies chroniques : conduite à tenir" },
     "mesuresMin": 2,
     "seuils": [
@@ -30,6 +55,7 @@
   },
 
   "reperesAlcool": {
+    "thematique": "addictions",
     "source": { "ref": "autoquestionnaire-45-50", "page": "3", "extrait": "Q33 - Au cours de l’année écoulée, concernant votre consommation de boissons alcoolisées (livret p. 32 : repères dépassés → évaluation du risque)" },
     "reperes": [
       { "id": "plus2ParJour", "libelle": "Vous buvez plus de 2 verres standards par jour" },
@@ -40,6 +66,7 @@
   },
 
   "face": {
+    "thematique": "addictions",
     "source": { "ref": "livret", "page": "32", "extrait": "Questionnaire FACE (Formule pour approcher la consommation d’alcool par entretien)" },
     "items": [
       { "id": "q1", "libelle": "À quelle fréquence consommez-vous des boissons contenant de l’alcool ?", "options": [
@@ -76,6 +103,7 @@
   },
 
   "fagerstrom": {
+    "thematique": "addictions",
     "source": { "ref": "livret", "page": "33", "extrait": "Test de Fagerström simplifié en deux questions" },
     "items": [
       { "id": "cigarettesParJour", "libelle": "Combien de cigarettes, fumez-vous par jour ?", "options": [
@@ -93,6 +121,7 @@
   },
 
   "cast": {
+    "thematique": "addictions",
     "source": { "ref": "livret", "page": "33", "extrait": "Questionnaire CAST (Cannabis Abuse Screening Test)" },
     "items": [
       { "id": "q1", "libelle": "Avez-vous déjà fumé du cannabis avant midi ?" },
@@ -111,6 +140,7 @@
   },
 
   "adrs": {
+    "thematique": "bien-etre-mental-social",
     "source": { "ref": "livret", "page": "34", "extrait": "Échelle ADRS, personnes âgées de 18 à 20 ans ; score = nombre de réponses « vrai »" },
     "applicabilite": { "ageMin": 18, "ageMax": 20 },
     "items": [
@@ -133,6 +163,7 @@
   },
 
   "had": {
+    "thematique": "bien-etre-mental-social",
     "source": { "ref": "livret", "page": "34-35", "extrait": "Échelle HAD, personnes à partir de 20 ans ; A = items impairs, D = items pairs" },
     "applicabilite": { "ageMin": 20 },
     "items": [
@@ -192,6 +223,7 @@
   },
 
   "icope": {
+    "thematique": "perte-autonomie",
     "source": { "ref": "livret", "page": "30-31", "extrait": "Annexe III §4 : questionnaire de la première étape du programme ICOPE" },
     "motsARetenir": ["citron", "clé", "ballon"],
     "questionsOrientation": ["Année", "Jour de la semaine", "Mois", "Jour du mois"],
@@ -209,11 +241,13 @@
   },
 
   "amsler": {
+    "thematique": "maladies-chroniques",
     "source": { "ref": "livret", "page": "29", "extrait": "Test d’Amsler (dépistage DMLA), proposé après 60 ans" },
     "siAnormal": { "niveau": "rouge", "message": "Lignes déformées, ondulées ou taches sombres : orienter rapidement vers un ophtalmologue (moins d’une semaine)" }
   },
 
   "polymedication": {
+    "thematique": "maladies-chroniques",
     "source": { "ref": "livret", "page": "41", "extrait": "Annexe VI, maladies chroniques : si polymédication (> 10 traitements), informer le médecin traitant" },
     "nombreTraitementsMax": 10,
     "siDepasse": { "niveau": "orange", "message": "Polymédication (> 10 traitements) : informer le médecin traitant" }
@@ -225,11 +259,13 @@
   },
 
   "medecinTraitant": {
+    "thematique": "acces-droits",
     "source": { "ref": "fiche-reperage-45-50", "page": "1", "extrait": "Situation personnelle : Médecin traitant" },
     "siAbsent": { "niveau": "info", "message": "Si pas de médecin traitant, signaler, avec l’accord du patient, la situation à la CPAM" }
   },
 
   "depistages": {
+    "thematique": "cancers",
     "source": { "ref": "fiches-thematiques", "page": "14", "extrait": "Prévention et dépistage des cancers : personnes à risque moyen, élevé et très élevé" },
     "sourceLibelles": { "ref": "fiche-reperage-45-50", "page": "2", "extrait": "Explorations complémentaires souhaitables" },
     "organises": [

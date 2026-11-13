@@ -35,7 +35,7 @@ describe('Ouverture de session (M1)', () => {
     expect(screen.getByRole('heading', { name: 'Bilan Prévention 45-50 ans' })).toBeTruthy();
     expect(screen.getByText('47 ans')).toBeTruthy();
     expect(screen.getByTestId('version-referentiel').textContent).toMatch(/45-50 v\d+\.\d+\.\d+/);
-    expect(screen.getByText('Mesure de la pression artérielle')).toBeTruthy();
+    expect(screen.getByRole('heading', { name: 'Autoquestionnaire' })).toBeTruthy();
     expect(ctx.data.taille()).toBe(1);
   });
 

@@ -1,16 +1,9 @@
 import { useId, useState, type FormEvent } from 'react';
 import { calculerAge, formaterDateIso, type ResultatAge } from '../logic/age';
 import { selectionnerTranche } from '../logic/tranche';
+import type { Ouverture } from '../logic/session';
 import type { ReferentielTranche } from '../referentiels/schemas';
 import styles from './Session.module.css';
-
-export interface DonneesOuverture {
-  dateRdv: string;
-  dateNaissance: string;
-  genre: string;
-  age: number;
-  trancheId: string;
-}
 
 const MESSAGES_ERREUR_AGE: Record<Extract<ResultatAge, { ok: false }>['erreur'], string> = {
   'date-naissance-invalide': 'Date de naissance invalide.',
@@ -25,7 +18,7 @@ export function OuvertureSession({
   onOuvrir,
 }: {
   tranches: ReferentielTranche[];
-  onOuvrir: (d: DonneesOuverture) => void;
+  onOuvrir: (d: Ouverture) => void;
 }) {
   const id = useId();
   const [dateRdv, setDateRdv] = useState(() => formaterDateIso(new Date()));

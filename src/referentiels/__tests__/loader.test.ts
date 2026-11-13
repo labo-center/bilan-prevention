@@ -112,3 +112,27 @@ describe('chargerReferentiels', () => {
     expect(chargerReferentiels({ ...lireReferentielsReels(), 'referentiels/orientation.json': '{ pas lu' }).ok).toBe(true);
   });
 });
+
+describe('Cohérence autoquestionnaire / fiche / correspondance', () => {
+  const champs = (modifier: (r: Record<string, any>) => void) => { // eslint-disable-line @typescript-eslint/no-explicit-any
+    const ref = lire4550() as Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
+    modifier(ref);
+    const r = chargerReferentiels(avec(ref));
+    return r.ok ? [] : r.erreurs.map((e) => e.champ);
+  };
+  it('le référentiel réel est cohérent', () => expect(champs(() => {})).toEqual([]));
+  it('correspondance vers un champ inexistant : refus', () =>
+    expect(champs((r) => { r.mapping.regles[0].champ = 'inconnu'; })).toContain('mapping.regles[0].champ'));
+  it('correspondance vers une réponse inexistante : refus', () =>
+    expect(champs((r) => { r.mapping.regles[0].siReponse = ['peut-etre']; })).toContain('mapping.regles[0].siReponse'));
+  it('valeur incompatible avec le type du champ : refus', () =>
+    expect(champs((r) => { r.mapping.regles[0].valeur = 'oui'; })).toContain('mapping.regles[0].valeur'));
+  it('liaison vers un champ du mauvais type : refus', () =>
+    expect(champs((r) => { r.liaisons.taille = 'role-aidant'; })).toContain('liaisons.taille'));
+  it('question en double : refus', () =>
+    expect(champs((r) => { r.autoquestionnaire.sections[0].questions[1].id = 'Q1'; })).toContain('autoquestionnaire.sections[0].questions[1].id'));
+  it('thématique inconnue de scores.json : refus', () =>
+    expect(champs((r) => { r.ficheReperage.sections[1].thematique = 'inventee'; })).toContain('ficheReperage.sections[1].thematique'));
+  it('question liée aux repères alcool sans les options de scores.json : refus', () =>
+    expect(champs((r) => { r.liaisons.questionReperesAlcool = 'Q32'; })).toContain('liaisons.questionReperesAlcool'));
+});

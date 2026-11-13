@@ -95,6 +95,28 @@ export function chargerReferentiels(fichiers: Record<string, string>): ResultatC
     }
   }
 
+  // Contrôle croisé : les thématiques de la fiche de repérage existent dans scores.json.
+  if (scores) {
+    const ids = new Set(scores.thematiques.items.map((t) => t.id));
+    for (const t of triees) {
+      t.ficheReperage.sections.forEach((s, i) => {
+        const verifier = (th: string | undefined, champ: string) => {
+          if (th && !ids.has(th)) erreurs.push({ fichier: `referentiels/${t.tranche.id}.json`, champ, message: `thématique "${th}" inconnue de scores.json` });
+        };
+        verifier(s.thematique, `ficheReperage.sections[${i}].thematique`);
+        s.champs.forEach((c, j) => verifier(c.thematique, `ficheReperage.sections[${i}].champs[${j}].thematique`));
+      });
+      // Les repères alcool de scores.json doivent être des options de la question liée.
+      const q = t.autoquestionnaire.sections.flatMap((s) => s.questions).find((x) => x.id === t.liaisons.questionReperesAlcool);
+      const options = q && 'options' in q ? q.options.map((o) => o.id) : [];
+      for (const rep of scores.reperesAlcool.reperes) {
+        if (!options.includes(rep.id)) {
+          erreurs.push({ fichier: `referentiels/${t.tranche.id}.json`, champ: 'liaisons.questionReperesAlcool', message: `option "${rep.id}" de scores.json absente de la question` });
+        }
+      }
+    }
+  }
+
   if (erreurs.length > 0 || !scores) return { ok: false, erreurs };
   return { ok: true, tranches: triees, scores };
 }

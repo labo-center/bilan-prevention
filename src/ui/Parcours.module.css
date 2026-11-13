@@ -1,0 +1,118 @@
+.parcours { display: flex; flex-direction: column; gap: var(--mbp-espace-4); }
+
+.bandeauSession {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--mbp-espace-3);
+  padding: var(--mbp-espace-4); background: var(--mbp-surface);
+  border: var(--mbp-bordure) solid var(--mbp-trait); border-radius: var(--mbp-rayon);
+}
+.titreSession { font-size: var(--mbp-taille-sous-titre); margin: 0; flex-basis: 100%; }
+.resume { display: grid; grid-template-columns: max-content 1fr; gap: var(--mbp-espace-1) var(--mbp-espace-4); margin: 0; }
+.resume dt { color: var(--mbp-texte-secondaire); }
+.resume dd { margin: 0; }
+
+.bandeauRouge {
+  padding: var(--mbp-espace-3) var(--mbp-espace-4); background: var(--mbp-rouge-fond);
+  border: var(--mbp-bordure) solid var(--mbp-rouge-trait); border-left-width: var(--mbp-espace-2); border-radius: var(--mbp-rayon);
+}
+.bandeauRouge p { margin: var(--mbp-espace-1) 0 var(--mbp-espace-2); }
+
+.etapes { display: flex; flex-wrap: wrap; gap: var(--mbp-espace-2); list-style: none; margin: 0; padding: 0; }
+.etape {
+  font: inherit; min-height: var(--mbp-cible-tactile); padding: var(--mbp-espace-2) var(--mbp-espace-4);
+  background: var(--mbp-surface); color: var(--mbp-primaire);
+  border: var(--mbp-bordure) solid var(--mbp-primaire); border-radius: var(--mbp-rayon); cursor: pointer;
+}
+.etape[aria-current='step'] { background: var(--mbp-primaire); color: var(--mbp-primaire-texte); }
+.etape:disabled, .boutonPrincipal:disabled { color: var(--mbp-desactive); border-color: var(--mbp-desactive); background: var(--mbp-surface); cursor: not-allowed; }
+
+.contenuEtape { display: flex; flex-direction: column; gap: var(--mbp-espace-4); }
+.piedEtape { display: flex; flex-direction: column; align-items: flex-end; gap: var(--mbp-espace-2); }
+
+.titreEtape { font-size: var(--mbp-taille-sous-titre); margin: 0 0 var(--mbp-espace-2); }
+.section {
+  display: flex; flex-direction: column; gap: var(--mbp-espace-3); margin-bottom: var(--mbp-espace-4);
+  padding: var(--mbp-espace-4); background: var(--mbp-surface);
+  border: var(--mbp-bordure) solid var(--mbp-trait); border-radius: var(--mbp-rayon);
+}
+.titreSection { font-size: var(--mbp-taille-texte); margin: 0; }
+.introduction { margin: 0 0 var(--mbp-espace-4); }
+.aide { margin: 0; font-size: var(--mbp-taille-petit); color: var(--mbp-texte-secondaire); }
+.rappel { margin: var(--mbp-espace-1) 0 0; font-size: var(--mbp-taille-petit); color: var(--mbp-declare-texte); }
+.incomplet { margin: 0; font-size: var(--mbp-taille-petit); color: var(--mbp-texte-secondaire); }
+
+/* Autoquestionnaire patient : gros caractères et grandes cibles tactiles (M2) */
+.patient { font-size: var(--mbp-taille-patient); }
+.patient .option { min-height: var(--mbp-cible-tactile); }
+.patient input[type='radio'], .patient input[type='checkbox'] { width: var(--mbp-espace-6); height: var(--mbp-espace-6); }
+.question { border: 0; padding: 0; margin: 0 0 var(--mbp-espace-4); display: flex; flex-direction: column; gap: var(--mbp-espace-2); }
+.legende { font-weight: 600; padding: 0; }
+.options { display: flex; flex-direction: column; gap: var(--mbp-espace-1); }
+.option { display: inline-flex; align-items: center; gap: var(--mbp-espace-2); cursor: pointer; }
+.optionsLigne { display: flex; flex-wrap: wrap; gap: var(--mbp-espace-2) var(--mbp-espace-4); }
+.precision, .zoneTexte, .champTexte input, .tableauPa input, .tableauPa select, .champNombre input, .champNombreGrand input {
+  font: inherit; padding: var(--mbp-espace-2); border: var(--mbp-bordure) solid var(--mbp-trait); border-radius: var(--mbp-rayon);
+}
+.precision { margin-left: var(--mbp-espace-6); max-width: 100%; }
+.zoneTexte { width: 100%; min-height: calc(var(--mbp-cible-tactile) * 2); box-sizing: border-box; }
+.champNombre, .champNombreGrand, .champTexte { display: flex; flex-direction: column; gap: var(--mbp-espace-1); }
+.champNombreGrand label { font-weight: 600; }
+.ligneNombre { display: inline-flex; align-items: center; gap: var(--mbp-espace-2); }
+.champNombre input, .champNombreGrand input { width: 8rem; }
+.champTexte input { max-width: 100%; }
+
+.boutonPrincipal, .boutonSecondaire, .boutonAlerte {
+  font: inherit; min-height: var(--mbp-cible-tactile); padding: var(--mbp-espace-2) var(--mbp-espace-4);
+  border-radius: var(--mbp-rayon); border: var(--mbp-bordure) solid var(--mbp-primaire); cursor: pointer; align-self: flex-start;
+}
+.boutonPrincipal { background: var(--mbp-primaire); color: var(--mbp-primaire-texte); align-self: auto; }
+.boutonSecondaire { background: var(--mbp-surface); color: var(--mbp-primaire); }
+.boutonAlerte { background: var(--mbp-rouge-trait); border-color: var(--mbp-rouge-trait); color: var(--mbp-primaire-texte); }
+.boutonLien { font: inherit; font-size: var(--mbp-taille-petit); background: none; border: 0; padding: 0; color: var(--mbp-primaire); text-decoration: underline; cursor: pointer; align-self: flex-start; }
+.etape:focus-visible, .boutonPrincipal:focus-visible, .boutonSecondaire:focus-visible, .boutonAlerte:focus-visible, .boutonLien:focus-visible {
+  outline: var(--mbp-espace-1) solid var(--mbp-focus); outline-offset: var(--mbp-bordure);
+}
+
+/* Fiche de repérage */
+.grilleChamps { display: grid; grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr)); gap: var(--mbp-espace-3) var(--mbp-espace-6); }
+.champFiche { display: flex; flex-direction: column; gap: var(--mbp-espace-1); }
+.groupeFiche { border: 0; padding: 0; margin: 0; display: flex; flex-direction: column; gap: var(--mbp-espace-1); }
+.groupeFiche legend { padding: 0; margin-bottom: var(--mbp-espace-1); }
+.calcule { margin: 0; }
+.libelleCalcule { color: var(--mbp-texte-secondaire); }
+.badgeAVerifier, .badgeDeclare {
+  display: inline-block; margin-left: var(--mbp-espace-2); padding: 0 var(--mbp-espace-2);
+  border-radius: var(--mbp-rayon); font-size: var(--mbp-taille-petit); font-weight: normal;
+}
+.badgeAVerifier { background: var(--mbp-a-verifier-fond); color: var(--mbp-a-verifier-texte); }
+.badgeDeclare { background: var(--mbp-declare-fond); color: var(--mbp-declare-texte); }
+
+/* Résultats de tests */
+.resultat { padding: var(--mbp-espace-3); border-radius: var(--mbp-rayon); border-left: var(--mbp-espace-1) solid; }
+.niveauRouge { background: var(--mbp-rouge-fond); border-color: var(--mbp-rouge-trait); }
+.niveauOrange { background: var(--mbp-orange-fond); border-color: var(--mbp-orange-trait); }
+.niveauInfo { background: var(--mbp-info-fond); border-color: var(--mbp-info-trait); }
+.niveauAucun { background: var(--mbp-fond); border-color: var(--mbp-trait); }
+.points { color: var(--mbp-texte-secondaire); font-size: var(--mbp-taille-petit); }
+.tableauPa { border-collapse: collapse; width: 100%; }
+.tableauPa th, .tableauPa td { text-align: left; padding: var(--mbp-espace-1) var(--mbp-espace-2); border-bottom: var(--mbp-bordure) solid var(--mbp-trait); }
+.tableauPa input { width: 6rem; }
+.masque { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.listeDepistages { margin: 0; padding-left: var(--mbp-espace-6); }
+
+/* Risques repérés */
+.listeRisques { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--mbp-espace-2); }
+.risque {
+  display: grid; grid-template-columns: 7rem 14rem 1fr; gap: var(--mbp-espace-1) var(--mbp-espace-3);
+  padding: var(--mbp-espace-3); border-radius: var(--mbp-rayon); border-left: var(--mbp-espace-1) solid;
+}
+.risque_rouge { background: var(--mbp-rouge-fond); border-color: var(--mbp-rouge-trait); }
+.risque_orange { background: var(--mbp-orange-fond); border-color: var(--mbp-orange-trait); }
+.risque_info { background: var(--mbp-info-fond); border-color: var(--mbp-info-trait); }
+.niveauRisque { font-weight: 600; }
+.themeRisque { color: var(--mbp-texte-secondaire); }
+.sourceRisque { grid-column: 3; font-size: var(--mbp-taille-petit); color: var(--mbp-texte-secondaire); }
+@media (max-width: 40rem) {
+  .risque { grid-template-columns: 1fr; }
+  .sourceRisque { grid-column: 1; }
+}
+.champFiche > .badgeDeclare, .champFiche > .badgeAVerifier { align-self: flex-start; margin-left: 0; }

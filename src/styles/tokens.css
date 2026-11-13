@@ -9,6 +9,9 @@
   --mbp-taille-petit: 0.875rem;
   --mbp-taille-titre: 1.5rem;
   --mbp-taille-sous-titre: 1.125rem;
+  /* Saisie par le patient sur tablette : gros caractères (M2) */
+  --mbp-taille-patient: 1.25rem;
+  --mbp-cible-tactile: 2.75rem;
   --mbp-interligne: 1.5;
 
   --mbp-espace-1: 0.25rem;
@@ -38,6 +41,9 @@
   --mbp-info-trait: #1f5fa8;
   --mbp-a-verifier-fond: #fff8c5;
   --mbp-a-verifier-texte: #5c4a00;
+  --mbp-declare-fond: #eef3ea;
+  --mbp-declare-texte: #2f5221;
+  --mbp-desactive: #8a929b;
 
   font-family: var(--mbp-police);
   font-size: var(--mbp-taille-texte);
@@ -51,6 +57,7 @@
   --mbp-taille-texte: 1.25rem;
   --mbp-taille-titre: 1.875rem;
   --mbp-taille-sous-titre: 1.375rem;
+  --mbp-taille-patient: 1.5rem;
   --mbp-fond: #ffffff;
   --mbp-texte: #000000;
   --mbp-texte-secondaire: #1b1f24;

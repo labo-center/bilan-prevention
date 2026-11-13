@@ -23,6 +23,7 @@ Le harnais `index.html` + `src/main.tsx` monte la brique comme le ferait un shel
 npm test          # vitest (logic, référentiels, UI)
 npm run typecheck # TypeScript strict
 npm run lint      # ESLint (no-console interdit)
+npm run e2e       # Playwright : parcours 45-50 ans de bout en bout
 npm run build     # bibliothèque dist/brick.js, react et react-dom externalisés
 ```
 
@@ -47,4 +48,5 @@ Les écarts entre PRD et sources, et les valeurs « à vérifier », sont tracé
 
 ## État
 - Incrément 1 (socle) : structure de la brique, mount/unmount, ouverture de session et sélection de la tranche d'âge (M1), référentiel 45-50 validé par Zod (M16).
+- Incrément 3 (saisie) : autoquestionnaire patient (M2), fiche de repérage pré-remplie (M3), tests cliniques avec scores et alertes (M4 à M11), liste des risques repérés triée, parcours Playwright.
 - Incrément 2 (moteur de règles) : `referentiels/scores.json` et `src/logic/` (IMC, PA, repères alcool, FACE, Fagerström, CAST, ADRS, HAD, ICOPE, Amsler, polymédication, idées suicidaires, médecin traitant, dépistages, facturation).

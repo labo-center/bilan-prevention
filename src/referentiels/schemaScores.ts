@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { dateIso, documentSource, referenceSource, verifierRefsSources, versionSemver } from './schemas';
+import { dateIso, documentSource, referenceSource, verifierRefsSources, versionSemver } from './communs';
 
 const niveau = z.enum(['aucun', 'info', 'orange', 'rouge']);
 const genreBiologique = z.enum(['H', 'F']);
@@ -58,6 +58,7 @@ const maxPoints = (items: ReadonlyArray<{ options: ReadonlyArray<{ points: numbe
 
 const schemaFace = z
   .object({
+    thematique: z.string().min(1),
     source: referenceSource,
     items: z.array(itemAOptions).min(1),
     seuilsParGenre: z.object({ H: z.array(seuil), F: z.array(seuil) }),
@@ -70,6 +71,7 @@ const schemaFace = z
 
 const schemaFagerstrom = z
   .object({
+    thematique: z.string().min(1),
     source: referenceSource,
     items: z
       .array(
@@ -87,17 +89,18 @@ const schemaFagerstrom = z
   .superRefine((v, ctx) => verifierGrille(v.seuils, maxPoints(v.items), ['seuils'], ctx));
 
 const schemaCast = z
-  .object({ source: referenceSource, items: z.array(itemOuiNon).min(1), seuils: z.array(seuil) })
+  .object({ thematique: z.string().min(1), source: referenceSource, items: z.array(itemOuiNon).min(1), seuils: z.array(seuil) })
   .superRefine((v, ctx) => verifierGrille(v.seuils, v.items.length, ['seuils'], ctx));
 
 const applicabiliteAge = z.object({ ageMin: z.number().int().min(0), ageMax: z.number().int().min(0).optional() });
 
 const schemaAdrs = z
-  .object({ source: referenceSource, applicabilite: applicabiliteAge, items: z.array(itemOuiNon).min(1), seuils: z.array(seuil) })
+  .object({ thematique: z.string().min(1), source: referenceSource, applicabilite: applicabiliteAge, items: z.array(itemOuiNon).min(1), seuils: z.array(seuil) })
   .superRefine((v, ctx) => verifierGrille(v.seuils, v.items.length, ['seuils'], ctx));
 
 const schemaHad = z
   .object({
+    thematique: z.string().min(1),
     source: referenceSource,
     applicabilite: applicabiliteAge,
     items: z.array(itemAOptions.extend({ dimension: z.string().min(1) })).min(2),
@@ -120,18 +123,26 @@ const schemaHad = z
     verifierGrille(v.seuils, maxParDimension[0], ['seuils'], ctx);
   });
 
+const thematique = z.string().min(1);
+
 export const schemaScores = z
   .object({
     version: versionSemver,
     dateValidation: dateIso.nullable(),
     sources: z.array(documentSource).min(1),
+    thematiques: z.object({
+      source: referenceSource,
+      items: z.array(z.object({ id: z.string().min(1), libelle: z.string().min(1), pageFiche: z.number().int().positive() })).min(1),
+    }),
     imc: z.object({
+      thematique,
       source: referenceSource,
       decimales: z.number().int().min(0).max(3),
       seuils: z.array(seuil),
       noteAVerifier: z.string().optional(),
     }).superRefine((v, ctx) => verifierGrille(v.seuils, undefined, ['seuils'], ctx)),
     pressionArterielle: z.object({
+      thematique,
       source: referenceSource,
       mesuresMin: z.number().int().min(1),
       seuils: z
@@ -150,6 +161,7 @@ export const schemaScores = z
         }),
     }),
     reperesAlcool: z.object({
+      thematique,
       source: referenceSource,
       reperes: z.array(itemOuiNon).min(1),
       siDepasse: conclusion,
@@ -160,6 +172,7 @@ export const schemaScores = z
     adrs: schemaAdrs,
     had: schemaHad,
     icope: z.object({
+      thematique,
       source: referenceSource,
       motsARetenir: z.array(z.string().min(1)).min(1),
       questionsOrientation: z.array(z.string().min(1)).min(1),
@@ -177,8 +190,9 @@ export const schemaScores = z
       siPositif: conclusion,
       noteAVerifier: z.string().optional(),
     }),
-    amsler: z.object({ source: referenceSource, siAnormal: conclusion }),
+    amsler: z.object({ thematique, source: referenceSource, siAnormal: conclusion }),
     polymedication: z.object({
+      thematique,
       source: referenceSource,
       nombreTraitementsMax: z.number().int().min(0),
       siDepasse: conclusion,
@@ -187,8 +201,9 @@ export const schemaScores = z
       source: referenceSource,
       siCoche: conclusion.extend({ thematique: z.string().min(1) }),
     }),
-    medecinTraitant: z.object({ source: referenceSource, siAbsent: conclusion }),
+    medecinTraitant: z.object({ thematique, source: referenceSource, siAbsent: conclusion }),
     depistages: z.object({
+      thematique,
       source: referenceSource,
       sourceLibelles: referenceSource,
       organises: z
@@ -228,6 +243,15 @@ export const schemaScores = z
     }
     refs.push([s.depistages.sourceLibelles.ref, ['depistages', 'sourceLibelles', 'ref']]);
     verifierRefsSources(s.sources, refs, ctx);
+    // Toute thématique citée par une règle doit exister dans la liste des fiches thématiques.
+    const ids = new Set(s.thematiques.items.map((t) => t.id));
+    for (const [cle, bloc] of Object.entries(s)) {
+      const th = bloc && typeof bloc === 'object' && 'thematique' in bloc ? (bloc as { thematique: string }).thematique : null;
+      if (th && !ids.has(th)) ctx.addIssue({ code: 'custom', path: [cle, 'thematique'], message: `thématique "${th}" inconnue` });
+    }
+    if (!ids.has(s.ideesSuicidaires.siCoche.thematique)) {
+      ctx.addIssue({ code: 'custom', path: ['ideesSuicidaires', 'siCoche', 'thematique'], message: 'thématique inconnue' });
+    }
   });
 
 export type ReferentielScores = z.infer<typeof schemaScores>;
