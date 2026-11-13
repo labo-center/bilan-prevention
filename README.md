@@ -43,5 +43,8 @@ Le shell fournit `react` et `react-dom` (18.x). Tous les champs du contexte sont
 ## Référentiels
 Chaque fichier de tranche (`AA-AA.json`) porte `version`, `dateValidation` (`null` tant que le pharmacien référent n'a pas validé) et des références de source (document + page). Un référentiel invalide bloque le démarrage et l'écran indique le fichier et le champ en erreur.
 
+Les écarts entre PRD et sources, et les valeurs « à vérifier », sont tracés dans `docs/decisions_referentiels.md`.
+
 ## État
-Incrément 1 (socle) : structure de la brique, mount/unmount, ouverture de session et sélection de la tranche d'âge (M1), référentiel 45-50 validé par Zod (M16).
+- Incrément 1 (socle) : structure de la brique, mount/unmount, ouverture de session et sélection de la tranche d'âge (M1), référentiel 45-50 validé par Zod (M16).
+- Incrément 2 (moteur de règles) : `referentiels/scores.json` et `src/logic/` (IMC, PA, repères alcool, FACE, Fagerström, CAST, ADRS, HAD, ICOPE, Amsler, polymédication, idées suicidaires, médecin traitant, dépistages, facturation).

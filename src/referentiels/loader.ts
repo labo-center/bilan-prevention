@@ -1,4 +1,6 @@
+import type { z } from 'zod';
 import { schemaReferentielTranche, type ReferentielTranche } from './schemas';
+import { schemaScores, type ReferentielScores } from './schemaScores';
 
 export interface ErreurReferentiel {
   /** Chemin du fichier, ex. "referentiels/45-50.json". */
@@ -9,11 +11,34 @@ export interface ErreurReferentiel {
 }
 
 export type ResultatChargement =
-  | { ok: true; tranches: ReferentielTranche[] }
+  | { ok: true; tranches: ReferentielTranche[]; scores: ReferentielScores }
   | { ok: false; erreurs: ErreurReferentiel[] };
 
 /** Les fichiers de tranche sont nommés "AA-AA.json" ; les autres (scores, orientation) ont leur propre schéma. */
 const MOTIF_FICHIER_TRANCHE = /(?:^|\/)(\d{2}-\d{2})\.json$/;
+const MOTIF_FICHIER_SCORES = /(?:^|\/)scores\.json$/;
+
+const normaliser = (chemin: string) => chemin.replace(/^.*?referentiels\//, 'referentiels/');
+
+/** Parse puis valide un fichier ; ajoute les erreurs (fichier + champ) et retourne null en cas d'échec. */
+function valider<T>(chemin: string, contenu: string, schema: z.ZodType<T>, erreurs: ErreurReferentiel[]): T | null {
+  const fichier = normaliser(chemin);
+  let brut: unknown;
+  try {
+    brut = JSON.parse(contenu);
+  } catch (e) {
+    erreurs.push({ fichier, champ: '(racine)', message: `JSON invalide : ${(e as Error).message}` });
+    return null;
+  }
+  const resultat = schema.safeParse(brut);
+  if (!resultat.success) {
+    for (const issue of resultat.error.issues) {
+      erreurs.push({ fichier, champ: formaterChemin(issue.path), message: issue.message });
+    }
+    return null;
+  }
+  return resultat.data;
+}
 
 function formaterChemin(path: readonly PropertyKey[]): string {
   if (path.length === 0) return '(racine)';
@@ -23,7 +48,7 @@ function formaterChemin(path: readonly PropertyKey[]): string {
 }
 
 /**
- * Parse et valide les référentiels de tranche fournis sous forme de texte brut.
+ * Parse et valide les référentiels (tranches + scores) fournis sous forme de texte brut.
  * Fonction pure : aucune lecture disque ni réseau, ce qui la rend testable sans navigateur.
  * @param fichiers dictionnaire chemin -> contenu JSON brut
  */
@@ -40,27 +65,20 @@ export function chargerReferentiels(fichiers: Record<string, string>): ResultatC
   }
 
   for (const chemin of chemins) {
-    const fichier = chemin.replace(/^.*?referentiels\//, 'referentiels/');
-    let brut: unknown;
-    try {
-      brut = JSON.parse(fichiers[chemin] ?? '');
-    } catch (e) {
-      erreurs.push({ fichier, champ: '(racine)', message: `JSON invalide : ${(e as Error).message}` });
-      continue;
-    }
-    const resultat = schemaReferentielTranche.safeParse(brut);
-    if (!resultat.success) {
-      for (const issue of resultat.error.issues) {
-        erreurs.push({ fichier, champ: formaterChemin(issue.path), message: issue.message });
-      }
-      continue;
-    }
+    const ref = valider(chemin, fichiers[chemin] ?? '', schemaReferentielTranche, erreurs);
+    if (!ref) continue;
     const idAttendu = MOTIF_FICHIER_TRANCHE.exec(chemin)?.[1];
-    if (resultat.data.tranche.id !== idAttendu) {
-      erreurs.push({ fichier, champ: 'tranche.id', message: `doit valoir "${idAttendu}" (nom du fichier)` });
+    if (ref.tranche.id !== idAttendu) {
+      erreurs.push({ fichier: normaliser(chemin), champ: 'tranche.id', message: `doit valoir "${idAttendu}" (nom du fichier)` });
       continue;
     }
-    tranches.push(resultat.data);
+    tranches.push(ref);
+  }
+
+  const cheminScores = Object.keys(fichiers).find((c) => MOTIF_FICHIER_SCORES.test(c));
+  const scores = cheminScores ? valider(cheminScores, fichiers[cheminScores] ?? '', schemaScores, erreurs) : null;
+  if (!cheminScores) {
+    erreurs.push({ fichier: 'referentiels/scores.json', champ: '(racine)', message: 'fichier absent' });
   }
 
   // Contrôle croisé : deux tranches ne doivent jamais se chevaucher.
@@ -77,7 +95,8 @@ export function chargerReferentiels(fichiers: Record<string, string>): ResultatC
     }
   }
 
-  return erreurs.length > 0 ? { ok: false, erreurs } : { ok: true, tranches: triees };
+  if (erreurs.length > 0 || !scores) return { ok: false, erreurs };
+  return { ok: true, tranches: triees, scores };
 }
 
 /** Lit les fichiers JSON du dossier referentiels/ embarqués au build (texte brut, parsé par chargerReferentiels). */

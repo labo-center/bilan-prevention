@@ -15,6 +15,16 @@ export default tseslint.config(
       ...reactHooks.configs.recommended.rules,
       // PRD §7.3 : aucun log, pour ne jamais exposer de donnée de session.
       'no-console': 'error',
+      '@typescript-eslint/no-unused-vars': ['error', { varsIgnorePattern: '^_', argsIgnorePattern: '^_' }],
+    },
+  },
+  {
+    // logic/ : fonctions pures, testables sans navigateur (PRD annexe D).
+    files: ['src/logic/**/*.ts'],
+    languageOptions: { globals: {} },
+    rules: {
+      'no-restricted-imports': ['error', { patterns: ['react', 'react-dom', 'react-dom/*', '../ui/*', '../data/*'] }],
+      'no-restricted-globals': ['error', 'window', 'document', 'localStorage', 'sessionStorage', 'fetch'],
     },
   },
 );

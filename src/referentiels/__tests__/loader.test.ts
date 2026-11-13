@@ -2,7 +2,11 @@ import { describe, expect, it } from 'vitest';
 import { chargerReferentiels } from '../loader';
 import { lire4550, lireReferentielsReels } from './fixtures';
 
-const avec = (obj: unknown, fichier = 'referentiels/45-50.json') => ({ [fichier]: JSON.stringify(obj) });
+// Chaque cas part des référentiels réels et ne remplace que le fichier testé.
+const avec = (obj: unknown, fichier = 'referentiels/45-50.json') => ({
+  ...lireReferentielsReels(),
+  [fichier]: JSON.stringify(obj),
+});
 
 describe('chargerReferentiels', () => {
   it('valide le référentiel 45-50 réel du dépôt', () => {
@@ -12,7 +16,7 @@ describe('chargerReferentiels', () => {
   });
 
   it('JSON syntaxiquement corrompu : refus avec le chemin du fichier', () => {
-    const r = chargerReferentiels({ 'referentiels/45-50.json': '{ "version": "0.1.0", ' });
+    const r = chargerReferentiels({ ...lireReferentielsReels(), 'referentiels/45-50.json': '{ "version": "0.1.0", ' });
     expect(r.ok).toBe(false);
     if (!r.ok) {
       expect(r.erreurs[0]).toMatchObject({ fichier: 'referentiels/45-50.json', champ: '(racine)' });
@@ -56,7 +60,7 @@ describe('chargerReferentiels', () => {
   });
 
   it('identifiant de tranche différent du nom de fichier : refus', () => {
-    const r = chargerReferentiels(avec(lire4550(), 'referentiels/60-65.json'));
+    const r = chargerReferentiels({ ...lireReferentielsReels(), 'referentiels/60-65.json': JSON.stringify(lire4550()) });
     expect(r.ok).toBe(false);
     if (!r.ok) expect(r.erreurs[0]).toMatchObject({ fichier: 'referentiels/60-65.json', champ: 'tranche.id' });
   });
@@ -81,17 +85,30 @@ describe('chargerReferentiels', () => {
     const a = lire4550();
     const b = lire4550();
     Object.assign(b.tranche as object, { id: '50-55', ageMin: 50, ageMax: 55 });
-    const r = chargerReferentiels({ ...avec(a), ...avec(b, 'referentiels/50-55.json') });
+    const r = chargerReferentiels({ ...avec(a), 'referentiels/50-55.json': JSON.stringify(b) });
     expect(r.ok).toBe(false);
     if (!r.ok) expect(r.erreurs[0]).toMatchObject({ fichier: 'referentiels/50-55.json', champ: 'tranche.ageMin' });
   });
 
   it('aucun référentiel de tranche : refus', () => {
-    expect(chargerReferentiels({ 'referentiels/scores.json': '{}' }).ok).toBe(false);
+    const { 'referentiels/45-50.json': _, ...sansTranche } = lireReferentielsReels();
+    expect(chargerReferentiels(sansTranche).ok).toBe(false);
   });
 
-  it('ignore les fichiers qui ne sont pas des tranches (scores, orientation)', () => {
-    const r = chargerReferentiels({ ...lireReferentielsReels(), 'referentiels/scores.json': '{ pas lu' });
-    expect(r.ok).toBe(true);
+  it('scores.json absent : refus', () => {
+    const { 'referentiels/scores.json': _, ...sansScores } = lireReferentielsReels();
+    const r = chargerReferentiels(sansScores);
+    expect(r.ok).toBe(false);
+    if (!r.ok) expect(r.erreurs[0]).toMatchObject({ fichier: 'referentiels/scores.json', message: 'fichier absent' });
+  });
+
+  it('scores.json corrompu : refus avec le chemin du fichier', () => {
+    const r = chargerReferentiels({ ...lireReferentielsReels(), 'referentiels/scores.json': '{ cassé' });
+    expect(r.ok).toBe(false);
+    if (!r.ok) expect(r.erreurs[0]).toMatchObject({ fichier: 'referentiels/scores.json', champ: '(racine)' });
+  });
+
+  it('ignore les fichiers inconnus (orientation.json, incrément 4)', () => {
+    expect(chargerReferentiels({ ...lireReferentielsReels(), 'referentiels/orientation.json': '{ pas lu' }).ok).toBe(true);
   });
 });
