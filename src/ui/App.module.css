@@ -1,0 +1,38 @@
+.app {
+  min-height: 100%;
+  padding: var(--mbp-espace-4);
+}
+.entete,
+.contenu {
+  max-width: var(--mbp-largeur-contenu);
+  margin: 0 auto;
+}
+.titre {
+  font-size: var(--mbp-taille-titre);
+  margin: 0 0 var(--mbp-espace-4);
+}
+.alerteRouge {
+  max-width: var(--mbp-largeur-contenu);
+  margin: 0 auto;
+  padding: var(--mbp-espace-4);
+  background: var(--mbp-rouge-fond);
+  border: var(--mbp-bordure) solid var(--mbp-rouge-trait);
+  border-left-width: var(--mbp-espace-1);
+  border-radius: var(--mbp-rayon);
+}
+.titreAlerte {
+  font-size: var(--mbp-taille-sous-titre);
+  margin: 0 0 var(--mbp-espace-2);
+}
+.tableau {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--mbp-taille-petit);
+}
+.tableau th,
+.tableau td {
+  text-align: left;
+  padding: var(--mbp-espace-2);
+  border-bottom: var(--mbp-bordure) solid var(--mbp-trait);
+  overflow-wrap: anywhere;
+}

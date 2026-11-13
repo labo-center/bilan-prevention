@@ -1,0 +1,60 @@
+/*
+ * Jetons de style de la brique. Tous les composants passent par ces variables :
+ * changer de thème = changer data-theme sur le conteneur, sans toucher aux composants.
+ * Les jetons sont portés par le conteneur de la brique pour ne pas fuir dans le shell hôte.
+ */
+[data-mbp-racine] {
+  --mbp-police: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --mbp-taille-texte: 1rem;
+  --mbp-taille-petit: 0.875rem;
+  --mbp-taille-titre: 1.5rem;
+  --mbp-taille-sous-titre: 1.125rem;
+  --mbp-interligne: 1.5;
+
+  --mbp-espace-1: 0.25rem;
+  --mbp-espace-2: 0.5rem;
+  --mbp-espace-3: 0.75rem;
+  --mbp-espace-4: 1rem;
+  --mbp-espace-6: 1.5rem;
+  --mbp-largeur-contenu: 48rem;
+  --mbp-rayon: 0.5rem;
+  --mbp-bordure: 1px;
+
+  --mbp-fond: #f6f7f9;
+  --mbp-surface: #ffffff;
+  --mbp-texte: #1b1f24;
+  --mbp-texte-secondaire: #5a6470;
+  --mbp-trait: #d5dae0;
+  --mbp-primaire: #1f5fa8;
+  --mbp-primaire-texte: #ffffff;
+  --mbp-focus: #1f5fa8;
+
+  /* Niveaux de risque (PRD §6.2 étape 4) */
+  --mbp-rouge-fond: #fdecec;
+  --mbp-rouge-trait: #c62828;
+  --mbp-orange-fond: #fff4e5;
+  --mbp-orange-trait: #b85c00;
+  --mbp-info-fond: #e8f1fb;
+  --mbp-info-trait: #1f5fa8;
+  --mbp-a-verifier-fond: #fff8c5;
+  --mbp-a-verifier-texte: #5c4a00;
+
+  font-family: var(--mbp-police);
+  font-size: var(--mbp-taille-texte);
+  line-height: var(--mbp-interligne);
+  color: var(--mbp-texte);
+  background: var(--mbp-fond);
+}
+
+/* Thème contrasté, grands caractères (PRD C3) */
+[data-mbp-racine][data-theme='contraste'] {
+  --mbp-taille-texte: 1.25rem;
+  --mbp-taille-titre: 1.875rem;
+  --mbp-taille-sous-titre: 1.375rem;
+  --mbp-fond: #ffffff;
+  --mbp-texte: #000000;
+  --mbp-texte-secondaire: #1b1f24;
+  --mbp-trait: #000000;
+  --mbp-primaire: #003a80;
+  --mbp-bordure: 2px;
+}

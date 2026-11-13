@@ -1,0 +1,38 @@
+{
+  "version": "0.1.0",
+  "dateValidation": null,
+  "sources": [
+    { "id": "livret", "document": "Mon Bilan Prévention - Livret de présentation", "fichier": "docs/sources/Mon-bilan-prevention-livret-presentation.pdf" },
+    { "id": "fiche-reperage-45-50", "document": "Fiche d'aide au repérage des risques entre 45 et 50 ans", "fichier": "docs/sources/Mon-bilan-prevention-aide-reperage-risques-45-50ans.pdf" }
+  ],
+  "tranche": {
+    "id": "45-50",
+    "libelle": "45-50 ans",
+    "ageMin": 45,
+    "ageMax": 50,
+    "bornesIncluses": true,
+    "source": { "ref": "livret", "page": "3", "extrait": "§1.2 et note 1 : les bornes inférieures et supérieures des tranches d'âge sont systématiquement incluses" }
+  },
+  "ouvertureSession": {
+    "genres": [
+      { "id": "H", "libelle": "Homme" },
+      { "id": "F", "libelle": "Femme" },
+      { "id": "NSP", "libelle": "Ne souhaite pas répondre" }
+    ],
+    "source": { "ref": "fiche-reperage-45-50", "page": "1", "extrait": "Situation personnelle : Genre" }
+  },
+  "testsApplicables": {
+    "source": { "ref": "livret", "page": "11", "extrait": "§2.2.1, tableau de l'examen clinique, colonne 45-50 ans" },
+    "items": [
+      { "id": "imc", "libelle": "Repérer le surpoids, l'obésité, la dénutrition (pesée, taille, IMC)" },
+      { "id": "acuite-visuelle", "libelle": "Œil : acuité visuelle avec échelle simple" },
+      { "id": "voix-chuchotee", "libelle": "Audition : test de la voix chuchotée" },
+      { "id": "pression-arterielle", "libelle": "Mesure de la pression artérielle" },
+      { "id": "spirometrie", "libelle": "Spirométrie/débimétrie de pointe" },
+      { "id": "face", "libelle": "Consommation d'alcool (questionnaire FACE)" },
+      { "id": "fagerstrom", "libelle": "Consommation tabac (test de Fagerström)" },
+      { "id": "cast", "libelle": "Consommation cannabis (questionnaire CAST)" },
+      { "id": "had", "libelle": "Dépistage des troubles anxieux et dépressif (Échelle HAD)" }
+    ]
+  }
+}
