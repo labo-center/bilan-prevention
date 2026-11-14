@@ -54,6 +54,11 @@ Chaque fichier de tranche (`AA-AA.json`) porte `version`, `dateValidation` (`nul
 
 Les écarts entre PRD et sources, et les valeurs « à vérifier », sont tracés dans `docs/decisions_referentiels.md`.
 
+## Validation
+- `docs/validation/dossier-validation.md` : dossier à faire valider par le pharmacien référent (revue des règles, choix à valider, pilote, signature). Généré par `npm run validation:dossier` ; `npm test` échoue s'il n'est plus à jour.
+- `src/logic/__tests__/oracle.test.ts` : seconde transcription indépendante des grilles du livret, comparée à l'outil sur l'ensemble des combinaisons.
+- `validation/cas-tests.json` : 20 cas complets de non-régression, rejoués par `npm test`.
+
 ## État
 - Incrément 1 (socle) : structure de la brique, mount/unmount, ouverture de session et sélection de la tranche d'âge (M1), référentiel 45-50 validé par Zod (M16).
 - Incrément 6 (autres tranches) : référentiels 18-25, 60-65 et 70-75 (autoquestionnaires, fiches, correspondances), ADRS, grille d'Amsler et ICOPE, thème grands caractères (d'office pour les 70-75 ans), un parcours Playwright par tranche.

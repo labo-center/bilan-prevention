@@ -55,3 +55,6 @@ Ce document trace les écarts entre le PRD et les sources officielles, et les ch
 | PHQ-4 | Les 4 items sont les questions Q40 à Q43 de l'autoquestionnaire, mais ni la cotation ni les seuils ne figurent dans les sources : pas de calcul. Le champ « Résultat au test Score PHQ4 » de la fiche se saisit librement, avec les réponses Q40 à Q43 rappelées à côté |
 | Q46 (sujets que le patient souhaite aborder) | Réponses conservées en session, exploitées à la décision partagée (incrément 4) |
 | Niveaux de couleur (rouge / orange / info) | Choix de tri du PRD (étape 4), les sources ne définissent que les messages |
+
+## Validation
+La validation sépare la lecture du livret (revue des règles par le pharmacien référent, `docs/validation/dossier-validation.md`, sans calcul manuel) et l'exactitude du calcul (comparaison exhaustive de l'outil à une seconde transcription indépendante des grilles, `src/logic/__tests__/oracle.test.ts`, plus 20 cas complets de non-régression). Le pilote prévoit une double saisie papier sur les 3 premiers bilans réels (PRD §9).

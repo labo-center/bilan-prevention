@@ -1,3 +1,4 @@
+import { execFileSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { describe, expect, it } from 'vitest';
@@ -13,8 +14,10 @@ import { chargerReferentiels } from '../../referentiels/loader';
 import { lireReferentielsReels } from '../../referentiels/__tests__/fixtures';
 
 /**
- * Rejeu des 20 cas de validation (PRD §8 et §9) : chaque résultat attendu, calculé à la main
- * à partir du livret, doit être retrouvé à l'identique par l'outil. Écart toléré : 0.
+ * Rejeu des 20 cas complets de non-régression (PRD §8) : chaque résultat attendu, établi à partir
+ * du livret, doit être retrouvé à l'identique par l'outil, en passant par la saisie complète
+ * (questionnaire, fiche, tests). Écart toléré : 0. Le calcul règle par règle est vérifié de façon
+ * exhaustive par oracle.test.ts ; le pharmacien valide les règles (docs/validation/dossier-validation.md).
  */
 
 interface Cas {
@@ -100,7 +103,13 @@ function resume(session: Session, ev: EvaluationSession, themeTranche: string): 
   };
 }
 
-describe('Validation : 20 cas calculés à la main (PRD §8)', () => {
+describe('Dossier de validation à jour', () => {
+  it('le dossier relu par le pharmacien reflète les référentiels en vigueur', () => {
+    expect(() => execFileSync('node', [resolve(import.meta.dirname, '../../../scripts/dossier-validation.mjs'), '--verifier'], { stdio: 'pipe' })).not.toThrow();
+  });
+});
+
+describe('Validation : 20 cas complets de non-régression (PRD §8)', () => {
   it('20 cas, au moins 5 par tranche', () => {
     expect(fichier.cas).toHaveLength(20);
     for (const t of tranches) expect(fichier.cas.filter((c) => c.tranche === t.tranche.id).length, t.tranche.id).toBeGreaterThanOrEqual(5);

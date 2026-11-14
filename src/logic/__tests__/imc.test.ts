@@ -31,6 +31,10 @@ describe('IMC (M4)', () => {
     expect(calculerImc({ tailleM: 1, poidsKg: 24.94 }, cfg)).toMatchObject({ imc: 24.9 });
     expect(calculerImc({ tailleM: 1, poidsKg: 24.95 }, cfg)).toMatchObject({ imc: 25 });
   });
+  it('demi-dixième exact arrondi vers le haut malgré le calcul en virgule flottante : 35,2 kg / 1,60 m = 13,75 → 13,8', () => {
+    expect(calculerImc({ tailleM: 1.6, poidsKg: 35.2 }, cfg)).toMatchObject({ imc: 13.8 });
+    expect(calculerImc({ tailleM: 1.6, poidsKg: 80 }, cfg)).toMatchObject({ imc: 31.3 });
+  });
   it('dernier seuil sans borne haute', () => {
     const r = calculerImc({ tailleM: 1, poidsKg: 300 }, cfg);
     expect(r.calculable && r.interpretation.message).toBe('Obésité');

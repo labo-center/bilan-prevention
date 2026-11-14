@@ -1,7 +1,7 @@
 {
   "version": "1.0.0",
   "dateRdv": "2026-11-13",
-  "note": "Résultats attendus calculés à la main à partir des grilles du livret (annexes III et VI) et des fiches thématiques, indépendamment du code. Ils doivent être recalculés et validés par le pharmacien référent (PRD §8 et §9).",
+  "note": "Cas complets de non-régression : résultats attendus établis par le concepteur à partir des grilles du livret (annexes III et VI) et des fiches thématiques, indépendamment du code. Le pharmacien référent valide les règles (dossier de validation, partie A) ; l’exactitude du calcul est vérifiée par la comparaison exhaustive à une seconde transcription (oracle.test.ts).",
   "cas": [
     {
       "id": "C01", "tranche": "45-50", "objet": "Femme 47 ans : IMC en surpoids, PA ≥ 140/90, FACE femme 4 (seuil), rôle d’aidant déclaré",

@@ -1,136 +1,148 @@
-// Génère docs/validation/dossier-validation.md à partir de validation/cas-tests.json et des référentiels.
-// Usage : npm run validation:dossier
+// Génère docs/validation/dossier-validation.md : la revue des règles par le pharmacien référent.
+// Toutes les valeurs affichées sont lues dans referentiels/*.json : la fiche suit toute modification.
+// Usage : npm run validation:dossier (génère) ; node scripts/dossier-validation.mjs --verifier (contrôle, utilisé par les tests)
 import { readFileSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 
 const racine = resolve(import.meta.dirname, '..');
 const lire = (f) => JSON.parse(readFileSync(resolve(racine, f), 'utf8'));
-const { version, dateRdv, note, cas } = lire('validation/cas-tests.json');
 const scores = lire('referentiels/scores.json');
-const tranches = Object.fromEntries(['18-25', '45-50', '60-65', '70-75'].map((t) => [t, lire(`referentiels/${t}.json`)]));
+const orientation = lire('referentiels/orientation.json');
+const IDS = ['18-25', '45-50', '60-65', '70-75'];
+const tranches = Object.fromEntries(IDS.map((t) => [t, lire(`referentiels/${t}.json`)]));
+const { cas } = lire('validation/cas-tests.json');
 
-const dateFr = (iso) => iso.split('-').reverse().join('/');
-const GENRES = { H: 'Homme', F: 'Femme', NSP: 'Ne souhaite pas répondre' };
-const LIBELLES = {
-  age: 'Âge révolu au RDV', trancheId: 'Tranche', theme: 'Thème d’affichage', echelles: 'Échelles et tests proposés selon l’âge',
-  imc: 'IMC et interprétation', pa: 'PA retenue et orientation', face: 'FACE : score et interprétation',
-  faceSeuilsFemmesParDefaut: 'FACE : seuils femmes appliqués faute de genre', fagerstrom: 'Fagerström : score et interprétation',
-  cast: 'CAST : score et interprétation', adrs: 'ADRS : score et interprétation', hadA: 'HAD anxiété (A)', hadD: 'HAD dépression (D)',
-  icopePositifs: 'ICOPE : domaines positifs', reperesAlcool: 'Repères alcool dépassés', polymedication: 'Polymédication (> 10 traitements)',
-  medecinTraitantAbsent: 'Signalement CPAM (pas de médecin traitant)', depistages: 'Dépistages à rappeler', alertesRouges: 'Alertes rouges',
-  ficheDeclaree: 'Cases pré-remplies depuis l’autoquestionnaire',
+const p = (src) => `p. ${src.page}`;
+/** Grille de seuils en clair : bornes entières (scores) ou au dixième (IMC). */
+const nb = (x) => String(Math.round(x * 10) / 10).replace('.', ',');
+const seuils = (liste) => {
+  const pas = liste.some((s) => s.max !== null && !Number.isInteger(s.max)) ? 0.1 : 1;
+  return liste.map((s, i) => {
+    const bas = i === 0 ? 0 : liste[i - 1].max + pas;
+    const plage = s.max === null ? `≥ ${nb(bas)}` : bas === s.max ? nb(s.max) : `${nb(bas)} à ${nb(s.max)}`;
+    return `${plage} : ${s.message}`;
+  }).join(' ; ');
 };
-/** Libellés lisibles des identifiants techniques (alertes, cases de fiche, dépistages). */
-function libelles(tranche) {
-  const champs = Object.fromEntries(tranches[tranche].ficheReperage.sections.flatMap((x) => x.champs).map((ch) => [ch.id, ch.libelle]));
-  const tests = { pa: 'Pression artérielle', imc: 'IMC', face: 'FACE', fagerstrom: 'Fagerström', cast: 'CAST', adrs: 'ADRS', 'had-A': 'HAD anxiété', 'had-D': 'HAD dépression', amsler: 'Grille d’Amsler', icope: 'ICOPE', had: 'HAD' };
-  const dep = Object.fromEntries(scores.depistages.organises.map((d) => [d.id, d.libelle]));
-  const depRE = Object.fromEntries(scores.depistages.risqueEleve.map((d) => [d.id, d.libelle]));
-  return (id) => {
-    const si = /^(.*) \(si concerné\)$/.exec(id);
-    if (si) return `${dep[si[1]] ?? si[1]} (si concerné)`;
-    if (id.startsWith('RE:')) return depRE[id.slice(3)] ?? id;
-    return tests[id] ?? champs[id] ?? dep[id] ?? id;
-  };
+const NOMS_TESTS = { imc: 'IMC', 'acuite-visuelle': 'acuité visuelle', amsler: 'grille d’Amsler', 'voix-chuchotee': 'voix chuchotée', 'pression-arterielle': 'PA', icope: 'ICOPE', spirometrie: 'spirométrie', face: 'FACE', fagerstrom: 'Fagerström', cast: 'CAST', adrs: 'ADRS', had: 'HAD' };
+const CASE = '☐ Conforme ☐ Non conforme';
+
+const regles = [];
+const regle = (titre, outil, source) => regles.push({ titre, outil, source });
+
+regle('Tranches d’âge', IDS.map((t) => `${tranches[t].tranche.ageMin} à ${tranches[t].tranche.ageMax} ans`).join(', ') + ', bornes incluses, âge révolu au jour du RDV ; hors tranche : session refusée', 'Livret p. 3');
+regle('Tests par tranche', IDS.map((t) => `${t} : ${tranches[t].testsApplicables.items.map((x) => NOMS_TESTS[x.id] ?? x.id).join(', ')}`).join(' / '), 'Livret p. 11');
+regle('ADRS ou HAD selon l’âge', `ADRS de ${scores.adrs.applicabilite.ageMin} à ${scores.adrs.applicabilite.ageMax} ans, HAD à partir de ${scores.had.applicabilite.ageMin} ans (les deux à ${scores.had.applicabilite.ageMin} ans)`, 'Livret p. 34');
+regle('Grille d’Amsler', `Proposée à partir de ${scores.amsler.applicabilite.ageMin} ans révolus (« si > 60 ans ») ; anomalie : ${scores.amsler.siAnormal.message} (alerte rouge)`, 'Livret p. 11 et 29');
+regle('Pression artérielle', `Au moins ${scores.pressionArterielle.mesuresMin} mesures ; moyenne par bras, bras le plus haut retenu ; ` + scores.pressionArterielle.seuils.map((s) => `systolique ≥ ${s.systolique} ou diastolique ≥ ${s.diastolique} : « ${s.message} »${s.bloquant ? ' (alerte rouge bloquante, à acquitter)' : ''}`).join(' ; '), 'Livret p. 29 et 41');
+regle('FACE', `Hommes : ${seuils(scores.face.seuilsParGenre.H)}. Femmes : ${seuils(scores.face.seuilsParGenre.F)}. Genre non renseigné : seuils ${scores.face.genreNonRenseigne.appliquer === 'F' ? 'femmes' : 'hommes'} (${scores.face.genreNonRenseigne.origine})`, `Livret ${p(scores.face.source)}`);
+regle('Fagerström simplifié', `Cigarettes par jour : ${scores.fagerstrom.items[0].options.map((o) => `${o.libelle} = ${o.points}`).join(', ')} ; délai : ${scores.fagerstrom.items[1].options.map((o) => `${o.libelle} = ${o.points}`).join(', ')} ; ${seuils(scores.fagerstrom.seuils)}`, `Livret ${p(scores.fagerstrom.source)}`);
+regle('CAST', seuils(scores.cast.seuils), `Livret ${p(scores.cast.source)}`);
+regle('ADRS', `Nombre de « vrai » : ${seuils(scores.adrs.seuils)}`, `Livret ${p(scores.adrs.source)}`);
+regle('HAD', `A = items impairs, D = items pairs, chacun : ${seuils(scores.had.seuils)}`, `Livret ${p(scores.had.source)}`);
+regle('ICOPE, mobilité', `Positif si 5 levers non réalisés ou réalisés en ${scores.icope.mobiliteSecondesMax} s ou plus`, 'Livret p. 31');
+regle('Repères alcool', `Un seul repère dépassé suffit : ${scores.reperesAlcool.reperes.map((r) => r.libelle.toLowerCase()).join(' ; ')} → « ${scores.reperesAlcool.siDepasse.message} »`, `Autoquestionnaire, livret p. 32`);
+regle('Polymédication', `Plus de ${scores.polymedication.nombreTraitementsMax} traitements : « ${scores.polymedication.siDepasse.message} »`, `Livret ${p(scores.polymedication.source)}`);
+regle('Idées suicidaires', `Alerte rouge sur tous les écrans : « ${scores.ideesSuicidaires.siCoche.message} » ; « Bien-être mental et social » et ses ressources ajoutés d’office au PPP`, `Livret ${p(scores.ideesSuicidaires.source)}`);
+regle('Médecin traitant absent', `« ${scores.medecinTraitant.siAbsent.message} »`, 'Fiches de repérage p. 1');
+regle('Dépistages organisés', scores.depistages.organises.map((d) => `${d.libelle} : ${d.genres.length === 2 ? 'hommes et femmes' : 'femmes'} de ${d.ageMin} à ${d.ageMax} ans`).join(' ; ') + ' ; risque élevé ou très élevé coché : dépistage spécifique à la place, quel que soit l’âge', `Fiches thématiques ${p(scores.depistages.source)}`);
+regle('Kit d’orientation pharmacien', `Ressources du PPP reprises de la colonne pharmacien pour ${orientation.kit.thematiques.length} thématiques (ex. tabac : ${orientation.kit.thematiques.find((t) => t.thematique === 'addictions').ressources.pharmacien.map((r) => r.libelle).join(', ')})`, 'Livret p. 41 à 43');
+regle('Décision partagée', `1 à ${orientation.decisionPartagee.prioritesMax} priorités`, `Livret ${p(orientation.decisionPartagee.source)}`);
+regle('Facturation', `${scores.facturation.acteBilan.code} ${scores.facturation.acteBilan.montantEuros} €, au plus ${scores.facturation.maxActesComplementaires} acte en sus parmi ${scores.facturation.actesComplementaires.map((a) => a.code).join(', ')}`, `Livret ${p(scores.facturation.source)}`);
+regle('Durée de l’entretien', `Repères du minuteur à ${scores.dureeEntretien.reperesMinutes.join(' et ')} min`, `Livret ${p(scores.dureeEntretien.source)}`);
+
+// Décisions à prendre : tout ce qui n'est pas écrit tel quel dans les sources.
+const decisions = [];
+decisions.push(['Seuils d’IMC', `${seuils(scores.imc.seuils)} (seuils OMS, absents des sources)`]);
+decisions.push(['ICOPE, critères hors mobilité', scores.icope.domaines.filter((d) => d.aVerifier).map((d) => `${d.libelle} : ${d.critere}`).join(' ; ') + ` ; si un domaine est positif : « ${scores.icope.siPositif.message} »`]);
+decisions.push(['Mention « INCOMPLET » sur le PDF', `Si un de ces calculs manque : ${tranches['45-50'].export.calculsObligatoires.map((x) => NOMS_TESTS[x] ?? x).join(', ')}`]);
+decisions.push(['Fiche 70-75 : cases ajoutées', tranches['70-75'].ficheReperage.sections.flatMap((s) => s.champs).filter((c) => c.horsFicheOfficielle).map((c) => `« ${c.libelle} »`).join(' et ') + ' : absentes de la fiche officielle, ajoutées pour l’alerte 31 14']);
+decisions.push(['Grands caractères', 'Activés d’office pour les 70-75 ans, désactivables']);
+for (const t of IDS) {
+  const ref = tranches[t];
+  const qs = Object.fromEntries(ref.autoquestionnaire.sections.flatMap((s) => s.questions).map((q) => [q.id, q]));
+  const champs = Object.fromEntries(ref.ficheReperage.sections.flatMap((s) => s.champs).map((c) => [c.id, c]));
+  const lignes = ref.mapping.regles.filter((r) => r.aVerifier).map((r) => {
+    const q = qs[r.question];
+    const reps = r.siReponse.map((x) => q.options.find((o) => o.id === x).libelle).join(' / ');
+    return `${r.question} « ${reps} » → « ${champs[r.champ].libelle} »`;
+  });
+  decisions.push([`Pré-remplissage ${t} par interprétation`, lignes.join(' ; ')]);
 }
-const texte = (v) => (Array.isArray(v) ? (v.length ? v.join(', ') : 'aucun') : v === true ? 'oui' : v === false ? 'non' : String(v));
+
 const echapper = (s) => String(s).replace(/\|/g, '\\|');
-
-function questions(t) {
-  return Object.fromEntries(tranches[t].autoquestionnaire.sections.flatMap((s) => s.questions).map((q) => [q.id, q]));
-}
-
-/** Description lisible des entrées d'un cas. */
-function entrees(c) {
-  const l = [];
-  l.push(`- Date de naissance : ${dateFr(c.ouverture.dateNaissance)} ; genre : ${GENRES[c.ouverture.genre]}`);
-  const qs = questions(c.tranche);
-  for (const [id, v] of Object.entries(c.autoquestionnaire ?? {})) {
-    const q = qs[id];
-    const reps = [v].flat().map((x) => q.options?.find((o) => o.id === x)?.libelle ?? x);
-    l.push(`- Autoquestionnaire ${id} « ${q.libelle} » : ${reps.join(', ')}`);
-  }
-  const champs = Object.fromEntries(tranches[c.tranche].ficheReperage.sections.flatMap((s) => s.champs).map((ch) => [ch.id, ch]));
-  for (const [id, v] of Object.entries(c.fiche ?? {})) l.push(`- Fiche, « ${champs[id].libelle} » : ${v === true ? 'cochée' : v}`);
-  const m = c.mesures ?? {};
-  l.push(`- Taille : ${m.tailleM !== undefined ? `${String(m.tailleM).replace('.', ',')} m` : 'non mesurée'} ; poids : ${m.poidsKg !== undefined ? `${String(m.poidsKg).replace('.', ',')} kg` : 'non mesuré'}`);
-  if (m.pa) l.push(`- Mesures de PA : ${m.pa.map(([b, s, d], i) => `n° ${i + 1} bras ${b} ${s}/${d}`).join(' ; ')}`);
-  const q = c.questionnaires ?? {};
-  if (q.face) l.push(`- FACE : ${scores.face.items.map((it) => `Q${it.id.slice(1)} « ${it.options.find((o) => o.points === q.face[it.id]).libelle} »`).join(' ; ')}`);
-  if (q.fagerstrom) l.push(`- Fagerström : ${q.fagerstrom.cigarettesParJour} cigarettes par jour ; première cigarette : ${q.fagerstrom.delai}`);
-  if (q.cast) l.push(`- CAST : réponses ${q.cast.map((x, i) => `Q${i + 1} ${x ? 'oui' : 'non'}`).join(', ')}`);
-  if (q.adrs) l.push(`- ADRS : ${q.adrs.map((x, i) => `${i + 1} ${x ? 'vrai' : 'faux'}`).join(', ')}`);
-  if (q.had) l.push(`- HAD : ${scores.had.items.map((it, i) => `${i + 1} « ${it.options.find((o) => o.points === q.had[i]).libelle} »`).join(' ; ')}`);
-  if (q.amsler) l.push(`- Grille d’Amsler : ${q.amsler === 'anormal' ? 'lignes déformées, ondulées ou taches sombres' : 'normale'}`);
-  if (q.icope) {
-    const i = q.icope;
-    const p = [];
-    if (i.cognition?.motsRappeles) p.push(`mots rappelés ${i.cognition.motsRappeles.map((x, k) => `${scores.icope.motsARetenir[k]} ${x ? 'oui' : 'non'}`).join(', ')}`);
-    if (i.cognition?.orientationCorrecte) p.push(`orientation ${i.cognition.orientationCorrecte.every(Boolean) ? 'entièrement correcte' : 'au moins une erreur'}`);
-    if (i.nutrition) p.push(`perte ≥ 3 kg en 3 mois ${texte(i.nutrition.perte3kgEn3Mois ?? 'non renseigné')}, perte d’appétit ${texte(i.nutrition.perteAppetit ?? 'non renseigné')}`);
-    if (i.vision) p.push(`problème avec les yeux ${texte(i.vision.problemeYeux)}`);
-    if (i.audition) p.push(`chuchotement oreille droite ${i.audition.oreilleDroiteOk ? 'réussi' : 'échoué'}, oreille gauche ${i.audition.oreilleGaucheOk ? 'réussi' : 'échoué'}`);
-    if (i.psychologie) p.push(`déprimé ${texte(i.psychologie.deprime)}, perte d’intérêt ${texte(i.psychologie.perteInteret)}`);
-    if (i.mobilite) p.push(i.mobilite.cinqLeversRealises ? `5 levers de chaise en ${String(i.mobilite.tempsSecondes).replace('.', ',')} s` : '5 levers de chaise non réalisés');
-    l.push(`- ICOPE étape 1 : ${p.join(' ; ')} ; autres domaines non évalués`);
-  }
-  return l.join('\n');
-}
-
 const sortie = [];
-sortie.push(`# Dossier de validation initiale - Copilote Mon Bilan Prévention
+sortie.push(`# Dossier de validation - Copilote Mon Bilan Prévention
 
-Document généré par \`npm run validation:dossier\` à partir de \`validation/cas-tests.json\` (version ${version}). Ne pas modifier à la main.
+Document généré par \`npm run validation:dossier\` à partir des référentiels (${IDS.map((t) => `${t} v${tranches[t].version}`).join(', ')}, scores v${scores.version}, orientation v${orientation.version}). Ne pas modifier à la main.
 
-**Objet** : rejouer 20 cas (5 par tranche) dont les résultats sont calculés à la main par le pharmacien référent, et vérifier que l'outil donne exactement les mêmes résultats (PRD §8 et §9 ; écart toléré : 0).
+## Principe
+La validation sépare deux questions :
+1. **Les règles sont-elles celles du livret ?** C'est le rôle du pharmacien référent : relire les règles ci-dessous, en clair, chacune avec sa source, et cocher. Aucun calcul n'est demandé.
+2. **L'outil applique-t-il correctement ces règles ?** C'est vérifié automatiquement, de façon exhaustive (partie C), à chaque modification du code ou d'un référentiel.
 
-**Référentiels** : ${Object.values(tranches).map((t) => `${t.tranche.id} v${t.version}`).join(', ')}, scores v${scores.version}. Date de rendez-vous de tous les cas : ${dateFr(dateRdv)}.
+Le pilote (partie D) contrôle enfin l'outil sur de vrais bilans.
 
-**Mode opératoire**
-1. Partie 1 : pour chaque cas, calculer à la main chaque résultat à partir des seules entrées et des grilles du livret, sans consulter la partie 2.
-2. Partie 2 : comparer avec le résultat attendu par l'outil, noter tout écart et son analyse.
-3. Signer la conclusion. En cas d'écart, l'outil n'est pas mis en service avant correction et nouveau rejeu.
+## Partie A - Règles reprises des documents officiels
+Pour chaque ligne : la règle appliquée par l'outil correspond-elle à la source citée ?
 
-Le rejeu automatique (\`npm test\`, fichier \`src/logic/__tests__/validation.test.ts\`) vérifie à chaque modification du code ou d'un référentiel que l'outil retrouve les résultats de la partie 2.
+| N° | Règle | Ce que fait l'outil | Source | Avis |
+|---|---|---|---|---|`);
+regles.forEach((r, i) => sortie.push(`| A${i + 1} | ${r.titre} | ${echapper(r.outil)} | ${r.source} | ${CASE} |`));
 
-> ${note}
-`);
+sortie.push(`
+## Partie B - Choix à valider (absents des documents officiels)
+Ces éléments ne figurent pas tels quels dans les sources ; l'outil les signale « à vérifier » à l'écran tant qu'ils ne sont pas validés.
 
-sortie.push('## Partie 1 - Cas à calculer à la main\n');
-for (const c of cas) {
-  // L'objet du cas n'est pas affiché ici : il révélerait les résultats attendus.
-  sortie.push(`### ${c.id} - ${c.tranche} ans\n\n${entrees(c)}\n`);
-  sortie.push('| Élément à calculer | Calcul manuel du pharmacien |\n|---|---|');
-  for (const cle of Object.keys(c.attendu)) sortie.push(`| ${LIBELLES[cle] ?? cle} | |`);
-  sortie.push('');
-}
+| N° | Sujet | Choix actuel | Décision |
+|---|---|---|---|`);
+decisions.forEach(([s, c], i) => sortie.push(`| B${i + 1} | ${s} | ${echapper(c)} | ☐ Accepté ☐ À modifier : |`));
 
-sortie.push(`## Partie 2 - Résultats attendus et comparaison
+sortie.push(`
+## Partie C - Vérification automatique du calcul (aucune action demandée)
+Exécutée par \`npm test\` ; elle bloque toute modification qui ferait diverger l'outil.
 
-À consulter uniquement après le calcul manuel de la partie 1. « RE: » signale un dépistage pour risque élevé ou très élevé ; « bloquante » une alerte à acquitter avant de poursuivre.
-`);
-for (const c of cas) {
-  const lib = libelles(c.tranche);
-  sortie.push(`### ${c.id} - ${c.tranche} ans : ${c.objet}\n\n| Élément | Résultat attendu (outil) | Identique au calcul manuel (oui / non) | Analyse de l’écart |\n|---|---|---|---|`);
-  for (const [cle, v] of Object.entries(c.attendu)) {
-    const valeur = Array.isArray(v) && ['alertesRouges', 'ficheDeclaree', 'depistages', 'echelles'].includes(cle) ? v.map(lib) : v;
-    sortie.push(`| ${LIBELLES[cle] ?? cle} | ${echapper(texte(valeur))} | | |`);
-  }
-  sortie.push('');
-}
+| Vérification | Couverture |
+|---|---|
+| Seconde transcription indépendante du livret (\`src/logic/__tests__/oracle.test.ts\`), comparée à l'outil | Âge révolu : chaque jour de naissance de 1940 à 2012, pour 5 dates de RDV (plus de 130 000 cas) ; tranches : 0 à 110 ans ; IMC : 120 771 couples taille-poids ; PA : toutes les valeurs entières de 60 à 260 / 30 à 160 mmHg, moyennes de 2 mesures, deux bras ; FACE : 200 combinaisons × 3 genres ; Fagerström, CAST, ADRS : toutes les combinaisons ; HAD : 16 384 combinaisons par dimension ; ICOPE mobilité : 0 à 30 s au dixième ; dépistages : 18 à 80 ans × 3 genres × risques élevés ; polymédication, repères alcool, facturation |
+| Points des réponses (FACE, Fagerström, HAD) | Comparés un à un à la seconde transcription |
+| ${cas.length} cas complets de non-régression (\`validation/cas-tests.json\`) | Parcours de saisie complet, du questionnaire aux alertes : ${cas.map((c) => c.id).join(', ')} |
 
-sortie.push(`## Conclusion
+Cette comparaison a déjà mis en évidence et fait corriger une erreur d'arrondi de l'IMC (35,2 kg et 1,60 m : 13,8 et non 13,7).
+
+## Partie D - Pilote : 3 premiers bilans réels en double saisie (PRD §9, phase 3)
+Remplir la fiche papier comme d'habitude, saisir le même bilan dans l'outil, comparer scores, alertes et orientations.
+
+| Bilan | Date | Tranche | Scores identiques | Alertes identiques | Orientations identiques | Écart constaté |
+|---|---|---|---|---|---|---|
+| 1 | | | ☐ oui ☐ non | ☐ oui ☐ non | ☐ oui ☐ non | |
+| 2 | | | ☐ oui ☐ non | ☐ oui ☐ non | ☐ oui ☐ non | |
+| 3 | | | ☐ oui ☐ non | ☐ oui ☐ non | ☐ oui ☐ non | |
+
+## Conclusion
 
 | | |
 |---|---|
-| Nombre de cas rejoués | 20 |
-| Nombre d’écarts constatés | |
-| Écarts corrigés et rejoués | |
+| Règles non conformes (partie A) | |
+| Choix à modifier (partie B) | |
+| Écarts du pilote (partie D) | |
 | Décision (mise en service autorisée / refusée) | |
 | Nom du pharmacien référent | |
 | Date | |
 | Signature | |
+
+Après validation : renseigner \`dateValidation\` dans chaque référentiel ; la mention « non validé par le pharmacien référent » disparaît alors de l'écran et du PDF.
 `);
 
-writeFileSync(resolve(racine, 'docs/validation/dossier-validation.md'), sortie.join('\n'));
-console.info('docs/validation/dossier-validation.md généré');
+const cible = resolve(racine, 'docs/validation/dossier-validation.md');
+const contenu = sortie.join('\n');
+if (process.argv.includes('--verifier')) {
+  // Utilisé par npm test : le dossier relu par le pharmacien doit refléter les référentiels en vigueur.
+  const actuel = readFileSync(cible, 'utf8');
+  if (actuel !== contenu) {
+    console.error('Dossier de validation périmé : lancer npm run validation:dossier');
+    process.exit(1);
+  }
+} else {
+  writeFileSync(cible, contenu);
+  console.info('docs/validation/dossier-validation.md généré');
+}

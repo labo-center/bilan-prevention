@@ -17,6 +17,9 @@ export function calculerImc(
     return { calculable: false, raison: 'valeur-invalide' };
   }
   const facteur = 10 ** cfg.decimales;
-  const imc = Math.round((poidsKg / (tailleM * tailleM) + Number.EPSILON) * facteur) / facteur;
+  // Le calcul en virgule flottante donne 35,2 / 1,6² = 13,7499999… au lieu de 13,75 : on élimine ce bruit
+  // (12 chiffres significatifs) avant d'arrondir au plus proche, demi vers le haut. Vérifié par l'oracle.
+  const brut = Number(((poidsKg / (tailleM * tailleM)) * facteur).toPrecision(12));
+  const imc = Math.round(brut) / facteur;
   return { calculable: true, imc, interpretation: interpreterScore(imc, cfg.seuils) };
 }
