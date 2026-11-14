@@ -49,6 +49,15 @@ Le build produit aussi `dist/fiches-thematiques.pdf` (fiches thématiques offici
 ## Application autonome (poste ou serveur local de l'officine)
 `npm run build:app` produit `dist-app/`, à servir tel quel par n'importe quel serveur de fichiers statiques (chemins relatifs). Au premier chargement, le service worker met l'application, les polices et les fiches thématiques en cache : la suite fonctionne sans réseau. Le cache ne contient que des fichiers statiques, jamais de donnée de session.
 
+## Publication sur GitHub Pages
+Le workflow `.github/workflows/publication.yml` :
+- sur chaque pull request : typage, lint, tests vitest, build de la brique et parcours Playwright ;
+- à chaque fusion dans `main` (ou lancement manuel) : mêmes contrôles, puis construction de `dist-app/` et publication sur GitHub Pages. Une publication n'a lieu que si tous les contrôles passent.
+
+Mise en route, une seule fois (administrateur du dépôt) : *Settings* → *Pages* → *Build and deployment* → *Source* : **GitHub Actions**. L'adresse est ensuite `https://<organisation>.github.io/bilan-prevention/`.
+
+L'application est statique et relative : elle fonctionne dans ce sous-dossier, s'installe sur la tablette (« Ajouter à l'écran d'accueil ») et fonctionne hors ligne après le premier chargement. Aucune donnée patient ne transite par GitHub. Un site GitHub Pages est public même si le dépôt est privé (sauf offre Enterprise) : hébergement à faire valider par le DPO (PRD, HYP6).
+
 ## Référentiels
 Chaque fichier de tranche (`AA-AA.json`) porte `version`, `dateValidation` (`null` tant que le pharmacien référent n'a pas validé) et des références de source (document + page). Un référentiel invalide bloque le démarrage et l'écran indique le fichier et le champ en erreur.
 
