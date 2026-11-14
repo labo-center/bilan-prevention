@@ -19,6 +19,11 @@ export default tseslint.config(
     },
   },
   {
+    // Scripts d'outillage exécutés par Node (hors brique, aucune donnée patient).
+    files: ['scripts/**/*.mjs'],
+    languageOptions: { globals: globals.node },
+  },
+  {
     // Données de santé : aucune persistance navigateur (CLAUDE.md, PRD §7.3). Les tests peuvent lire le stockage pour le vérifier.
     files: ['src/**/*.{ts,tsx}'],
     ignores: ['src/**/__tests__/**'],

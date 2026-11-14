@@ -12,7 +12,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "e2e": "npm run build:app && playwright test --trace off",
-    "build:app": "tsc -b && vite build --mode app"
+    "build:app": "tsc -b && vite build --mode app",
+    "validation:dossier": "node scripts/dossier-validation.mjs"
   },
   "dependencies": {
     "@react-pdf/renderer": "^4.9.0",
