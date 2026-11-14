@@ -1,11 +1,14 @@
 import { useMemo, useState } from 'react';
 import { evaluerSession } from '../logic/evaluation';
 import type { Action, Session } from '../logic/session';
+import type { ReferentielOrientation } from '../referentiels/schemaOrientation';
 import type { ReferentielScores } from '../referentiels/schemaScores';
 import type { ReferentielTranche } from '../referentiels/schemas';
 import { Autoquestionnaire } from './Autoquestionnaire';
 import { FicheReperage } from './FicheReperage';
-import { RisquesReperes } from './RisquesReperes';
+import { DecisionPartagee } from './DecisionPartagee';
+import { PanneauFiche } from './PanneauFiche';
+import { PlanPersonnalise } from './PlanPersonnalise';
 import { TestsCliniques } from './TestsCliniques';
 import styles from './Parcours.module.css';
 
@@ -13,7 +16,8 @@ const ETAPES = [
   { id: 'autoquestionnaire', libelle: 'Autoquestionnaire' },
   { id: 'fiche', libelle: 'Fiche de repérage' },
   { id: 'tests', libelle: 'Tests cliniques' },
-  { id: 'risques', libelle: 'Risques repérés' },
+  { id: 'decision', libelle: 'Décision partagée' },
+  { id: 'ppp', libelle: 'Plan personnalisé' },
 ] as const;
 type Etape = (typeof ETAPES)[number]['id'];
 
@@ -21,22 +25,27 @@ export interface PropsEtape {
   session: Session;
   tranche: ReferentielTranche;
   scores: ReferentielScores;
+  orientation: ReferentielOrientation;
   dispatch: (a: Action) => void;
   evaluation: ReturnType<typeof evaluerSession>;
+  /** Ouvre la fiche thématique dans le panneau latéral (S5). */
+  ouvrirFiche: (thematique: string) => void;
 }
 
 export function Parcours({
   session,
   tranche,
   scores,
+  orientation,
   dispatch,
   onCloturer,
-}: Omit<PropsEtape, 'evaluation'> & { onCloturer: () => void }) {
+}: Omit<PropsEtape, 'evaluation' | 'ouvrirFiche'> & { onCloturer: () => void }) {
   const [etape, setEtape] = useState<Etape>('autoquestionnaire');
+  const [fiche, setFiche] = useState<string | null>(null);
   const evaluation = useMemo(() => evaluerSession(session, tranche, scores), [session, tranche, scores]);
   const genre = tranche.ouvertureSession.genres.find((g) => g.id === session.ouverture.genre)?.libelle ?? session.ouverture.genre;
   const bloque = evaluation.alertesBloquantes.length > 0;
-  const props: PropsEtape = { session, tranche, scores, dispatch, evaluation };
+  const props: PropsEtape = { session, tranche, scores, orientation, dispatch, evaluation, ouvrirFiche: setFiche };
 
   const allerA = (e: Etape) => {
     setEtape(e);
@@ -44,7 +53,8 @@ export function Parcours({
   };
   const indexEtape = ETAPES.findIndex((e) => e.id === etape);
   const suivante = ETAPES[indexEtape + 1];
-  const accessible = (e: Etape) => !(e === 'risques' && bloque);
+  // Une alerte bloquante non acquittée interdit la décision partagée et le PPP (M5).
+  const accessible = (e: Etape) => !((e === 'decision' || e === 'ppp') && bloque);
 
   return (
     <div className={styles.parcours}>
@@ -102,8 +112,11 @@ export function Parcours({
         {etape === 'autoquestionnaire' && <Autoquestionnaire {...props} />}
         {etape === 'fiche' && <FicheReperage {...props} />}
         {etape === 'tests' && <TestsCliniques {...props} />}
-        {etape === 'risques' && <RisquesReperes {...props} />}
+        {etape === 'decision' && <DecisionPartagee {...props} />}
+        {etape === 'ppp' && <PlanPersonnalise {...props} />}
       </div>
+
+      {fiche && <PanneauFiche thematique={fiche} scores={scores} onFermer={() => setFiche(null)} />}
 
       {suivante && (
         <div className={styles.piedEtape}>

@@ -37,7 +37,14 @@ export function App({ chargement }: { chargement: ResultatChargement }) {
       </header>
       <main className={styles.contenu}>
         {session && tranche ? (
-          <Parcours session={session} tranche={tranche} scores={chargement.scores} dispatch={dispatch} onCloturer={cloturer} />
+          <Parcours
+            session={session}
+            tranche={tranche}
+            scores={chargement.scores}
+            orientation={chargement.orientation}
+            dispatch={dispatch}
+            onCloturer={cloturer}
+          />
         ) : (
           <OuvertureSession tranches={chargement.tranches} onOuvrir={ouvrir} />
         )}

@@ -1,6 +1,8 @@
 import { z } from 'zod';
 import { dateIso, documentSource, referenceSource, verifierRefsSources, versionSemver } from './communs';
-import { schemaAutoquestionnaire, schemaFiche, schemaLiaisons, schemaMapping, verifierCoherenceSaisie } from './schemaSaisie';
+import {
+  schemaAutoquestionnaire, schemaConseilsPatient, schemaFiche, schemaLiaisons, schemaMapping, schemaSouhaitsPatient, verifierCoherenceSaisie,
+} from './schemaSaisie';
 
 export const schemaReferentielTranche = z
   .object({
@@ -38,6 +40,8 @@ export const schemaReferentielTranche = z
     ficheReperage: schemaFiche,
     liaisons: schemaLiaisons,
     mapping: schemaMapping,
+    conseilsPatient: schemaConseilsPatient,
+    souhaitsPatient: schemaSouhaitsPatient,
   })
   .strict()
   .superRefine((ref, ctx) => {
@@ -56,6 +60,8 @@ export const schemaReferentielTranche = z
         [ref.autoquestionnaire.source.ref, ['autoquestionnaire', 'source', 'ref']],
         [ref.ficheReperage.source.ref, ['ficheReperage', 'source', 'ref']],
         [ref.mapping.source.ref, ['mapping', 'source', 'ref']],
+        [ref.conseilsPatient.source.ref, ['conseilsPatient', 'source', 'ref']],
+        [ref.souhaitsPatient.source.ref, ['souhaitsPatient', 'source', 'ref']],
       ],
       ctx,
     );

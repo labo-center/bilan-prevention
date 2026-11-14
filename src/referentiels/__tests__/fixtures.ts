@@ -35,3 +35,14 @@ export function tranche4550Reelle() {
   if (!r.ok) throw new Error(`référentiels invalides : ${JSON.stringify(r.erreurs)}`);
   return r.tranches.find((t) => t.tranche.id === '45-50')!;
 }
+
+/** orientation.json réel, validé. */
+export function orientationReelle() {
+  const r = chargerReferentiels(lireReferentielsReels());
+  if (!r.ok) throw new Error(`référentiels invalides : ${JSON.stringify(r.erreurs)}`);
+  return r.orientation;
+}
+
+export function lireOrientation(): Record<string, unknown> {
+  return JSON.parse(lireReferentielsReels()['referentiels/orientation.json']!) as Record<string, unknown>;
+}

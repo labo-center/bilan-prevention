@@ -44,8 +44,10 @@ describe('Autoquestionnaire (M2)', () => {
     etape(/Fiche de repérage/);
     expect(screen.getByRole('heading', { name: 'Fiche d’aide au repérage des risques' })).toBeTruthy();
     etape(/Tests cliniques/);
-    etape(/Risques repérés/);
+    etape(/Décision partagée/);
     expect(screen.getByRole('heading', { name: 'Risques repérés' })).toBeTruthy();
+    etape(/Plan personnalisé/);
+    expect(screen.getByText(/Aucune priorité choisie/)).toBeTruthy();
   });
 
   it('question conditionnelle : Q3 n’apparaît qu’après « Oui » à Q2', () => {
@@ -95,17 +97,18 @@ describe('Alertes', () => {
     expect(screen.getByTestId('bandeau-3114')).toBeTruthy();
   });
 
-  it('PA 182/100 : alerte rouge bloquante, étape « Risques » inaccessible avant acquittement (M5)', () => {
+  it('PA 182/100 : alerte rouge bloquante, décision partagée inaccessible avant acquittement (M5)', () => {
     etape(/Tests cliniques/);
     for (const i of [1, 2]) {
       fireEvent.change(screen.getByLabelText(`Systolique mesure ${i}`), { target: { value: '182' } });
       fireEvent.change(screen.getByLabelText(`Diastolique mesure ${i}`), { target: { value: '100' } });
     }
     expect(screen.getByTestId('alerte-bloquante-pa').textContent).toMatch(/urgences/);
-    const risques = screen.getByRole('button', { name: /4\. Risques repérés/ }) as HTMLButtonElement;
-    expect(risques.disabled).toBe(true);
+    const decision = screen.getByRole('button', { name: /4\. Décision partagée/ }) as HTMLButtonElement;
+    const plan = screen.getByRole('button', { name: /5\. Plan personnalisé/ }) as HTMLButtonElement;
+    expect([decision.disabled, plan.disabled]).toEqual([true, true]);
     fireEvent.click(screen.getByRole('button', { name: 'Acquitter l’alerte' }));
-    expect(risques.disabled).toBe(false);
+    expect([decision.disabled, plan.disabled]).toEqual([false, false]);
   });
 
   it('IMC : taille et poids déclarés → 26,1 (M4) ; taille absente → non calculable', () => {
@@ -131,5 +134,87 @@ describe('Données de session', () => {
     expect(ctx.data.taille()).toBe(1);
     expect(localStorage.length).toBe(0);
     expect(sessionStorage.length).toBe(0);
+  });
+});
+
+describe('Décision partagée et PPP (incrément 4)', () => {
+  /** Prépare des risques sur 3 thématiques : tabac, sommeil, alimentation (IMC). */
+  function preparer() {
+    fireEvent.click(within(question('Q34')).getByLabelText('Oui, je fume'));
+    fireEvent.click(within(question('Q38')).getByLabelText('Oui, souvent'));
+    fireEvent.click(within(question('Q26')).getByLabelText('Plusieurs fois par jour'));
+    fireEvent.click(within(question('Q46')).getByLabelText('Améliorer mon alimentation et bouger plus'));
+    etape(/Décision partagée/);
+  }
+  const priorite = (nom: string) => screen.getByRole('checkbox', { name: nom }) as HTMLInputElement;
+
+  it('pas plus de 2 priorités (M12)', () => {
+    preparer();
+    fireEvent.click(priorite('Tabac, alcool et autres addictions'));
+    fireEvent.click(priorite('Sommeil'));
+    expect(priorite('Alimentation').disabled).toBe(true);
+    expect(screen.getByText(/2 priorités choisies/)).toBeTruthy();
+    fireEvent.click(priorite('Sommeil'));
+    expect(priorite('Alimentation').disabled).toBe(false);
+  });
+
+  it('souhait du patient (Q46) proposé et signalé', () => {
+    preparer();
+    const ligne = document.querySelector('[data-thematique="activite-physique"]') as HTMLElement;
+    expect(within(ligne).getByText('Souhaité par le patient')).toBeTruthy();
+  });
+
+  it('stade « Intention » : balance décisionnelle à 4 cases (S1)', () => {
+    preparer();
+    fireEvent.click(priorite('Tabac, alcool et autres addictions'));
+    const entretien = document.querySelector('[data-entretien="addictions"]') as HTMLElement;
+    expect(within(entretien).queryByRole('group', { name: 'Balance décisionnelle' })).toBeNull();
+    fireEvent.click(within(entretien).getByLabelText(/Intention \(contemplation\)/));
+    const balance = within(entretien).getByRole('group', { name: 'Balance décisionnelle' });
+    expect(within(balance).getAllByRole('textbox')).toHaveLength(4);
+    expect(within(entretien).getByText('Avez-vous déjà envisagé d’arrêter de fumer ?')).toBeTruthy();
+  });
+
+  it('priorité « Tabac » : ressources pré-remplies 3989, CSAPA, substituts nicotiniques, modifiables (M13)', () => {
+    preparer();
+    fireEvent.click(priorite('Tabac, alcool et autres addictions'));
+    etape(/Plan personnalisé/);
+    const ligne = document.querySelector('[data-ppp="addictions"]') as HTMLElement;
+    const ressources = within(ligne).getByLabelText('Ressources et intervenants') as HTMLTextAreaElement;
+    expect(ressources.value).toContain('Tabac Info Service (3989)');
+    expect(ressources.value).toContain('CSAPA et CAARUD');
+    expect(ressources.value).toContain('Substituts nicotiniques');
+    expect((within(ligne).getByLabelText('Freins rencontrés') as HTMLTextAreaElement).value).toBe('');
+    fireEvent.change(ressources, { target: { value: 'Tabac Info Service (3989)' } });
+    expect((within(ligne).getByLabelText('Ressources et intervenants') as HTMLTextAreaElement).value).toBe('Tabac Info Service (3989)');
+  });
+
+  it('suggestion cliquée ajoutée à la cellule « Conseils »', () => {
+    preparer();
+    fireEvent.click(priorite('Tabac, alcool et autres addictions'));
+    etape(/Plan personnalisé/);
+    const ligne = document.querySelector('[data-ppp="addictions"]') as HTMLElement;
+    const conseils = within(ligne).getByLabelText('Conseils, modalités pratiques').closest('div') as HTMLElement;
+    fireEvent.click(within(conseils).getByRole('button', { name: /Suggestions/ }));
+    fireEvent.click(within(conseils).getByRole('button', { name: /Arrêter le tabac/ }));
+    expect((within(ligne).getByLabelText('Conseils, modalités pratiques') as HTMLTextAreaElement).value).toMatch(/^Arrêter le tabac : Utiliser des substituts nicotiniques/);
+  });
+
+  it('idées suicidaires : « Bien-être mental et social » ajouté d’office au PPP (M10)', () => {
+    fireEvent.click(within(question('Q44')).getByLabelText('Oui, des idées noires/suicidaires'));
+    etape(/Plan personnalisé/);
+    const ligne = document.querySelector('[data-ppp="bien-etre-mental-social"]') as HTMLElement;
+    expect(within(ligne).getByText(/Ajouté d’office/)).toBeTruthy();
+    expect((within(ligne).getByLabelText('Ressources et intervenants') as HTMLTextAreaElement).value).toMatch(/31 14/);
+  });
+
+  it('fiche thématique « Sommeil » ouverte en panneau latéral à la page 11, sans quitter la session (S5)', () => {
+    preparer();
+    fireEvent.click(within(document.querySelector('[data-thematique="sommeil"]') as HTMLElement).getByRole('button', { name: 'Ouvrir la fiche thématique Sommeil' }));
+    const panneau = screen.getByRole('complementary', { name: 'Fiche thématique : Sommeil' });
+    expect(within(panneau).getByTitle(/Sommeil/).getAttribute('src')).toBe('fiches-thematiques.pdf#page=11');
+    expect(screen.getByRole('heading', { name: 'Décision partagée' })).toBeTruthy();
+    fireEvent.click(within(panneau).getByRole('button', { name: 'Fermer la fiche' }));
+    expect(screen.queryByRole('complementary')).toBeNull();
   });
 });

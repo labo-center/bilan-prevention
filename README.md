@@ -41,6 +41,8 @@ unmount(); // démonte React, purge les données de session, nettoie le conteneu
 ```
 Le shell fournit `react` et `react-dom` (18.x). Tous les champs du contexte sont optionnels.
 
+Le build produit aussi `dist/fiches-thematiques.pdf` (fiches thématiques officielles), à servir à côté de la brique. Son adresse se règle avec `config.urlFichesThematiques` (par défaut `fiches-thematiques.pdf`, relative à la page).
+
 ## Référentiels
 Chaque fichier de tranche (`AA-AA.json`) porte `version`, `dateValidation` (`null` tant que le pharmacien référent n'a pas validé) et des références de source (document + page). Un référentiel invalide bloque le démarrage et l'écran indique le fichier et le champ en erreur.
 
@@ -48,5 +50,6 @@ Les écarts entre PRD et sources, et les valeurs « à vérifier », sont tracé
 
 ## État
 - Incrément 1 (socle) : structure de la brique, mount/unmount, ouverture de session et sélection de la tranche d'âge (M1), référentiel 45-50 validé par Zod (M16).
+- Incrément 4 (décision partagée et PPP) : matrice des risques et choix de 1 ou 2 priorités (M12), entretien motivationnel (S1), PPP pré-rempli depuis `referentiels/orientation.json` (M13), ajout d'office du bien-être mental en cas d'idées suicidaires (M10), fiches thématiques en panneau latéral (S5).
 - Incrément 3 (saisie) : autoquestionnaire patient (M2), fiche de repérage pré-remplie (M3), tests cliniques avec scores et alertes (M4 à M11), liste des risques repérés triée, parcours Playwright.
 - Incrément 2 (moteur de règles) : `referentiels/scores.json` et `src/logic/` (IMC, PA, repères alcool, FACE, Fagerström, CAST, ADRS, HAD, ICOPE, Amsler, polymédication, idées suicidaires, médecin traitant, dépistages, facturation).

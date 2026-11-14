@@ -1,10 +1,10 @@
 import { expect, test, type Page } from '@playwright/test';
 
-/** Parcours complet 45-50 ans : ouverture → autoquestionnaire → fiche → tests → risques repérés. */
+/** Parcours complet 45-50 ans : ouverture → autoquestionnaire → fiche → tests → décision partagée → PPP. */
 
 const question = (page: Page, id: string) => page.getByRole('group', { name: new RegExp(`^${id} - `) });
 
-test('parcours 45-50 ans de bout en bout jusqu’aux risques repérés', async ({ page }) => {
+test('parcours 45-50 ans de bout en bout jusqu’au PPP', async ({ page }) => {
   const erreurs: string[] = [];
   page.on('pageerror', (e) => erreurs.push(e.message));
   page.on('console', (m) => { if (m.type() === 'error') erreurs.push(m.text()); });
@@ -48,7 +48,7 @@ test('parcours 45-50 ans de bout en bout jusqu’aux risques repérés', async (
     await page.getByLabel(`Diastolique mesure ${i}`).fill('100');
   }
   await expect(page.getByTestId('alerte-bloquante-pa')).toContainText('urgences');
-  await expect(page.getByRole('button', { name: 'Étape suivante : Risques repérés' })).toBeDisabled();
+  await expect(page.getByRole('button', { name: 'Étape suivante : Décision partagée' })).toBeDisabled();
   await page.getByRole('button', { name: 'Acquitter l’alerte' }).click();
   await expect(page.getByTestId('alerte-bloquante-pa')).toHaveCount(0);
 
@@ -71,8 +71,8 @@ test('parcours 45-50 ans de bout en bout jusqu’aux risques repérés', async (
   await expect(page.locator('[data-depistage]')).toHaveCount(1);
   await expect(page.locator('[data-depistage="col"]')).toBeVisible();
 
-  // 5. Risques repérés, triés rouge > orange > info.
-  await page.getByRole('button', { name: 'Étape suivante : Risques repérés' }).click();
+  // 5. Décision partagée : risques repérés, triés rouge > orange > info.
+  await page.getByRole('button', { name: 'Étape suivante : Décision partagée' }).click();
   const niveaux = await page.locator('[data-risque]').evaluateAll((els) => els.map((e) => e.getAttribute('data-niveau')));
   expect(niveaux.length).toBeGreaterThanOrEqual(5);
   const rang = { rouge: 0, orange: 1, info: 2 } as Record<string, number>;
@@ -83,6 +83,36 @@ test('parcours 45-50 ans de bout en bout jusqu’aux risques repérés', async (
     await expect(page.locator(`[data-risque="${id}"]`)).toHaveAttribute('data-niveau', 'orange');
   }
   await expect(page.locator('[data-risque="imc"]')).toContainText('à vérifier');
+
+  // Priorités : 2 au maximum.
+  await page.getByRole('checkbox', { name: 'Tabac, alcool et autres addictions' }).check();
+  await page.getByRole('checkbox', { name: 'Prévention des autres maladies chroniques' }).check();
+  await expect(page.getByRole('checkbox', { name: 'Bien-être mental et social' })).toBeDisabled();
+
+  // Entretien motivationnel : stade « Intention » → balance décisionnelle.
+  const entretien = page.locator('[data-entretien="addictions"]');
+  await entretien.getByLabel(/Intention \(contemplation\)/).check();
+  await expect(entretien.getByRole('group', { name: 'Balance décisionnelle' }).getByRole('textbox')).toHaveCount(4);
+  await entretien.getByLabel('Bénéfices perçus à changer').fill('Retrouver du souffle');
+
+  // Fiche thématique en panneau latéral : le PDF officiel est servi.
+  const pdf = page.waitForResponse((r) => r.url().includes('fiches-thematiques.pdf'));
+  await page.locator('[data-thematique="addictions"]').getByRole('button', { name: /Ouvrir la fiche thématique/ }).click();
+  expect((await pdf).status()).toBe(200);
+  await expect(page.getByRole('complementary', { name: 'Fiche thématique : Tabac, alcool et autres addictions' })).toBeVisible();
+  await page.getByRole('button', { name: 'Fermer la fiche' }).click();
+
+  // 6. PPP : ressources du kit pharmacien, ajout d'office du bien-être mental (idées suicidaires).
+  await page.getByRole('button', { name: 'Étape suivante : Plan personnalisé' }).click();
+  const tabac = page.locator('[data-ppp="addictions"]');
+  const ressources = tabac.getByLabel('Ressources et intervenants');
+  await expect(ressources).toHaveValue(/Tabac Info Service \(3989\)/);
+  await expect(ressources).toHaveValue(/CSAPA et CAARUD/);
+  await expect(ressources).toHaveValue(/Substituts nicotiniques/);
+  await tabac.getByLabel('Freins rencontrés').fill('Peur de prendre du poids');
+  await expect(page.locator('[data-ppp]')).toHaveCount(3);
+  await expect(page.locator('[data-ppp="bien-etre-mental-social"]')).toContainText('Ajouté d’office');
+  await page.getByLabel('Modalités de suivi').fill('Point téléphonique dans 1 mois');
 
   // Aucune donnée dans le stockage du navigateur, aucune requête hors du poste, aucune erreur.
   const stockage = await page.evaluate(() => ({ local: localStorage.length, session: sessionStorage.length, cookies: document.cookie }));

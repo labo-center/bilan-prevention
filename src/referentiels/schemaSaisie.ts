@@ -112,6 +112,19 @@ const regleMapping = z.union([
 
 export const schemaMapping = z.object({ source: referenceSource, regles: z.array(regleMapping) });
 
+/** Conseils patient de l'autoquestionnaire, proposés en suggestion dans le PPP. */
+export const schemaConseilsPatient = z.object({
+  source: referenceSource,
+  items: z.array(z.object({ thematique: id, titre: z.string().min(1), texte: z.string().min(1) }).strict()).min(1),
+});
+
+/** Correspondance entre les sujets que le patient souhaite aborder (Q46) et les thématiques. */
+export const schemaSouhaitsPatient = z.object({
+  question: id,
+  source: referenceSource,
+  correspondances: z.array(z.object({ option: id, thematiques: z.array(id).min(1) }).strict()).min(1),
+});
+
 export type Question = z.infer<typeof question>;
 export type Champ = z.infer<typeof champ>;
 export type RegleMapping = z.infer<typeof regleMapping>;
@@ -135,6 +148,7 @@ export function verifierCoherenceSaisie(
     ficheReperage: z.infer<typeof schemaFiche>;
     liaisons: z.infer<typeof schemaLiaisons>;
     mapping: z.infer<typeof schemaMapping>;
+    souhaitsPatient: z.infer<typeof schemaSouhaitsPatient>;
   },
   ctx: z.RefinementCtx,
 ): void {
@@ -183,6 +197,15 @@ export function verifierCoherenceSaisie(
       }
     }),
   );
+
+  const qSouhaits = questions.get(ref.souhaitsPatient.question);
+  const optionsSouhaits = qSouhaits && 'options' in qSouhaits ? qSouhaits.options.map((o) => o.id) : null;
+  if (!optionsSouhaits) ctx.addIssue({ code: 'custom', path: ['souhaitsPatient', 'question'], message: 'question à choix attendue' });
+  ref.souhaitsPatient.correspondances.forEach((c, i) => {
+    if (optionsSouhaits && !optionsSouhaits.includes(c.option)) {
+      ctx.addIssue({ code: 'custom', path: ['souhaitsPatient', 'correspondances', i, 'option'], message: `option "${c.option}" inexistante` });
+    }
+  });
 
   const qAlcool = questions.get(ref.liaisons.questionReperesAlcool);
   if (!qAlcool || qAlcool.type !== 'multiple') {

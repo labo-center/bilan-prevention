@@ -1,0 +1,495 @@
+{
+  "version": "0.1.0",
+  "dateValidation": null,
+  "sources": [
+    {
+      "id": "livret",
+      "document": "Mon Bilan Prévention - Livret de présentation",
+      "fichier": "docs/sources/Mon-bilan-prevention-livret-presentation.pdf"
+    },
+    {
+      "id": "ppp-45-50",
+      "document": "Plan Personnalisé de Prévention 45-50 ans",
+      "fichier": "docs/sources/Mon-bilan-prevention-plan-personnalise-45-50ans.pdf"
+    },
+    {
+      "id": "fiches-thematiques",
+      "document": "Fiches thématiques synthétiques Mon Bilan Prévention",
+      "fichier": "docs/sources/fiches_thematiques_synthetiques_mon_bilan_prevention.pdf"
+    }
+  ],
+  "effecteur": "pharmacien",
+  "kit": {
+    "source": {
+      "ref": "livret",
+      "page": "40",
+      "extrait": "Annexe VI : ce tableau présente des conseils mais ne constitue pas une recommandation scientifique"
+    },
+    "avertissement": "Ce tableau présente des conseils mais ne constitue pas une recommandation scientifique.",
+    "thematiques": [
+      {
+        "thematique": "cancers",
+        "libelleKit": "Prévention et dépistages des cancers",
+        "source": {
+          "ref": "livret",
+          "page": "41",
+          "extrait": "Annexe VI, ligne « Prévention et dépistages des cancers », colonne pharmacien"
+        },
+        "ressources": {
+          "pharmacien": [
+            {
+              "categorie": "Orientation",
+              "libelle": "Dépistages organisés (sein, colon-rectum, col de l’utérus), si non réalisés pendant le Bilan"
+            }
+          ]
+        }
+      },
+      {
+        "thematique": "maladies-chroniques",
+        "libelleKit": "Maladies chroniques",
+        "source": {
+          "ref": "livret",
+          "page": "41",
+          "extrait": "Annexe VI, ligne « Maladies chroniques », colonne pharmacien"
+        },
+        "ressources": {
+          "pharmacien": [
+            {
+              "categorie": "Conduite à tenir",
+              "libelle": "Si PA ≥ 140/90 mmHg, orienter vers le médecin traitant pour confirmation"
+            },
+            {
+              "categorie": "Conduite à tenir",
+              "libelle": "Si PA ≥ 180/110 mm Hg, orienter vers les urgences"
+            },
+            {
+              "categorie": "Conduite à tenir",
+              "libelle": "Si symptômes évocateurs d’insuffisance cardiaque, orienter vers le médecin"
+            },
+            {
+              "categorie": "Conduite à tenir",
+              "libelle": "Si polymédication (> 10 traitements), informer le médecin traitant"
+            }
+          ]
+        }
+      },
+      {
+        "thematique": "bucco-dentaire",
+        "libelleKit": "Santé bucco-dentaire",
+        "source": {
+          "ref": "livret",
+          "page": "41",
+          "extrait": "Annexe VI, ligne « Santé bucco-dentaire », colonne pharmacien"
+        },
+        "ressources": {
+          "pharmacien": [
+            {
+              "categorie": "Orientation",
+              "libelle": "Dentiste, MT dents pour les moins de 25 ans"
+            }
+          ]
+        }
+      },
+      {
+        "thematique": "vaccinations",
+        "libelleKit": "Vaccinations",
+        "source": {
+          "ref": "livret",
+          "page": "41",
+          "extrait": "Annexe VI, ligne « Vaccinations », colonne pharmacien"
+        },
+        "ressources": {
+          "pharmacien": [
+            {
+              "categorie": "Orientation",
+              "libelle": "Mise à jour des vaccinations (si non réalisée pendant le Bilan)"
+            }
+          ]
+        }
+      },
+      {
+        "thematique": "alimentation",
+        "libelleKit": "Alimentation",
+        "source": {
+          "ref": "livret",
+          "page": "41",
+          "extrait": "Annexe VI, ligne « Alimentation », colonne pharmacien"
+        },
+        "ressources": {
+          "pharmacien": [
+            {
+              "categorie": "Orientation",
+              "libelle": "Diététicien, psychologue…"
+            }
+          ]
+        }
+      },
+      {
+        "thematique": "activite-physique",
+        "libelleKit": "Activité physique",
+        "source": {
+          "ref": "livret",
+          "page": "41",
+          "extrait": "Annexe VI, ligne « Activité physique », colonne pharmacien"
+        },
+        "ressources": {
+          "pharmacien": [
+            {
+              "categorie": "Orientation",
+              "libelle": "Maisons Sport-Santé, associations sportives, clubs de jardinage, groupes de marche, services universitaires d’activité physique et sportive…"
+            }
+          ]
+        }
+      },
+      {
+        "thematique": "addictions",
+        "libelleKit": "Tabac, alcool et autres addictions",
+        "source": {
+          "ref": "livret",
+          "page": "41",
+          "extrait": "Annexe VI, ligne « Tabac, alcool et autres addictions », colonne pharmacien"
+        },
+        "ressources": {
+          "pharmacien": [
+            {
+              "categorie": "Orientation",
+              "libelle": "Tabac Info Service (3989)"
+            },
+            {
+              "categorie": "Orientation",
+              "libelle": "CSAPA et CAARUD"
+            },
+            {
+              "categorie": "Orientation",
+              "libelle": "Centres Jeunes Consommateurs (CJC)"
+            },
+            {
+              "categorie": "Orientation",
+              "libelle": "Associations d’entraide, groupe de paroles …"
+            },
+            {
+              "categorie": "Prescriptions",
+              "libelle": "Substituts nicotiniques"
+            }
+          ]
+        }
+      },
+      {
+        "thematique": "violences",
+        "libelleKit": "Violences",
+        "source": {
+          "ref": "livret",
+          "page": "42",
+          "extrait": "Annexe VI, ligne « Violences », colonne pharmacien"
+        },
+        "ressources": {
+          "pharmacien": [
+            {
+              "categorie": "Ressources",
+              "libelle": "La plateforme d’information https://arretonslesviolences.gouv.fr/"
+            },
+            {
+              "categorie": "Ressources",
+              "libelle": "Vade-mecum sur le secret médical (ministère de la Justice) https://www.justice.gouv.fr/sites/default/files/migrations/presse/art_pix/Egalite%20f-h_Vademecum%20secret%20medical_201005_V10_WEB.pdf"
+            },
+            {
+              "categorie": "Orientation",
+              "libelle": "Les numéros d’urgences : 15 : Urgences médicales (SAMU) ; 17 : Police ; 114 : Urgences par sms (sourds et malentendants)"
+            },
+            {
+              "categorie": "Orientation",
+              "libelle": "Les lignes d’écoute : 3919 : Violences Femmes Info"
+            },
+            {
+              "categorie": "Orientation",
+              "libelle": "Unité médico-judiciaire"
+            }
+          ]
+        }
+      },
+      {
+        "thematique": "sante-sexuelle",
+        "libelleKit": "Santé sexuelle",
+        "source": {
+          "ref": "livret",
+          "page": "42",
+          "extrait": "Annexe VI, ligne « Santé sexuelle », colonne pharmacien"
+        },
+        "ressources": {
+          "pharmacien": [
+            {
+              "categorie": "Orientation",
+              "libelle": "IVG Contraception Sexualités - Numéro Vert National (ivg-contraception-sexualites.org)"
+            },
+            {
+              "categorie": "Orientation",
+              "libelle": "Laboratoires sans ordonnance pour dépistage des IST, gynécologue en accès direct, sage-femme, médecin généraliste, CEGGID…"
+            },
+            {
+              "categorie": "Délivrances",
+              "libelle": "Préservatifs sans ordonnance pour les moins de 26 ans"
+            }
+          ]
+        }
+      },
+      {
+        "thematique": "sommeil",
+        "libelleKit": "Sommeil",
+        "source": {
+          "ref": "livret",
+          "page": "42",
+          "extrait": "Annexe VI, ligne « Sommeil », colonne pharmacien"
+        },
+        "ressources": {
+          "pharmacien": [
+            {
+              "categorie": "Ressources documentaires",
+              "libelle": "https://institut-sommeil-vigilance.org/"
+            },
+            {
+              "categorie": "Ressources documentaires",
+              "libelle": "https://reseau-morphee.fr/"
+            }
+          ]
+        }
+      },
+      {
+        "thematique": "bien-etre-mental-social",
+        "libelleKit": "Bien-être mental et social",
+        "source": {
+          "ref": "livret",
+          "page": "43",
+          "extrait": "Annexe VI, ligne « Bien-être mental et social », colonne pharmacien"
+        },
+        "ressources": {
+          "pharmacien": [
+            {
+              "categorie": "Orientation",
+              "libelle": "Numéro national de prévention du suicide, en cas d’idées noires ou d’idées suicidaires : 31 14"
+            },
+            {
+              "categorie": "Orientation",
+              "libelle": "Lignes d’écoute telles que “SOS Amitié” (09 72 39 40 50), “Croix-Rouge écoute” (0 800 858 858) ou “SOS crise” (0800 19 00 00)"
+            },
+            {
+              "categorie": "Orientation",
+              "libelle": "Associations"
+            },
+            {
+              "categorie": "Orientation",
+              "libelle": "Personnes de confiance dans l’entourage familial ou amical"
+            }
+          ]
+        }
+      },
+      {
+        "thematique": "perte-autonomie",
+        "libelleKit": "Prévention de la perte d’autonomie et des troubles de la mémoire",
+        "source": {
+          "ref": "livret",
+          "page": "43",
+          "extrait": "Annexe VI, ligne « Prévention de la perte d’autonomie et des troubles de la mémoire », colonne pharmacien"
+        },
+        "ressources": {
+          "pharmacien": [
+            {
+              "categorie": "Ressources documentaires",
+              "libelle": "https://www.pourbienvieillir.fr/"
+            },
+            {
+              "categorie": "Ressources documentaires",
+              "libelle": "https://www.pour-les-personnes-agees.gouv.fr/annuaires"
+            },
+            {
+              "categorie": "Outils",
+              "libelle": "Outils numériques d’autoévaluation de suivi ICOPE grâce à l’application mobile ICOPE MONITOR (pour smartphone et tablette) ou via le robot conversationnel ICOPEBOT Monitor consultable sur internet"
+            },
+            {
+              "categorie": "Cartographie",
+              "libelle": "Cartographie des Centres Mémoire réalisée par la Fédération des Centres Mémoire"
+            }
+          ]
+        }
+      },
+      {
+        "thematique": "sante-environnement",
+        "libelleKit": "Santé et environnement",
+        "source": {
+          "ref": "livret",
+          "page": "43",
+          "extrait": "Annexe VI, ligne « Santé et environnement », colonne pharmacien"
+        },
+        "ressources": {
+          "pharmacien": [
+            {
+              "categorie": "Orientation",
+              "libelle": "Aide sociale, aide au logement…"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "ajoutsDOffice": [
+    {
+      "regle": "ideesSuicidaires",
+      "thematique": "bien-etre-mental-social",
+      "motif": "Ajouté d’office : idées suicidaires repérées",
+      "source": {
+        "ref": "livret",
+        "page": "43",
+        "extrait": "Annexe VI, bien-être mental et social : numéro national de prévention du suicide"
+      },
+      "origine": "Critère M10 du PRD (ajout d’office aux ressources du PPP)"
+    }
+  ],
+  "decisionPartagee": {
+    "source": {
+      "ref": "livret",
+      "page": "12",
+      "extrait": "§2.2.2 : priorisation conjointe d’un ou deux sujets ; décision partagée"
+    },
+    "prioritesMax": 2,
+    "consigne": "La priorisation des thématiques doit être faite au cas par cas en fonction des facteurs de risques identifiés et des choix et envies de la personne (dimension motivationnelle). En pratique, il s’agit d’une décision partagée qui aboutit à la priorisation d’un ou deux sujets à aborder."
+  },
+  "entretienMotivationnel": {
+    "source": {
+      "ref": "livret",
+      "page": "36-38",
+      "extrait": "Annexe IV : l’approche motivationnelle telle que présentée par l’HAS"
+    },
+    "stades": [
+      {
+        "id": "preintention",
+        "libelle": "Préintention (précontemplation)",
+        "description": "La personne n’envisage pas de changement de comportement pour diverses raisons : manque d’informations ou de confiance en soi, échecs antérieurs, peur des conséquences, choix d’autres priorités."
+      },
+      {
+        "id": "intention",
+        "libelle": "Intention (contemplation)",
+        "description": "La personne envisage de modifier ses habitudes dans un avenir relativement proche. Elle pèse le pour et le contre. C’est à ce moment-là que l’on peut la motiver et la conseiller."
+      },
+      {
+        "id": "preparation",
+        "libelle": "Préparation (décision ou détermination)",
+        "description": "La décision est prise et la personne se prépare au changement. Elle demande conseil, recherche des informations que l’on peut lui fournir."
+      },
+      {
+        "id": "action",
+        "libelle": "Action",
+        "description": "Période au cours de laquelle la personne modifie ses habitudes, ce qui exige beaucoup d’attention et d’énergie au quotidien. Il faut s’assurer qu’elle soit suivie régulièrement par son médecin traitant, le cas échéant un addictologue et un psychologue."
+      },
+      {
+        "id": "maintien",
+        "libelle": "Maintien",
+        "description": "Il s’agit d’éviter les rechutes. L’effort à fournir est moins intense, la personne a davantage confiance en ses capacités."
+      },
+      {
+        "id": "resolution",
+        "libelle": "Résolution",
+        "description": "Moment où la personne n’a plus la tentation de revenir au comportement antérieur, même si elle est stressée, anxieuse, déprimée, en colère…"
+      }
+    ],
+    "sourceStades": {
+      "ref": "livret",
+      "page": "37",
+      "extrait": "Les stades motivationnels du changement de comportement"
+    },
+    "balance": {
+      "source": {
+        "ref": "livret",
+        "page": "36 et 38",
+        "extrait": "La balance décisionnelle est particulièrement utile pour travailler avec les personnes contemplatives de leur comportement (stade d’intention)"
+      },
+      "stadesRecommandes": [
+        "intention"
+      ],
+      "cases": [
+        {
+          "id": "avantages-changer",
+          "libelle": "Bénéfices perçus à changer"
+        },
+        {
+          "id": "inconvenients-changer",
+          "libelle": "Dommages perçus à changer"
+        },
+        {
+          "id": "avantages-statu-quo",
+          "libelle": "Bénéfices perçus à ne pas changer"
+        },
+        {
+          "id": "inconvenients-statu-quo",
+          "libelle": "Dommages perçus à ne pas changer"
+        }
+      ],
+      "consignes": [
+        "Poser des questions ouvertes et sans jugement afin de comprendre les bénéfices et les dommages perçus par le patient à modifier ou pas ses consommations.",
+        "Inviter le patient à approfondir ses réponses à l’aune des émotions qui y sont associées (les dimensions émotionnelles de la motivation pesant plus lourd que les dimensions rationnelles).",
+        "Conclure par un feed-back invitant le patient à reformuler et résumer l’ambivalence : arguments en faveur du statu quo versus ceux en faveur du changement, afin de renforcer sa motivation.",
+        "Approfondir les déterminants du changement en fonction de leur temporalité : le plus souvent, les inconvénients à continuer se situent sur le long terme tandis que les inconvénients à arrêter ou diminuer sur le court terme."
+      ]
+    },
+    "questionsParThematique": [
+      {
+        "thematique": "addictions",
+        "titre": "Tabac (questionnaire « Fumez-vous du tabac ? »)",
+        "source": {
+          "ref": "livret",
+          "page": "33",
+          "extrait": "Questionnaire tabac « Fumez-vous du tabac ? », si oui"
+        },
+        "questions": [
+          "Voulez-vous un dépliant/brochure, ou l’adresse d’un site concernant les risques de la consommation de tabac, les bénéfices de l’arrêt et les méthodes de sevrage ?",
+          "Avez-vous déjà envisagé d’arrêter de fumer ?",
+          "Voulez-vous qu’on prenne le temps d’en parler dans une prochaine consultation ?"
+        ]
+      }
+    ]
+  },
+  "ppp": {
+    "source": {
+      "ref": "ppp-45-50",
+      "page": "1",
+      "extrait": "Plan Personnalisé de Prévention, rédaction partagée"
+    },
+    "titre": "Plan Personnalisé de Prévention",
+    "sousTitre": "Rédaction partagée (par la personne et le professionnel de santé), à l’issue de l’intervention brève.",
+    "colonnes": [
+      {
+        "id": "priorite",
+        "libelle": "Mes priorités en santé",
+        "note": "Les priorités du PPP sont définies avec l’appui du professionnel de santé. Elles doivent être réalistes et en nombre limité."
+      },
+      {
+        "id": "freins",
+        "libelle": "Freins rencontrés"
+      },
+      {
+        "id": "conseils",
+        "libelle": "Conseils, modalités pratiques",
+        "note": "Exemples d’actions précises : appeler un numéro de ligne d’écoute, expliquer ce qu’est une Consultation Jeunes Consommateurs et comment s’y rendre…"
+      },
+      {
+        "id": "ressources",
+        "libelle": "Ressources et intervenants"
+      }
+    ],
+    "modalitesSuivi": "Modalités de suivi",
+    "encouragement": "Changer d’habitude n’est pas facile. Échanger avec une ou plusieurs personnes de confiance sur vos objectifs est un facteur de succès important pour maintenir votre motivation.",
+    "opposition": "Je m’oppose à ce que ce document soit communiqué à mon médecin traitant.",
+    "freinsSuggeres": {
+      "source": {
+        "ref": "livret",
+        "page": "37",
+        "extrait": "Stade de préintention : raisons pour lesquelles la personne n’envisage pas de changement"
+      },
+      "items": [
+        "Manque d’informations",
+        "Manque de confiance en soi",
+        "Échecs antérieurs",
+        "Peur des conséquences",
+        "Choix d’autres priorités"
+      ]
+    }
+  }
+}

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { chargerReferentiels } from '../loader';
-import { lire4550, lireReferentielsReels } from './fixtures';
+import { lire4550, lireOrientation, lireReferentielsReels } from './fixtures';
 
 // Chaque cas part des référentiels réels et ne remplace que le fichier testé.
 const avec = (obj: unknown, fichier = 'referentiels/45-50.json') => ({
@@ -108,8 +108,15 @@ describe('chargerReferentiels', () => {
     if (!r.ok) expect(r.erreurs[0]).toMatchObject({ fichier: 'referentiels/scores.json', champ: '(racine)' });
   });
 
-  it('ignore les fichiers inconnus (orientation.json, incrément 4)', () => {
-    expect(chargerReferentiels({ ...lireReferentielsReels(), 'referentiels/orientation.json': '{ pas lu' }).ok).toBe(true);
+  it('ignore les fichiers inconnus', () => {
+    expect(chargerReferentiels({ ...lireReferentielsReels(), 'referentiels/autre.json': '{ pas lu' }).ok).toBe(true);
+  });
+
+  it('orientation.json absent : refus', () => {
+    const { 'referentiels/orientation.json': _, ...sans } = lireReferentielsReels();
+    const r = chargerReferentiels(sans);
+    expect(r.ok).toBe(false);
+    if (!r.ok) expect(r.erreurs[0]).toMatchObject({ fichier: 'referentiels/orientation.json', message: 'fichier absent' });
   });
 });
 
@@ -135,4 +142,32 @@ describe('Cohérence autoquestionnaire / fiche / correspondance', () => {
     expect(champs((r) => { r.ficheReperage.sections[1].thematique = 'inventee'; })).toContain('ficheReperage.sections[1].thematique'));
   it('question liée aux repères alcool sans les options de scores.json : refus', () =>
     expect(champs((r) => { r.liaisons.questionReperesAlcool = 'Q32'; })).toContain('liaisons.questionReperesAlcool'));
+});
+
+describe('Validation de orientation.json', () => {
+  const erreurs = (modifier: (o: Record<string, any>) => void) => { // eslint-disable-line @typescript-eslint/no-explicit-any
+    const o = lireOrientation() as Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
+    modifier(o);
+    const r = chargerReferentiels({ ...lireReferentielsReels(), 'referentiels/orientation.json': JSON.stringify(o) });
+    return r.ok ? [] : r.erreurs.map((e) => `${e.fichier}:${e.champ}`);
+  };
+  it('le fichier réel est valide', () => expect(erreurs(() => {})).toEqual([]));
+  it('thématique inconnue de scores.json : refus', () =>
+    expect(erreurs((o) => { o.kit.thematiques[0].thematique = 'inventee'; })).toContain('referentiels/orientation.json:kit.thematiques[0].thematique'));
+  it('thématique en double dans le kit : refus', () =>
+    expect(erreurs((o) => { o.kit.thematiques[1].thematique = o.kit.thematiques[0].thematique; })).toContain('referentiels/orientation.json:kit.thematiques[1].thematique'));
+  it('balance à 3 cases : refus', () =>
+    expect(erreurs((o) => { o.entretienMotivationnel.balance.cases.pop(); })).toContain('referentiels/orientation.json:entretienMotivationnel.balance.cases'));
+  it('stade recommandé inconnu : refus', () =>
+    expect(erreurs((o) => { o.entretienMotivationnel.balance.stadesRecommandes = ['inconnu']; })).toContain('referentiels/orientation.json:entretienMotivationnel.balance.stadesRecommandes[0]'));
+  it('pharmacien sans ressource pour une thématique : refus', () =>
+    expect(erreurs((o) => { o.kit.thematiques[0].ressources.pharmacien = []; })).toContain('referentiels/orientation.json:kit.thematiques[0].ressources.pharmacien'));
+  it('ajout d’office sur une règle non câblée : refus', () =>
+    expect(erreurs((o) => { o.ajoutsDOffice[0].regle = 'imc'; })).toContain('referentiels/orientation.json:ajoutsDOffice[0].regle'));
+  it('Q46 : option inexistante dans les souhaits du patient : refus', () => {
+    const t = lire4550() as Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
+    t.souhaitsPatient.correspondances[0].option = 'inexistante';
+    const r = chargerReferentiels(avec(t));
+    expect(r.ok ? [] : r.erreurs.map((e) => e.champ)).toContain('souhaitsPatient.correspondances[0].option');
+  });
 });

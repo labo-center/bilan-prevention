@@ -1,5 +1,5 @@
 {
-  "version": "0.2.0",
+  "version": "0.3.0",
   "dateValidation": null,
   "sources": [
     {
@@ -2044,6 +2044,113 @@
         ],
         "champ": "violences",
         "valeur": true
+      }
+    ]
+  },
+  "conseilsPatient": {
+    "source": {
+      "ref": "autoquestionnaire-45-50",
+      "page": "6-7",
+      "extrait": "Les bons conseils pour prendre soin de soi"
+    },
+    "items": [
+      {
+        "thematique": "activite-physique",
+        "titre": "Bouger davantage",
+        "texte": "30 minutes par jour d’activité physique d’intensité modérée."
+      },
+      {
+        "thematique": "alimentation",
+        "titre": "Manger sainement",
+        "texte": "Fruits et légumes ; moins de gras, de sel et de sucres ; poissons 2 fois par semaine ; produits frais cuisinés à la maison..."
+      },
+      {
+        "thematique": "bien-etre-mental-social",
+        "titre": "Réduire son stress",
+        "texte": "Respirer, en parler à ses proches, lister mes besoins, prioriser..."
+      },
+      {
+        "thematique": "bien-etre-mental-social",
+        "titre": "Préserver sa santé mentale",
+        "texte": "La santé mentale est indispensable à votre bien-être."
+      },
+      {
+        "thematique": "addictions",
+        "titre": "Arrêter le tabac",
+        "texte": "Utiliser des substituts nicotiniques et se faire aider par un professionnel de santé."
+      },
+      {
+        "thematique": "addictions",
+        "titre": "Maîtriser l’alcool",
+        "texte": "2 verres par jour, soit 10 par semaine, au maximum avec 2 jours sans alcool."
+      },
+      {
+        "thematique": "sommeil",
+        "titre": "Bien dormir",
+        "texte": "Se coucher et se lever à heure fixe, réserver la chambre au sommeil, éviter les écrans…"
+      },
+      {
+        "thematique": "violences",
+        "titre": "Lutter contre les violences",
+        "texte": "Les violences ont toutes des conséquences importantes. Pour être écouté, informé ou orienté, appeler le 3919."
+      },
+      {
+        "thematique": "cancers",
+        "titre": "Dépister les cancers",
+        "texte": "Chez les femmes, le dépistage du cancer du col de l’utérus, c’est tous les 5 ans chez votre médecin ou sage-femme ! À partir de 50 ans, je pense à faire le test de dépistage du cancer colorectal (et la mammographie si je suis une femme)."
+      }
+    ]
+  },
+  "souhaitsPatient": {
+    "question": "Q46",
+    "source": {
+      "ref": "autoquestionnaire-45-50",
+      "page": "5",
+      "extrait": "Q46 - Sujets que le patient souhaite aborder en priorité ; correspondance avec les thématiques établie pour l’outil"
+    },
+    "correspondances": [
+      {
+        "option": "alimentation-bouger",
+        "thematiques": [
+          "alimentation",
+          "activite-physique"
+        ]
+      },
+      {
+        "option": "tabac",
+        "thematiques": [
+          "addictions"
+        ]
+      },
+      {
+        "option": "alcool",
+        "thematiques": [
+          "addictions"
+        ]
+      },
+      {
+        "option": "bien-etre",
+        "thematiques": [
+          "bien-etre-mental-social"
+        ]
+      },
+      {
+        "option": "menopause",
+        "thematiques": [
+          "menopause"
+        ]
+      },
+      {
+        "option": "ecran",
+        "thematiques": [
+          "activite-physique"
+        ]
+      },
+      {
+        "option": "depistages",
+        "thematiques": [
+          "cancers"
+        ]
       }
     ]
   }

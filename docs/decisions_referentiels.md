@@ -16,6 +16,16 @@ Ce document trace les écarts entre le PRD et les sources officielles, et les ch
 | Saisie du professionnel | Prioritaire : un champ modifié par le professionnel n'est plus recalculé depuis l'autoquestionnaire | PRD §6.2 étape 2 |
 | Champ « Nombre de traitements en cours » | Aide au calcul ajoutée à la fiche pour la règle polymédication (> 10), signalée comme absente de la fiche officielle | Kit d'orientation p. 41 |
 | Thématiques | Liste des 17 fiches thématiques (`scores.json`), chaque règle et chaque section de fiche y est rattachée | Fiches thématiques, table des matières |
+| Kit d'orientation pharmacien | `orientation.json` reprend la colonne pharmacien de l'annexe VI. Les cellules communes à l'infirmier, la sage-femme et le pharmacien sont reprises telles quelles ; seule « Santé sexuelle » a une cellule propre (« Délivrances : préservatifs sans ordonnance pour les moins de 26 ans »). Lecture des colonnes vérifiée sur le rendu image des pages 41 à 43 | Livret p. 41-43 |
+| Thématiques sans entrée au kit | Ménopause, accès aux droits, santé auditive, chlordécone : ressources vides dans le PPP, signalées à l'écran | Livret p. 41-43 |
+| Priorités | 1 ou 2 thématiques, choisies parmi celles des risques repérés et celles souhaitées par le patient (Q46), ou toute autre thématique | Livret p. 12 |
+| Q46 → thématiques | « Améliorer mon alimentation et bouger plus » → alimentation et activité physique ; « Passer moins de temps devant un écran » → activité physique et sédentarité ; autres options en correspondance directe | Choix du concepteur, à valider |
+| Ajout d'office | Idées suicidaires : la thématique « Bien-être mental et social » et ses ressources (31 14) sont ajoutées au PPP, hors du maximum de 2 priorités | PRD M10, livret p. 43 |
+| Stades du changement | Les 6 stades du livret, avec leur description | Livret p. 37 |
+| Balance décisionnelle | 4 cases : bénéfices et dommages perçus, à changer et à ne pas changer. Affichée d'office au stade « intention », à la demande pour les autres stades | Livret p. 36 et 38 |
+| Questions ouvertes | Aucune liste de questions ouvertes dans les sources : l'écran affiche les consignes de la balance (p. 38) et, pour le tabac, les questions du livret p. 33 | Livret p. 33 et 38 |
+| Suggestions du PPP | Freins : raisons du stade de préintention (livret p. 37). Conseils : « Les bons conseils pour prendre soin de soi » de l'autoquestionnaire 45-50 (p. 6-7). Rien n'est pré-rempli : le professionnel clique pour ajouter | Livret p. 37, autoquestionnaire p. 6-7 |
+| Fiches thématiques | PDF officiel ouvert à la page de la fiche dans un panneau latéral, avec un lien de secours vers un nouvel onglet (certains navigateurs de tablette n'affichent pas un PDF intégré). Le PDF est livré à côté de la brique, pas dans brick.js (3,7 Mo) | PRD S5 |
 | PA retenue | Moyenne par bras ; bras retenu = le plus sévère au regard des seuils, puis la plus haute systolique. Comparaison sur la moyenne exacte (139,5 reste sous 140) | Livret p. 29 et 41 |
 
 ## À vérifier (absent des sources fournies)

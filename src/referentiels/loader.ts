@@ -1,6 +1,7 @@
 import type { z } from 'zod';
 import { schemaReferentielTranche, type ReferentielTranche } from './schemas';
 import { schemaScores, type ReferentielScores } from './schemaScores';
+import { schemaOrientation, thematiquesCitees, type ReferentielOrientation } from './schemaOrientation';
 
 export interface ErreurReferentiel {
   /** Chemin du fichier, ex. "referentiels/45-50.json". */
@@ -11,12 +12,13 @@ export interface ErreurReferentiel {
 }
 
 export type ResultatChargement =
-  | { ok: true; tranches: ReferentielTranche[]; scores: ReferentielScores }
+  | { ok: true; tranches: ReferentielTranche[]; scores: ReferentielScores; orientation: ReferentielOrientation }
   | { ok: false; erreurs: ErreurReferentiel[] };
 
 /** Les fichiers de tranche sont nommés "AA-AA.json" ; les autres (scores, orientation) ont leur propre schéma. */
 const MOTIF_FICHIER_TRANCHE = /(?:^|\/)(\d{2}-\d{2})\.json$/;
 const MOTIF_FICHIER_SCORES = /(?:^|\/)scores\.json$/;
+const MOTIF_FICHIER_ORIENTATION = /(?:^|\/)orientation\.json$/;
 
 const normaliser = (chemin: string) => chemin.replace(/^.*?referentiels\//, 'referentiels/');
 
@@ -80,6 +82,13 @@ export function chargerReferentiels(fichiers: Record<string, string>): ResultatC
   if (!cheminScores) {
     erreurs.push({ fichier: 'referentiels/scores.json', champ: '(racine)', message: 'fichier absent' });
   }
+  const cheminOrientation = Object.keys(fichiers).find((c) => MOTIF_FICHIER_ORIENTATION.test(c));
+  const orientation = cheminOrientation
+    ? valider(cheminOrientation, fichiers[cheminOrientation] ?? '', schemaOrientation, erreurs)
+    : null;
+  if (!cheminOrientation) {
+    erreurs.push({ fichier: 'referentiels/orientation.json', champ: '(racine)', message: 'fichier absent' });
+  }
 
   // Contrôle croisé : deux tranches ne doivent jamais se chevaucher.
   const triees = [...tranches].sort((a, b) => a.tranche.ageMin - b.tranche.ageMin);
@@ -106,6 +115,14 @@ export function chargerReferentiels(fichiers: Record<string, string>): ResultatC
         verifier(s.thematique, `ficheReperage.sections[${i}].thematique`);
         s.champs.forEach((c, j) => verifier(c.thematique, `ficheReperage.sections[${i}].champs[${j}].thematique`));
       });
+      t.conseilsPatient.items.forEach((c, i) => {
+        if (!ids.has(c.thematique)) erreurs.push({ fichier: `referentiels/${t.tranche.id}.json`, champ: `conseilsPatient.items[${i}].thematique`, message: `thématique "${c.thematique}" inconnue de scores.json` });
+      });
+      t.souhaitsPatient.correspondances.forEach((c, i) =>
+        c.thematiques.forEach((th, j) => {
+          if (!ids.has(th)) erreurs.push({ fichier: `referentiels/${t.tranche.id}.json`, champ: `souhaitsPatient.correspondances[${i}].thematiques[${j}]`, message: `thématique "${th}" inconnue de scores.json` });
+        }),
+      );
       // Les repères alcool de scores.json doivent être des options de la question liée.
       const q = t.autoquestionnaire.sections.flatMap((s) => s.questions).find((x) => x.id === t.liaisons.questionReperesAlcool);
       const options = q && 'options' in q ? q.options.map((o) => o.id) : [];
@@ -117,8 +134,15 @@ export function chargerReferentiels(fichiers: Record<string, string>): ResultatC
     }
   }
 
-  if (erreurs.length > 0 || !scores) return { ok: false, erreurs };
-  return { ok: true, tranches: triees, scores };
+  if (scores && orientation) {
+    const ids = new Set(scores.thematiques.items.map((t) => t.id));
+    for (const [th, champ] of thematiquesCitees(orientation)) {
+      if (!ids.has(th)) erreurs.push({ fichier: 'referentiels/orientation.json', champ, message: `thématique "${th}" inconnue de scores.json` });
+    }
+  }
+
+  if (erreurs.length > 0 || !scores || !orientation) return { ok: false, erreurs };
+  return { ok: true, tranches: triees, scores, orientation };
 }
 
 /** Lit les fichiers JSON du dossier referentiels/ embarqués au build (texte brut, parsé par chargerReferentiels). */
