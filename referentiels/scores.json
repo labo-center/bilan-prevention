@@ -1,0 +1,1139 @@
+{
+  "version": "0.3.0",
+  "dateValidation": null,
+  "sources": [
+    {
+      "id": "livret",
+      "document": "Mon Bilan Prévention - Livret de présentation",
+      "fichier": "docs/sources/Mon-bilan-prevention-livret-presentation.pdf"
+    },
+    {
+      "id": "fiches-thematiques",
+      "document": "Fiches thématiques synthétiques Mon Bilan Prévention",
+      "fichier": "docs/sources/fiches_thematiques_synthetiques_mon_bilan_prevention.pdf"
+    },
+    {
+      "id": "fiche-reperage-45-50",
+      "document": "Fiche d'aide au repérage des risques entre 45 et 50 ans",
+      "fichier": "docs/sources/Mon-bilan-prevention-aide-reperage-risques-45-50ans.pdf"
+    },
+    {
+      "id": "autoquestionnaire-45-50",
+      "document": "Autoquestionnaire Mon Bilan Prévention 45-50 ans",
+      "fichier": "docs/sources/Mon-bilan-prevention-autoquestionnaire-45-50ans.pdf"
+    }
+  ],
+  "thematiques": {
+    "source": {
+      "ref": "fiches-thematiques",
+      "page": "2",
+      "extrait": "Table des matières des 17 fiches thématiques synthétiques"
+    },
+    "items": [
+      {
+        "id": "alimentation",
+        "libelle": "Alimentation",
+        "pageFiche": 3
+      },
+      {
+        "id": "activite-physique",
+        "libelle": "Activité physique et sédentarité",
+        "pageFiche": 5
+      },
+      {
+        "id": "addictions",
+        "libelle": "Tabac, alcool et autres addictions",
+        "pageFiche": 7
+      },
+      {
+        "id": "bien-etre-mental-social",
+        "libelle": "Bien-être mental et social",
+        "pageFiche": 9
+      },
+      {
+        "id": "sommeil",
+        "libelle": "Sommeil",
+        "pageFiche": 11
+      },
+      {
+        "id": "cancers",
+        "libelle": "Prévention des cancers",
+        "pageFiche": 13
+      },
+      {
+        "id": "maladies-chroniques",
+        "libelle": "Prévention des autres maladies chroniques",
+        "pageFiche": 15
+      },
+      {
+        "id": "perte-autonomie",
+        "libelle": "Prévention de la perte d’autonomie",
+        "pageFiche": 17
+      },
+      {
+        "id": "bucco-dentaire",
+        "libelle": "Santé bucco-dentaire",
+        "pageFiche": 19
+      },
+      {
+        "id": "vaccinations",
+        "libelle": "Vaccinations",
+        "pageFiche": 21
+      },
+      {
+        "id": "sante-sexuelle",
+        "libelle": "Santé sexuelle",
+        "pageFiche": 23
+      },
+      {
+        "id": "menopause",
+        "libelle": "Ménopause",
+        "pageFiche": 25
+      },
+      {
+        "id": "violences",
+        "libelle": "Violences",
+        "pageFiche": 27
+      },
+      {
+        "id": "sante-environnement",
+        "libelle": "Santé et environnement",
+        "pageFiche": 29
+      },
+      {
+        "id": "acces-droits",
+        "libelle": "Accès aux droits",
+        "pageFiche": 31
+      },
+      {
+        "id": "sante-auditive",
+        "libelle": "Santé auditive",
+        "pageFiche": 33
+      },
+      {
+        "id": "chlordecone",
+        "libelle": "Chlordécone",
+        "pageFiche": 35
+      }
+    ]
+  },
+  "imc": {
+    "thematique": "alimentation",
+    "source": {
+      "ref": "livret",
+      "page": "11",
+      "extrait": "Repérer le surpoids, l’obésité, la dénutrition (pesée, taille, IMC) - aucun seuil fourni"
+    },
+    "decimales": 1,
+    "seuils": [
+      {
+        "max": 18.4,
+        "niveau": "orange",
+        "message": "Insuffisance pondérale",
+        "aVerifier": true
+      },
+      {
+        "max": 24.9,
+        "niveau": "aucun",
+        "message": "Corpulence normale",
+        "aVerifier": true
+      },
+      {
+        "max": 29.9,
+        "niveau": "orange",
+        "message": "Surpoids",
+        "aVerifier": true
+      },
+      {
+        "max": null,
+        "niveau": "orange",
+        "message": "Obésité",
+        "aVerifier": true
+      }
+    ],
+    "noteAVerifier": "Seuils OMS adulte, absents des documents fournis (HYP9) : à sourcer et valider par le pharmacien référent."
+  },
+  "pressionArterielle": {
+    "thematique": "maladies-chroniques",
+    "source": {
+      "ref": "livret",
+      "page": "29 et 41",
+      "extrait": "Annexe III : au minimum 2 mesures, la première fois aux deux bras (considérer le bras où la mesure est la plus haute). Annexe VI, maladies chroniques : conduite à tenir"
+    },
+    "mesuresMin": 2,
+    "seuils": [
+      {
+        "systolique": 180,
+        "diastolique": 110,
+        "niveau": "rouge",
+        "bloquant": true,
+        "message": "Si PA ≥ 180/110 mm Hg, orienter vers les urgences"
+      },
+      {
+        "systolique": 140,
+        "diastolique": 90,
+        "niveau": "orange",
+        "bloquant": false,
+        "message": "Si PA ≥ 140/90 mmHg, orienter vers le médecin traitant pour confirmation"
+      }
+    ]
+  },
+  "reperesAlcool": {
+    "thematique": "addictions",
+    "source": {
+      "ref": "autoquestionnaire-45-50",
+      "page": "3",
+      "extrait": "Q33 - Au cours de l’année écoulée, concernant votre consommation de boissons alcoolisées (livret p. 32 : repères dépassés → évaluation du risque)"
+    },
+    "reperes": [
+      {
+        "id": "plus2ParJour",
+        "libelle": "Vous buvez plus de 2 verres standards par jour"
+      },
+      {
+        "id": "plus10ParSemaine",
+        "libelle": "Vous buvez plus de 10 verres standards par semaine"
+      },
+      {
+        "id": "moins2JoursSans",
+        "libelle": "Vous ne buvez pas de boissons alcoolisées au moins 2 jours dans la semaine"
+      }
+    ],
+    "siDepasse": {
+      "niveau": "orange",
+      "message": "Repères de consommation dépassés : évaluation du risque (questionnaire FACE)"
+    }
+  },
+  "face": {
+    "thematique": "addictions",
+    "source": {
+      "ref": "livret",
+      "page": "32",
+      "extrait": "Questionnaire FACE (Formule pour approcher la consommation d’alcool par entretien)"
+    },
+    "items": [
+      {
+        "id": "q1",
+        "libelle": "À quelle fréquence consommez-vous des boissons contenant de l’alcool ?",
+        "options": [
+          {
+            "libelle": "Jamais",
+            "points": 0
+          },
+          {
+            "libelle": "Une fois par mois ou moins",
+            "points": 1
+          },
+          {
+            "libelle": "Deux à 4 fois par mois",
+            "points": 2
+          },
+          {
+            "libelle": "Deux à 3 fois par semaine",
+            "points": 3
+          },
+          {
+            "libelle": "Quatre fois par semaine ou plus",
+            "points": 4
+          }
+        ]
+      },
+      {
+        "id": "q2",
+        "libelle": "Combien de verres standard buvez-vous, les jours où vous buvez de l’alcool ?",
+        "options": [
+          {
+            "libelle": "1 ou 2",
+            "points": 0
+          },
+          {
+            "libelle": "3 ou 4",
+            "points": 1
+          },
+          {
+            "libelle": "5 ou 6",
+            "points": 2
+          },
+          {
+            "libelle": "7 à 9",
+            "points": 3
+          },
+          {
+            "libelle": "10 ou plus",
+            "points": 4
+          }
+        ]
+      },
+      {
+        "id": "q3",
+        "libelle": "Est-ce que votre entourage vous a fait des remarques concernant votre consommation d’alcool ?",
+        "options": [
+          {
+            "libelle": "Non",
+            "points": 0
+          },
+          {
+            "libelle": "Oui",
+            "points": 4
+          }
+        ]
+      },
+      {
+        "id": "q4",
+        "libelle": "Vous est-il arrivé de consommer de l’alcool le matin pour vous sentir en forme ?",
+        "options": [
+          {
+            "libelle": "Non",
+            "points": 0
+          },
+          {
+            "libelle": "Oui",
+            "points": 4
+          }
+        ]
+      },
+      {
+        "id": "q5",
+        "libelle": "Vous est-il arrivé de boire et de ne plus vous souvenir le matin de ce que vous avez pu dire ou faire ?",
+        "options": [
+          {
+            "libelle": "Non",
+            "points": 0
+          },
+          {
+            "libelle": "Oui",
+            "points": 4
+          }
+        ]
+      }
+    ],
+    "seuilsParGenre": {
+      "H": [
+        {
+          "max": 4,
+          "niveau": "info",
+          "message": "Risque faible ou nul : renforcement des conduites favorables à la santé"
+        },
+        {
+          "max": 8,
+          "niveau": "orange",
+          "message": "Consommation excessive probable : intervention brève"
+        },
+        {
+          "max": 20,
+          "niveau": "rouge",
+          "message": "Dépendance probable : proposer une consultation d’addictologie"
+        }
+      ],
+      "F": [
+        {
+          "max": 3,
+          "niveau": "info",
+          "message": "Risque faible ou nul : renforcement des conduites favorables à la santé"
+        },
+        {
+          "max": 8,
+          "niveau": "orange",
+          "message": "Consommation excessive probable : intervention brève"
+        },
+        {
+          "max": 20,
+          "niveau": "rouge",
+          "message": "Dépendance probable : proposer une consultation d’addictologie"
+        }
+      ]
+    },
+    "genreNonRenseigne": {
+      "appliquer": "F",
+      "message": "Genre non renseigné : seuils femmes appliqués (les plus protecteurs)",
+      "origine": "Règle de prudence du PRD §6.2, non issue des documents officiels"
+    }
+  },
+  "fagerstrom": {
+    "thematique": "addictions",
+    "source": {
+      "ref": "livret",
+      "page": "33",
+      "extrait": "Test de Fagerström simplifié en deux questions"
+    },
+    "items": [
+      {
+        "id": "cigarettesParJour",
+        "libelle": "Combien de cigarettes, fumez-vous par jour ?",
+        "options": [
+          {
+            "libelle": "10 ou moins",
+            "points": 0,
+            "min": 0,
+            "max": 10
+          },
+          {
+            "libelle": "11 à 20",
+            "points": 1,
+            "min": 11,
+            "max": 20
+          },
+          {
+            "libelle": "21 à 30",
+            "points": 2,
+            "min": 21,
+            "max": 30
+          },
+          {
+            "libelle": "31 ou plus",
+            "points": 3,
+            "min": 31
+          }
+        ]
+      },
+      {
+        "id": "delaiPremiereCigarette",
+        "libelle": "Dans quel délai, après le réveil, fumez-vous votre première cigarette ?",
+        "options": [
+          {
+            "libelle": "Moins de 5 minutes",
+            "points": 3
+          },
+          {
+            "libelle": "6 à 30 minutes",
+            "points": 2
+          },
+          {
+            "libelle": "31 à 60 minutes",
+            "points": 1
+          },
+          {
+            "libelle": "Après plus d’1 heure",
+            "points": 0
+          }
+        ]
+      }
+    ],
+    "seuils": [
+      {
+        "max": 1,
+        "niveau": "info",
+        "message": "Pas de dépendance"
+      },
+      {
+        "max": 3,
+        "niveau": "orange",
+        "message": "Dépendance modérée"
+      },
+      {
+        "max": 6,
+        "niveau": "rouge",
+        "message": "Dépendance forte"
+      }
+    ]
+  },
+  "cast": {
+    "thematique": "addictions",
+    "source": {
+      "ref": "livret",
+      "page": "33",
+      "extrait": "Questionnaire CAST (Cannabis Abuse Screening Test)"
+    },
+    "items": [
+      {
+        "id": "q1",
+        "libelle": "Avez-vous déjà fumé du cannabis avant midi ?"
+      },
+      {
+        "id": "q2",
+        "libelle": "Avez-vous déjà fumé du cannabis lorsque vous étiez seul(e) ?"
+      },
+      {
+        "id": "q3",
+        "libelle": "Avez-vous déjà eu des problèmes de mémoire quand vous fumez du cannabis ?"
+      },
+      {
+        "id": "q4",
+        "libelle": "Des amis ou des membres de votre famille vous ont-ils déjà dit que vous devriez réduire votre consommation de cannabis ?"
+      },
+      {
+        "id": "q5",
+        "libelle": "Avez-vous déjà essayé de réduire ou d’arrêter votre consommation de cannabis sans y parvenir ?"
+      },
+      {
+        "id": "q6",
+        "libelle": "Avez-vous déjà eu des problèmes à cause de votre consommation de cannabis (dispute, bagarre, accident, mauvais résultat à l’école...) ?"
+      }
+    ],
+    "seuils": [
+      {
+        "max": 0,
+        "niveau": "aucun",
+        "message": "Aucune réponse positive"
+      },
+      {
+        "max": 1,
+        "niveau": "info",
+        "message": "Une réponse positive : information minimale sur les risques"
+      },
+      {
+        "max": 2,
+        "niveau": "orange",
+        "message": "Deux réponses positives : intervention brève"
+      },
+      {
+        "max": 6,
+        "niveau": "rouge",
+        "message": "Trois réponses positives ou plus : proposer une consultation d’addictologie"
+      }
+    ]
+  },
+  "adrs": {
+    "thematique": "bien-etre-mental-social",
+    "source": {
+      "ref": "livret",
+      "page": "34",
+      "extrait": "Échelle ADRS, personnes âgées de 18 à 20 ans ; score = nombre de réponses « vrai »"
+    },
+    "applicabilite": {
+      "ageMin": 18,
+      "ageMax": 20
+    },
+    "items": [
+      {
+        "id": "q1",
+        "libelle": "Je n’ai pas d’énergie pour l’école, pour le travail."
+      },
+      {
+        "id": "q2",
+        "libelle": "J’ai du mal à réfléchir."
+      },
+      {
+        "id": "q3",
+        "libelle": "Je sens que la tristesse, le cafard me débordent en ce moment."
+      },
+      {
+        "id": "q4",
+        "libelle": "Il n’y a rien qui m’intéresse, plus rien qui m’amuse."
+      },
+      {
+        "id": "q5",
+        "libelle": "Ce que je fais ne sert à rien."
+      },
+      {
+        "id": "q6",
+        "libelle": "Au fond, quand c’est comme ça, j’ai envie de mourir."
+      },
+      {
+        "id": "q7",
+        "libelle": "Je ne supporte pas grand-chose."
+      },
+      {
+        "id": "q8",
+        "libelle": "Je me sens découragé(e)."
+      },
+      {
+        "id": "q9",
+        "libelle": "Je dors très mal."
+      },
+      {
+        "id": "q10",
+        "libelle": "À l’école, au boulot, je n’y arrive pas."
+      }
+    ],
+    "seuils": [
+      {
+        "max": 3,
+        "niveau": "aucun",
+        "message": "Absence de souffrance psychologique"
+      },
+      {
+        "max": 6,
+        "niveau": "orange",
+        "message": "État de souffrance psychologique"
+      },
+      {
+        "max": 10,
+        "niveau": "rouge",
+        "message": "État de dépression"
+      }
+    ]
+  },
+  "had": {
+    "thematique": "bien-etre-mental-social",
+    "source": {
+      "ref": "livret",
+      "page": "34-35",
+      "extrait": "Échelle HAD, personnes à partir de 20 ans ; A = items impairs, D = items pairs"
+    },
+    "applicabilite": {
+      "ageMin": 20
+    },
+    "items": [
+      {
+        "id": "q1",
+        "dimension": "A",
+        "libelle": "Je me sens tendu(e) ou énervé(e)",
+        "options": [
+          {
+            "libelle": "La plupart du temps",
+            "points": 3
+          },
+          {
+            "libelle": "Souvent",
+            "points": 2
+          },
+          {
+            "libelle": "De temps en temps",
+            "points": 1
+          },
+          {
+            "libelle": "Jamais",
+            "points": 0
+          }
+        ]
+      },
+      {
+        "id": "q2",
+        "dimension": "D",
+        "libelle": "Je prends plaisir aux mêmes choses qu’autrefois",
+        "options": [
+          {
+            "libelle": "Oui, tout autant",
+            "points": 0
+          },
+          {
+            "libelle": "Pas autant",
+            "points": 1
+          },
+          {
+            "libelle": "Un peu seulement",
+            "points": 2
+          },
+          {
+            "libelle": "Presque plus",
+            "points": 3
+          }
+        ]
+      },
+      {
+        "id": "q3",
+        "dimension": "A",
+        "libelle": "J’ai une sensation de peur comme si quelque chose d’horrible allait m’arriver",
+        "options": [
+          {
+            "libelle": "Oui, très nettement",
+            "points": 3
+          },
+          {
+            "libelle": "Oui, mais ce n’est pas trop grave",
+            "points": 2
+          },
+          {
+            "libelle": "Un peu, mais cela ne m’inquiète pas",
+            "points": 1
+          },
+          {
+            "libelle": "Pas du tout",
+            "points": 0
+          }
+        ]
+      },
+      {
+        "id": "q4",
+        "dimension": "D",
+        "libelle": "Je ris facilement et vois le bon côté des choses",
+        "options": [
+          {
+            "libelle": "Autant que par le passé",
+            "points": 0
+          },
+          {
+            "libelle": "Plus autant qu’avant",
+            "points": 1
+          },
+          {
+            "libelle": "Vraiment moins qu’avant",
+            "points": 2
+          },
+          {
+            "libelle": "Plus du tout",
+            "points": 3
+          }
+        ]
+      },
+      {
+        "id": "q5",
+        "dimension": "A",
+        "libelle": "Je me fais du souci",
+        "options": [
+          {
+            "libelle": "Très souvent",
+            "points": 3
+          },
+          {
+            "libelle": "Assez souvent",
+            "points": 2
+          },
+          {
+            "libelle": "Occasionnellement",
+            "points": 1
+          },
+          {
+            "libelle": "Très occasionnellement",
+            "points": 0
+          }
+        ]
+      },
+      {
+        "id": "q6",
+        "dimension": "D",
+        "libelle": "Je suis de bonne humeur",
+        "options": [
+          {
+            "libelle": "Jamais",
+            "points": 3
+          },
+          {
+            "libelle": "Rarement",
+            "points": 2
+          },
+          {
+            "libelle": "Assez souvent",
+            "points": 1
+          },
+          {
+            "libelle": "La plupart du temps",
+            "points": 0
+          }
+        ]
+      },
+      {
+        "id": "q7",
+        "dimension": "A",
+        "libelle": "Je peux rester tranquillement assis(e) à ne rien faire et me sentir décontracté(e)",
+        "options": [
+          {
+            "libelle": "Oui, quoi qu’il arrive",
+            "points": 0
+          },
+          {
+            "libelle": "Oui, en général",
+            "points": 1
+          },
+          {
+            "libelle": "Rarement",
+            "points": 2
+          },
+          {
+            "libelle": "Jamais",
+            "points": 3
+          }
+        ]
+      },
+      {
+        "id": "q8",
+        "dimension": "D",
+        "libelle": "J’ai l’impression de fonctionner au ralenti",
+        "options": [
+          {
+            "libelle": "Presque toujours",
+            "points": 3
+          },
+          {
+            "libelle": "Très souvent",
+            "points": 2
+          },
+          {
+            "libelle": "Parfois",
+            "points": 1
+          },
+          {
+            "libelle": "Jamais",
+            "points": 0
+          }
+        ]
+      },
+      {
+        "id": "q9",
+        "dimension": "A",
+        "libelle": "J’éprouve des sensations de peur et j’ai l’estomac noué",
+        "options": [
+          {
+            "libelle": "Jamais",
+            "points": 0
+          },
+          {
+            "libelle": "Parfois",
+            "points": 1
+          },
+          {
+            "libelle": "Assez souvent",
+            "points": 2
+          },
+          {
+            "libelle": "Très souvent",
+            "points": 3
+          }
+        ]
+      },
+      {
+        "id": "q10",
+        "dimension": "D",
+        "libelle": "Je ne m’intéresse plus à mon apparence",
+        "options": [
+          {
+            "libelle": "Plus du tout",
+            "points": 3
+          },
+          {
+            "libelle": "Je n’y accorde pas autant d’attention que je devrais",
+            "points": 2
+          },
+          {
+            "libelle": "Il se peut que je n’y fasse plus autant attention",
+            "points": 1
+          },
+          {
+            "libelle": "J’y prête autant d’attention que par le passé",
+            "points": 0
+          }
+        ]
+      },
+      {
+        "id": "q11",
+        "dimension": "A",
+        "libelle": "J’ai la bougeotte et n’arrive pas à tenir en place",
+        "options": [
+          {
+            "libelle": "Oui, c’est tout à fait le cas",
+            "points": 3
+          },
+          {
+            "libelle": "Un peu",
+            "points": 2
+          },
+          {
+            "libelle": "Pas tellement",
+            "points": 1
+          },
+          {
+            "libelle": "Pas du tout",
+            "points": 0
+          }
+        ]
+      },
+      {
+        "id": "q12",
+        "dimension": "D",
+        "libelle": "Je me réjouis d’avance à l’idée de faire certaines choses",
+        "options": [
+          {
+            "libelle": "Autant qu’avant",
+            "points": 0
+          },
+          {
+            "libelle": "Un peu moins qu’avant",
+            "points": 1
+          },
+          {
+            "libelle": "Bien moins qu’avant",
+            "points": 2
+          },
+          {
+            "libelle": "Presque jamais",
+            "points": 3
+          }
+        ]
+      },
+      {
+        "id": "q13",
+        "dimension": "A",
+        "libelle": "J’éprouve des sensations soudaines de panique",
+        "options": [
+          {
+            "libelle": "Vraiment très souvent",
+            "points": 3
+          },
+          {
+            "libelle": "Assez souvent",
+            "points": 2
+          },
+          {
+            "libelle": "Pas très souvent",
+            "points": 1
+          },
+          {
+            "libelle": "Jamais",
+            "points": 0
+          }
+        ]
+      },
+      {
+        "id": "q14",
+        "dimension": "D",
+        "libelle": "Je peux prendre plaisir à un bon livre ou à une bonne émission de radio ou de télévision",
+        "options": [
+          {
+            "libelle": "Souvent",
+            "points": 0
+          },
+          {
+            "libelle": "Parfois",
+            "points": 1
+          },
+          {
+            "libelle": "Rarement",
+            "points": 2
+          },
+          {
+            "libelle": "Très rarement",
+            "points": 3
+          }
+        ]
+      }
+    ],
+    "dimensions": [
+      {
+        "id": "A",
+        "libelle": "Anxiété (total A)"
+      },
+      {
+        "id": "D",
+        "libelle": "Dépression (total D)"
+      }
+    ],
+    "seuils": [
+      {
+        "max": 7,
+        "niveau": "aucun",
+        "message": "Absence de symptomatologie"
+      },
+      {
+        "max": 10,
+        "niveau": "orange",
+        "message": "Symptomatologie douteuse"
+      },
+      {
+        "max": 21,
+        "niveau": "rouge",
+        "message": "Symptomatologie certaine"
+      }
+    ],
+    "complement": "Selon les résultats, il sera peut-être nécessaire de demander un avis spécialisé."
+  },
+  "icope": {
+    "thematique": "perte-autonomie",
+    "source": {
+      "ref": "livret",
+      "page": "30-31",
+      "extrait": "Annexe III §4 : questionnaire de la première étape du programme ICOPE"
+    },
+    "motsARetenir": [
+      "citron",
+      "clé",
+      "ballon"
+    ],
+    "questionsOrientation": [
+      "Année",
+      "Jour de la semaine",
+      "Mois",
+      "Jour du mois"
+    ],
+    "domaines": [
+      {
+        "id": "cognition",
+        "libelle": "Cognition",
+        "critere": "Au moins un mot non rappelé ou une réponse d’orientation temporo-spatiale erronée",
+        "aVerifier": true
+      },
+      {
+        "id": "nutrition",
+        "libelle": "Nutrition",
+        "critere": "Perte de poids involontaire d’au moins 3 kg en 3 mois ou perte d’appétit récente",
+        "aVerifier": true
+      },
+      {
+        "id": "vision",
+        "libelle": "Vision",
+        "critere": "Réponse « oui » à « Avez-vous des problèmes avec vos yeux ? »",
+        "aVerifier": true
+      },
+      {
+        "id": "audition",
+        "libelle": "Audition",
+        "critere": "Au moins une oreille incapable de répéter les mots chuchotés",
+        "aVerifier": true
+      },
+      {
+        "id": "psychologie",
+        "libelle": "Psychologie",
+        "critere": "Au moins une réponse « oui » aux deux questions sur les deux dernières semaines",
+        "aVerifier": true
+      },
+      {
+        "id": "mobilite",
+        "libelle": "Mobilité",
+        "critere": "Cinq levers non réalisés ou réalisés en 14 secondes ou plus (normal si 5 levers en moins de 14 secondes)",
+        "aVerifier": false
+      }
+    ],
+    "mobiliteSecondesMax": 14,
+    "siPositif": {
+      "niveau": "orange",
+      "message": "Domaine positif : orientation vers le médecin traitant",
+      "aVerifier": true
+    },
+    "noteAVerifier": "Le livret liste les questions ICOPE mais ne définit explicitement que le critère de mobilité (< 14 s). Les autres critères et l’orientation sont ceux du PRD §6.2."
+  },
+  "amsler": {
+    "thematique": "maladies-chroniques",
+    "source": {
+      "ref": "livret",
+      "page": "29",
+      "extrait": "Test d’Amsler (dépistage DMLA), proposé après 60 ans"
+    },
+    "siAnormal": {
+      "niveau": "rouge",
+      "message": "Lignes déformées, ondulées ou taches sombres : orienter rapidement vers un ophtalmologue (moins d’une semaine)"
+    },
+    "applicabilite": {
+      "ageMin": 61,
+      "extrait": "Livret p. 11 : « + grille d’Amsler si > 60 ans » ; à 60 ans révolus, le test n’est pas proposé"
+    }
+  },
+  "polymedication": {
+    "thematique": "maladies-chroniques",
+    "source": {
+      "ref": "livret",
+      "page": "41",
+      "extrait": "Annexe VI, maladies chroniques : si polymédication (> 10 traitements), informer le médecin traitant"
+    },
+    "nombreTraitementsMax": 10,
+    "siDepasse": {
+      "niveau": "orange",
+      "message": "Polymédication (> 10 traitements) : informer le médecin traitant"
+    }
+  },
+  "ideesSuicidaires": {
+    "source": {
+      "ref": "livret",
+      "page": "43",
+      "extrait": "Annexe VI, bien-être mental et social : numéro national de prévention du suicide"
+    },
+    "siCoche": {
+      "niveau": "rouge",
+      "message": "Numéro national de prévention du suicide, en cas d’idées noires ou d’idées suicidaires : 31 14",
+      "thematique": "bien-etre-mental-social"
+    }
+  },
+  "medecinTraitant": {
+    "thematique": "acces-droits",
+    "source": {
+      "ref": "fiche-reperage-45-50",
+      "page": "1",
+      "extrait": "Situation personnelle : Médecin traitant"
+    },
+    "siAbsent": {
+      "niveau": "info",
+      "message": "Si pas de médecin traitant, signaler, avec l’accord du patient, la situation à la CPAM"
+    }
+  },
+  "depistages": {
+    "thematique": "cancers",
+    "source": {
+      "ref": "fiches-thematiques",
+      "page": "14",
+      "extrait": "Prévention et dépistage des cancers : personnes à risque moyen, élevé et très élevé"
+    },
+    "sourceLibelles": {
+      "ref": "fiche-reperage-45-50",
+      "page": "2",
+      "extrait": "Explorations complémentaires souhaitables"
+    },
+    "organises": [
+      {
+        "id": "colorectal",
+        "genres": [
+          "H",
+          "F"
+        ],
+        "ageMin": 50,
+        "ageMax": 74,
+        "libelle": "Test de dépistage organisé du cancer colorectal",
+        "modalite": "Test de recherche de sang dans les selles dans le cadre du dépistage organisé"
+      },
+      {
+        "id": "sein",
+        "genres": [
+          "F"
+        ],
+        "ageMin": 50,
+        "ageMax": 74,
+        "libelle": "Mammographie de dépistage organisé du cancer du sein",
+        "modalite": "Mammographie tous les 2 ans dans le cadre du dépistage organisé"
+      },
+      {
+        "id": "col",
+        "genres": [
+          "F"
+        ],
+        "ageMin": 25,
+        "ageMax": 65,
+        "libelle": "Dépistage du cancer du col de l’utérus",
+        "modalite": "Dépistage recommandé chez les femmes âgées de 25 à 65 ans"
+      }
+    ],
+    "risqueEleve": [
+      {
+        "id": "colorectal",
+        "genres": [
+          "H",
+          "F"
+        ],
+        "libelle": "Dépistage du cancer colorectal chez un patient à risque élevé/très élevé",
+        "modalite": "Orientation vers un gastro-entérologue pour une coloscopie"
+      },
+      {
+        "id": "sein",
+        "genres": [
+          "F"
+        ],
+        "libelle": "Dépistage du cancer du sein chez un patient à risque élevé/très élevé",
+        "modalite": "Suivi spécifique selon le niveau de risque (voir fiche thématique)"
+      }
+    ],
+    "genreNonRenseigne": "Genre non renseigné : dépistage proposé si la personne est concernée"
+  },
+  "facturation": {
+    "source": {
+      "ref": "livret",
+      "page": "21",
+      "extrait": "§4.2 Quel tarif ? Quelles modalités de facturation ?"
+    },
+    "acteBilan": {
+      "code": "RDP",
+      "libelle": "Bilan Prévention (pharmacien)",
+      "montantEuros": 30,
+      "rappel": "Ne peut être facturé qu’une seule fois par personne, par tranche d’âge"
+    },
+    "actesComplementaires": [
+      {
+        "code": "RVA",
+        "libelle": "Acte de vaccination"
+      },
+      {
+        "code": "DOCCR",
+        "libelle": "Remise du kit DOCCR"
+      }
+    ],
+    "maxActesComplementaires": 1,
+    "messageDepassement": "1 seul acte complémentaire facturable par Bilan Prévention"
+  },
+  "dureeEntretien": {
+    "source": {
+      "ref": "livret",
+      "page": "3",
+      "extrait": "§1.1 : temps d’échange d’une durée prévue de 30 à 45 minutes"
+    },
+    "reperesMinutes": [
+      30,
+      45
+    ]
+  }
+}

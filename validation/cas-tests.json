@@ -1,0 +1,257 @@
+{
+  "version": "1.0.0",
+  "dateRdv": "2026-11-13",
+  "note": "Cas complets de non-régression : résultats attendus établis par le concepteur à partir des grilles du livret (annexes III et VI) et des fiches thématiques, indépendamment du code. Le pharmacien référent valide les règles (dossier de validation, partie A) ; l’exactitude du calcul est vérifiée par la comparaison exhaustive à une seconde transcription (oracle.test.ts).",
+  "cas": [
+    {
+      "id": "C01", "tranche": "45-50", "objet": "Femme 47 ans : IMC en surpoids, PA ≥ 140/90, FACE femme 4 (seuil), rôle d’aidant déclaré",
+      "ouverture": { "dateNaissance": "1979-05-10", "genre": "F" },
+      "autoquestionnaire": { "Q4": "oui" },
+      "mesures": { "tailleM": 1.75, "poidsKg": 80, "pa": [["gauche", 145, 85], ["gauche", 145, 85]] },
+      "questionnaires": { "face": { "q1": 3, "q2": 1, "q3": 0, "q4": 0, "q5": 0 } },
+      "attendu": {
+        "age": 47, "trancheId": "45-50", "echelles": ["had"],
+        "imc": "26,1 - Surpoids", "pa": "145/85 - orange",
+        "face": "4 - Consommation excessive probable : intervention brève",
+        "depistages": ["col"], "alertesRouges": [], "ficheDeclaree": ["role-aidant"]
+      }
+    },
+    {
+      "id": "C02", "tranche": "45-50", "objet": "Homme 50 ans le jour du RDV (borne haute) : PA ≥ 180/110, FACE homme 5 (seuil), Fagerström 3",
+      "ouverture": { "dateNaissance": "1976-11-13", "genre": "H" },
+      "mesures": { "tailleM": 1.80, "poidsKg": 95, "pa": [["gauche", 182, 100], ["gauche", 182, 100]] },
+      "questionnaires": { "face": { "q1": 4, "q2": 1, "q3": 0, "q4": 0, "q5": 0 }, "fagerstrom": { "cigarettesParJour": 15, "delai": "6 à 30 minutes" } },
+      "attendu": {
+        "age": 50, "trancheId": "45-50",
+        "imc": "29,3 - Surpoids", "pa": "182/100 - rouge bloquante",
+        "face": "5 - Consommation excessive probable : intervention brève",
+        "fagerstrom": "3 - Dépendance modérée",
+        "depistages": ["colorectal"], "alertesRouges": ["pa"]
+      }
+    },
+    {
+      "id": "C03", "tranche": "45-50", "objet": "Femme 45 ans le jour du RDV (borne basse) : insuffisance pondérale, PA 139/89 (sous le seuil), HAD A 9 et D 12, idées suicidaires",
+      "ouverture": { "dateNaissance": "1981-11-13", "genre": "F" },
+      "autoquestionnaire": { "Q44": ["idees"] },
+      "mesures": { "tailleM": 1.60, "poidsKg": 47, "pa": [["droit", 139, 89], ["droit", 139, 89]] },
+      "questionnaires": { "had": [3, 3, 3, 3, 3, 3, 0, 3, 0, 0, 0, 0, 0, 0] },
+      "attendu": {
+        "age": 45, "imc": "18,4 - Insuffisance pondérale", "pa": "139/89 - aucune orientation",
+        "hadA": "9 - Symptomatologie douteuse", "hadD": "12 - Symptomatologie certaine",
+        "depistages": ["col"], "alertesRouges": ["had-D", "idees-suicidaires"], "ficheDeclaree": ["idees-suicidaires"]
+      }
+    },
+    {
+      "id": "C04", "tranche": "45-50", "objet": "Genre non renseigné, 48 ans : taille absente, PA sur deux bras, FACE 4 avec seuils femmes, CAST 3, polymédication, sans médecin traitant",
+      "ouverture": { "dateNaissance": "1978-03-02", "genre": "NSP" },
+      "fiche": { "nombre-traitements": 11, "medecin-traitant": "non" },
+      "mesures": { "poidsKg": 70, "pa": [["gauche", 130, 80], ["droit", 150, 92]] },
+      "questionnaires": { "face": { "q1": 2, "q2": 2, "q3": 0, "q4": 0, "q5": 0 }, "cast": [true, true, true, false, false, false] },
+      "attendu": {
+        "age": 48, "imc": "non calculable", "pa": "150/92 - orange",
+        "face": "4 - Consommation excessive probable : intervention brève", "faceSeuilsFemmesParDefaut": true,
+        "cast": "3 - Trois réponses positives ou plus : proposer une consultation d’addictologie",
+        "polymedication": true, "medecinTraitantAbsent": true,
+        "depistages": ["col (si concerné)"], "alertesRouges": ["cast"]
+      }
+    },
+    {
+      "id": "C05", "tranche": "45-50", "objet": "Homme 49 ans : repères alcool dépassés, FACE 9, Fagerström 6, CAST 2, PA moyenne 140/85, IMC 25,0, risque élevé colorectal",
+      "ouverture": { "dateNaissance": "1977-01-20", "genre": "H" },
+      "autoquestionnaire": { "Q33": ["plus10ParSemaine"] },
+      "fiche": { "expl-colorectal-risque": true },
+      "mesures": { "tailleM": 1.70, "poidsKg": 72.25, "pa": [["gauche", 138, 85], ["gauche", 142, 85]] },
+      "questionnaires": { "face": { "q1": 4, "q2": 1, "q3": 4, "q4": 0, "q5": 0 }, "fagerstrom": { "cigarettesParJour": 31, "delai": "Moins de 5 minutes" }, "cast": [true, true, false, false, false, false] },
+      "attendu": {
+        "age": 49, "imc": "25,0 - Surpoids", "pa": "140/85 - orange", "reperesAlcool": true,
+        "face": "9 - Dépendance probable : proposer une consultation d’addictologie",
+        "fagerstrom": "6 - Dépendance forte", "cast": "2 - Deux réponses positives : intervention brève",
+        "depistages": ["RE:colorectal"], "alertesRouges": ["face", "fagerstrom"], "ficheDeclaree": ["alcool"]
+      }
+    },
+    {
+      "id": "C06", "tranche": "18-25", "objet": "Femme 18 ans le jour du RDV (borne basse) : ADRS seule, ADRS 4 (seuil), binge drinking déclaré",
+      "ouverture": { "dateNaissance": "2008-11-13", "genre": "F" },
+      "autoquestionnaire": { "Q35": "oui" },
+      "mesures": { "tailleM": 1.65, "poidsKg": 58, "pa": [["gauche", 118, 72], ["gauche", 118, 72]] },
+      "questionnaires": { "adrs": [true, true, true, true, false, false, false, false, false, false] },
+      "attendu": {
+        "age": 18, "trancheId": "18-25", "echelles": ["adrs"],
+        "imc": "21,3 - Corpulence normale", "pa": "118/72 - aucune orientation",
+        "adrs": "4 - État de souffrance psychologique",
+        "depistages": [], "alertesRouges": [], "ficheDeclaree": ["binge-drinking"]
+      }
+    },
+    {
+      "id": "C07", "tranche": "18-25", "objet": "Homme 20 ans le jour du RDV : ADRS et HAD proposées, ADRS 7 (seuil), HAD A 8 et D 7 (seuils)",
+      "ouverture": { "dateNaissance": "2006-11-13", "genre": "H" },
+      "mesures": { "tailleM": 1.78, "poidsKg": 70, "pa": [["gauche", 125, 80], ["gauche", 125, 80]] },
+      "questionnaires": { "adrs": [true, true, true, true, true, true, true, false, false, false], "had": [3, 3, 3, 3, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0] },
+      "attendu": {
+        "age": 20, "echelles": ["adrs", "had"],
+        "adrs": "7 - État de dépression", "hadA": "8 - Symptomatologie douteuse", "hadD": "7 - Absence de symptomatologie",
+        "depistages": [], "alertesRouges": ["adrs"]
+      }
+    },
+    {
+      "id": "C08", "tranche": "18-25", "objet": "Femme 25 ans le jour du RDV (borne haute) : dépistage du col, IMC 18,4, PA 140/80, CAST 1, tentative de suicide déclarée",
+      "ouverture": { "dateNaissance": "2001-11-13", "genre": "F" },
+      "autoquestionnaire": { "Q45": ["tentative"] },
+      "mesures": { "tailleM": 1.68, "poidsKg": 52, "pa": [["gauche", 140, 80], ["gauche", 140, 80]] },
+      "questionnaires": { "cast": [true, false, false, false, false, false], "had": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] },
+      "attendu": {
+        "age": 25, "echelles": ["had"],
+        "imc": "18,4 - Insuffisance pondérale", "pa": "140/80 - orange",
+        "cast": "1 - Une réponse positive : information minimale sur les risques",
+        "hadA": "0 - Absence de symptomatologie", "hadD": "0 - Absence de symptomatologie",
+        "depistages": ["col"], "alertesRouges": [], "ficheDeclaree": ["antecedent-passage-acte"]
+      }
+    },
+    {
+      "id": "C09", "tranche": "18-25", "objet": "Homme 22 ans : FACE homme 4 (sous le seuil), Fagerström 0, protoxyde d’azote, PA 179/109 (sous l’urgence), idées suicidaires",
+      "ouverture": { "dateNaissance": "2004-05-10", "genre": "H" },
+      "autoquestionnaire": { "Q37": ["protoxyde"], "Q45": ["idees"] },
+      "mesures": { "tailleM": 1.80, "poidsKg": 75, "pa": [["gauche", 179, 109], ["gauche", 179, 109]] },
+      "questionnaires": { "face": { "q1": 2, "q2": 2, "q3": 0, "q4": 0, "q5": 0 }, "fagerstrom": { "cigarettesParJour": 10, "delai": "Après plus d’1 heure" } },
+      "attendu": {
+        "age": 22, "echelles": ["had"], "pa": "179/109 - orange",
+        "face": "4 - Risque faible ou nul : renforcement des conduites favorables à la santé",
+        "fagerstrom": "0 - Pas de dépendance",
+        "depistages": [], "alertesRouges": ["idees-suicidaires"], "ficheDeclaree": ["idees-suicidaires", "protoxyde"]
+      }
+    },
+    {
+      "id": "C10", "tranche": "18-25", "objet": "Femme 24 ans : FACE femme 3 (sous le seuil), HAD A 11 et D 10 (seuils), obésité",
+      "ouverture": { "dateNaissance": "2002-07-01", "genre": "F" },
+      "mesures": { "tailleM": 1.62, "poidsKg": 80, "pa": [["gauche", 110, 70], ["gauche", 110, 70]] },
+      "questionnaires": { "face": { "q1": 3, "q2": 0, "q3": 0, "q4": 0, "q5": 0 }, "had": [3, 3, 3, 3, 3, 3, 2, 1, 0, 0, 0, 0, 0, 0] },
+      "attendu": {
+        "age": 24, "imc": "30,5 - Obésité",
+        "face": "3 - Risque faible ou nul : renforcement des conduites favorables à la santé",
+        "hadA": "11 - Symptomatologie certaine", "hadD": "10 - Symptomatologie douteuse",
+        "depistages": [], "alertesRouges": ["had-A"]
+      }
+    },
+    {
+      "id": "C11", "tranche": "60-65", "objet": "Homme 60 ans le jour du RDV : pas de grille d’Amsler (> 60 ans), ICOPE entièrement normal",
+      "ouverture": { "dateNaissance": "1966-11-13", "genre": "H" },
+      "mesures": { "tailleM": 1.75, "poidsKg": 70, "pa": [["gauche", 120, 80], ["gauche", 120, 80]] },
+      "questionnaires": { "icope": {
+        "cognition": { "motsRappeles": [true, true, true], "orientationCorrecte": [true, true, true, true] },
+        "nutrition": { "perte3kgEn3Mois": false, "perteAppetit": false }, "vision": { "problemeYeux": false },
+        "audition": { "oreilleDroiteOk": true, "oreilleGaucheOk": true }, "psychologie": { "deprime": false, "perteInteret": false },
+        "mobilite": { "cinqLeversRealises": true, "tempsSecondes": 10 } } },
+      "attendu": {
+        "age": 60, "trancheId": "60-65", "echelles": ["had", "icope"],
+        "imc": "22,9 - Corpulence normale", "icopePositifs": [],
+        "depistages": ["colorectal"], "alertesRouges": []
+      }
+    },
+    {
+      "id": "C12", "tranche": "60-65", "objet": "Femme 61 ans : grille d’Amsler anormale, ICOPE vision positive, levers de chaise en 13,9 s (normal), PA 160/100",
+      "ouverture": { "dateNaissance": "1965-03-02", "genre": "F" },
+      "mesures": { "tailleM": 1.62, "poidsKg": 60, "pa": [["gauche", 160, 100], ["gauche", 160, 100]] },
+      "questionnaires": { "amsler": "anormal", "icope": { "vision": { "problemeYeux": true }, "mobilite": { "cinqLeversRealises": true, "tempsSecondes": 13.9 } } },
+      "attendu": {
+        "age": 61, "echelles": ["amsler", "had", "icope"], "pa": "160/100 - orange",
+        "icopePositifs": ["Vision"], "depistages": ["colorectal", "sein", "col"], "alertesRouges": ["amsler"]
+      }
+    },
+    {
+      "id": "C13", "tranche": "60-65", "objet": "Homme 63 ans : levers de chaise en 14 s (seuil), un mot non rappelé, PA 180/100, FACE homme 8 (seuil)",
+      "ouverture": { "dateNaissance": "1963-08-15", "genre": "H" },
+      "mesures": { "tailleM": 1.72, "poidsKg": 78, "pa": [["gauche", 180, 100], ["gauche", 180, 100]] },
+      "questionnaires": { "amsler": "normal", "face": { "q1": 4, "q2": 4, "q3": 0, "q4": 0, "q5": 0 },
+        "icope": { "cognition": { "motsRappeles": [true, false, true], "orientationCorrecte": [true, true, true, true] }, "mobilite": { "cinqLeversRealises": true, "tempsSecondes": 14 } } },
+      "attendu": {
+        "age": 63, "pa": "180/100 - rouge bloquante",
+        "face": "8 - Consommation excessive probable : intervention brève",
+        "icopePositifs": ["Cognition", "Mobilité"], "depistages": ["colorectal"], "alertesRouges": ["pa"]
+      }
+    },
+    {
+      "id": "C14", "tranche": "60-65", "objet": "Femme 65 ans le jour du RDV (borne haute) : 3 dépistages, HAD A 7 et D 8 (seuils), isolement déclaré, 10 traitements",
+      "ouverture": { "dateNaissance": "1961-11-13", "genre": "F" },
+      "autoquestionnaire": { "Q4": "non" },
+      "fiche": { "nombre-traitements": 10 },
+      "mesures": { "tailleM": 1.58, "poidsKg": 62, "pa": [["gauche", 135, 85], ["gauche", 135, 85]] },
+      "questionnaires": { "amsler": "normal", "had": [3, 3, 3, 3, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0] },
+      "attendu": {
+        "age": 65, "pa": "135/85 - aucune orientation",
+        "hadA": "7 - Absence de symptomatologie", "hadD": "8 - Symptomatologie douteuse",
+        "polymedication": false, "depistages": ["colorectal", "sein", "col"], "alertesRouges": [], "ficheDeclaree": ["isolement"]
+      }
+    },
+    {
+      "id": "C15", "tranche": "60-65", "objet": "Homme 64 ans : risque élevé colorectal, PA diastolique 110 (urgence), idées suicidaires, obésité",
+      "ouverture": { "dateNaissance": "1962-02-01", "genre": "H" },
+      "autoquestionnaire": { "Q49": ["idees"] },
+      "fiche": { "expl-colorectal-risque": true },
+      "mesures": { "tailleM": 1.80, "poidsKg": 105, "pa": [["gauche", 130, 110], ["gauche", 130, 110]] },
+      "attendu": {
+        "age": 64, "imc": "32,4 - Obésité", "pa": "130/110 - rouge bloquante",
+        "depistages": ["RE:colorectal"], "alertesRouges": ["idees-suicidaires", "pa"]
+      }
+    },
+    {
+      "id": "C16", "tranche": "70-75", "objet": "Femme 70 ans le jour du RDV : grands caractères, Amsler anormal, ICOPE audition positive, plus de dépistage du col",
+      "ouverture": { "dateNaissance": "1956-11-13", "genre": "F" },
+      "mesures": { "tailleM": 1.60, "poidsKg": 58, "pa": [["gauche", 128, 78], ["gauche", 128, 78]] },
+      "questionnaires": { "amsler": "anormal", "icope": { "audition": { "oreilleDroiteOk": true, "oreilleGaucheOk": false } } },
+      "attendu": {
+        "age": 70, "trancheId": "70-75", "theme": "contraste", "echelles": ["amsler", "had", "icope"],
+        "icopePositifs": ["Audition"], "depistages": ["colorectal", "sein"], "alertesRouges": ["amsler"]
+      }
+    },
+    {
+      "id": "C17", "tranche": "70-75", "objet": "Homme 75 ans le jour du RDV (borne haute) : plus de dépistage organisé, PA 150/85, FACE 9",
+      "ouverture": { "dateNaissance": "1951-11-13", "genre": "H" },
+      "mesures": { "tailleM": 1.70, "poidsKg": 60, "pa": [["gauche", 150, 85], ["gauche", 150, 85]] },
+      "questionnaires": { "face": { "q1": 4, "q2": 1, "q3": 4, "q4": 0, "q5": 0 }, "icope": {
+        "cognition": { "motsRappeles": [true, true, true], "orientationCorrecte": [true, true, true, true] },
+        "nutrition": { "perte3kgEn3Mois": false, "perteAppetit": false }, "vision": { "problemeYeux": false },
+        "audition": { "oreilleDroiteOk": true, "oreilleGaucheOk": true }, "psychologie": { "deprime": false, "perteInteret": false },
+        "mobilite": { "cinqLeversRealises": true, "tempsSecondes": 12 } } },
+      "attendu": {
+        "age": 75, "imc": "20,8 - Corpulence normale", "pa": "150/85 - orange",
+        "face": "9 - Dépendance probable : proposer une consultation d’addictologie",
+        "icopePositifs": [], "depistages": [], "alertesRouges": ["face"]
+      }
+    },
+    {
+      "id": "C18", "tranche": "70-75", "objet": "Femme 72 ans : idées suicidaires (case hors fiche officielle), difficulté à marcher, logement non adapté aux chutes, ICOPE nutrition positive",
+      "ouverture": { "dateNaissance": "1954-05-10", "genre": "F" },
+      "autoquestionnaire": { "Q25": ["marcher"], "Q32": "non", "Q50": ["idees"] },
+      "mesures": { "tailleM": 1.55, "poidsKg": 50, "pa": [["gauche", 130, 80], ["gauche", 130, 80]] },
+      "questionnaires": { "icope": { "nutrition": { "perte3kgEn3Mois": true } } },
+      "attendu": {
+        "age": 72, "icopePositifs": ["Nutrition"], "depistages": ["colorectal", "sein"],
+        "alertesRouges": ["idees-suicidaires"], "ficheDeclaree": ["idees-suicidaires", "perte-autonomie", "risque-chute"]
+      }
+    },
+    {
+      "id": "C19", "tranche": "70-75", "objet": "Genre non renseigné, 74 ans : dépistages « si concerné », FACE 4 avec seuils femmes, CAST 0, Fagerström 3",
+      "ouverture": { "dateNaissance": "1952-06-01", "genre": "NSP" },
+      "mesures": { "tailleM": 1.65, "poidsKg": 65, "pa": [["gauche", 125, 80], ["gauche", 125, 80]] },
+      "questionnaires": { "face": { "q1": 1, "q2": 3, "q3": 0, "q4": 0, "q5": 0 }, "cast": [false, false, false, false, false, false], "fagerstrom": { "cigarettesParJour": 21, "delai": "31 à 60 minutes" } },
+      "attendu": {
+        "age": 74, "face": "4 - Consommation excessive probable : intervention brève", "faceSeuilsFemmesParDefaut": true,
+        "cast": "0 - Aucune réponse positive", "fagerstrom": "3 - Dépendance modérée",
+        "depistages": ["colorectal", "sein (si concerné)"], "alertesRouges": []
+      }
+    },
+    {
+      "id": "C20", "tranche": "70-75", "objet": "Homme 73 ans : PA sur deux bras (bras le plus sévère retenu), HAD D 11, polymédication, sans médecin traitant",
+      "ouverture": { "dateNaissance": "1953-03-20", "genre": "H" },
+      "fiche": { "nombre-traitements": 12, "medecin-traitant": "non" },
+      "mesures": { "tailleM": 1.74, "poidsKg": 74, "pa": [["gauche", 178, 108], ["gauche", 178, 108], ["droit", 181, 95]] },
+      "questionnaires": { "had": [0, 3, 0, 3, 0, 3, 0, 2, 0, 0, 0, 0, 0, 0] },
+      "attendu": {
+        "age": 73, "pa": "181/95 - rouge bloquante",
+        "hadA": "0 - Absence de symptomatologie", "hadD": "11 - Symptomatologie certaine",
+        "polymedication": true, "medecinTraitantAbsent": true,
+        "depistages": ["colorectal"], "alertesRouges": ["had-D", "pa"]
+      }
+    }
+  ]
+}
