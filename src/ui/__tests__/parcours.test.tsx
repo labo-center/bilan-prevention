@@ -34,7 +34,7 @@ describe('Autoquestionnaire (M2)', () => {
     const tranche = tranche4550Reelle();
     for (const q of tranche.autoquestionnaire.sections.flatMap((s) => s.questions)) {
       if (q.afficherSi) continue;
-      const titre = `${q.id === 'Q46bis' ? 'Q46 bis' : q.id} - ${q.libelle}`;
+      const titre = `${q.id.replace('bis', ' bis')} - ${q.libelle}`;
       expect(screen.getAllByText(titre, { exact: true }).length, titre).toBeGreaterThan(0);
     }
     expect(within(question('Q4')).getByText('Aidez-vous une personne de manière régulière et fréquente, en raison de son âge, de la maladie ou d’une situation de handicap ?')).toBeTruthy();

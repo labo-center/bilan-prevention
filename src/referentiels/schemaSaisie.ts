@@ -46,6 +46,8 @@ const baseChamp = {
   thematique: id.optional(),
   /** Questions de l'autoquestionnaire dont les réponses sont rappelées à côté du champ. */
   reponsesAssociees: z.array(id).min(1).optional(),
+  /** Champ absent de la fiche officielle, ajouté par l'outil (motif dans `aide`) ; signalé à l'écran. */
+  horsFicheOfficielle: z.boolean().optional(),
 };
 
 const champ = z.discriminatedUnion('type', [
@@ -69,7 +71,7 @@ const champ = z.discriminatedUnion('type', [
     .object({
       ...baseChamp,
       type: z.literal('calcule'),
-      lien: z.enum(['session.dateRdv', 'session.age', 'session.genre', 'tests.pa', 'tests.had', 'tests.face', 'tests.fagerstrom', 'tests.cast']),
+      lien: z.enum(['session.dateRdv', 'session.age', 'session.genre', 'tests.pa', 'tests.had', 'tests.face', 'tests.fagerstrom', 'tests.cast', 'tests.amsler']),
     })
     .strict(),
 ]);
@@ -190,6 +192,9 @@ export function verifierCoherenceSaisie(
 
   ref.ficheReperage.sections.forEach((s, i) =>
     s.champs.forEach((c, j) => {
+      if (c.horsFicheOfficielle && !c.aide) {
+        ctx.addIssue({ code: 'custom', path: ['ficheReperage', 'sections', i, 'champs', j, 'aide'], message: 'motif obligatoire pour un champ hors fiche officielle' });
+      }
       for (const q of c.reponsesAssociees ?? []) {
         if (!questions.has(q)) {
           ctx.addIssue({ code: 'custom', path: ['ficheReperage', 'sections', i, 'champs', j, 'reponsesAssociees'], message: `question "${q}" inexistante` });

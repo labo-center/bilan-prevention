@@ -66,3 +66,26 @@ describe('Export PDF (M14)', () => {
     expect(pages[1]).toContain('INCOMPLET');
   }, 30000);
 });
+
+describe('Export PDF des autres tranches', () => {
+  it('70-75 : fiche (avec ICOPE) et PPP rendus, version 70-75 en pied de page', async () => {
+    const { trancheReelle, scoresReels, orientationReelle } = await import('../../referentiels/__tests__/fixtures');
+    const { creerSession, reduireSession } = await import('../../logic/session');
+    const { evaluerSession } = await import('../../logic/evaluation');
+    const { construireDocument } = await import('../../logic/document');
+    const tranche = trancheReelle('70-75');
+    const scores = scoresReels();
+    let s = creerSession({ dateRdv: '2026-11-13', dateNaissance: '1954-01-01', genre: 'F', age: 72, trancheId: '70-75' });
+    for (const a of [
+      { type: 'repondre', question: 'Q50', valeur: ['idees'] },
+      { type: 'icope', saisie: { mobilite: { cinqLeversRealises: false } } },
+      { type: 'priorite', thematique: 'perte-autonomie', choisie: true, max: 2 },
+    ] as const) s = reduireSession(s, a as never, tranche.mapping.regles);
+    const m = construireDocument(s, evaluerSession(s, tranche, scores), tranche, scores, orientationReelle(), '2026-11-14');
+    const { pages } = await texteDuPdf(m);
+    expect(pages[0]).toContain('Fiche d’aide au repérage des risques entre 70 et 75 ans');
+    expect(pages[0]).toContain('Domaine(s) positif(s) : Mobilité');
+    expect(pages.at(-1)).toContain('pourbienvieillir.fr');
+    for (const p of pages) expect(p).toContain('Référentiel MBP 70-75 v');
+  }, 30000);
+});

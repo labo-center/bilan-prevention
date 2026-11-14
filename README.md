@@ -23,7 +23,7 @@ Le harnais `index.html` + `src/main.tsx` monte la brique comme le ferait un shel
 npm test          # vitest (logic, référentiels, UI)
 npm run typecheck # TypeScript strict
 npm run lint      # ESLint (no-console interdit)
-npm run e2e       # build de l'application puis Playwright : parcours 45-50 ans complet, et session hors ligne jusqu'à l'export PDF
+npm run e2e       # build de l'application puis Playwright : un parcours par tranche, et une session hors ligne jusqu'à l'export PDF
 npm run build     # bibliothèque dist/brick.js, react et react-dom externalisés
 npm run build:app # application autonome dist-app/ : PWA hors ligne, CSP stricte
 ```
@@ -56,6 +56,7 @@ Les écarts entre PRD et sources, et les valeurs « à vérifier », sont tracé
 
 ## État
 - Incrément 1 (socle) : structure de la brique, mount/unmount, ouverture de session et sélection de la tranche d'âge (M1), référentiel 45-50 validé par Zod (M16).
+- Incrément 6 (autres tranches) : référentiels 18-25, 60-65 et 70-75 (autoquestionnaires, fiches, correspondances), ADRS, grille d'Amsler et ICOPE, thème grands caractères (d'office pour les 70-75 ans), un parcours Playwright par tranche.
 - Incrément 5 (sortie et sécurité) : export PDF fiche + PPP avec version des référentiels et mention « INCOMPLET » (M14), opposition au médecin traitant, contrôle de facturation (S2), purge à la clôture et après 30 min d'inactivité (M15), minuteur d'entretien (S3), application hors ligne (S6), CSP stricte et checklist `docs/securite.md`.
 - Incrément 4 (décision partagée et PPP) : matrice des risques et choix de 1 ou 2 priorités (M12), entretien motivationnel (S1), PPP pré-rempli depuis `referentiels/orientation.json` (M13), ajout d'office du bien-être mental en cas d'idées suicidaires (M10), fiches thématiques en panneau latéral (S5).
 - Incrément 3 (saisie) : autoquestionnaire patient (M2), fiche de repérage pré-remplie (M3), tests cliniques avec scores et alertes (M4 à M11), liste des risques repérés triée, parcours Playwright.

@@ -1,0 +1,2418 @@
+{
+  "version": "0.1.0",
+  "dateValidation": null,
+  "sources": [
+    {
+      "id": "livret",
+      "document": "Mon Bilan Prévention - Livret de présentation",
+      "fichier": "docs/sources/Mon-bilan-prevention-livret-presentation.pdf"
+    },
+    {
+      "id": "fiche-reperage-70-75",
+      "document": "Fiche d’aide au repérage des risques entre 70 et 75 ans",
+      "fichier": "docs/sources/Mon-bilan-prevention-aide-reperage-risques-70-75ans.pdf"
+    },
+    {
+      "id": "autoquestionnaire-70-75",
+      "document": "Autoquestionnaire Mon Bilan Prévention 70-75 ans",
+      "fichier": "docs/sources/Mon-bilan-prevention-autoquestionnaire-70-75ans.pdf"
+    }
+  ],
+  "tranche": {
+    "id": "70-75",
+    "libelle": "70-75 ans",
+    "ageMin": 70,
+    "ageMax": 75,
+    "bornesIncluses": true,
+    "source": {
+      "ref": "livret",
+      "page": "3",
+      "extrait": "§1.2 et note 1 : les bornes inférieures et supérieures des tranches d’âge sont systématiquement incluses"
+    }
+  },
+  "ouvertureSession": {
+    "genres": [
+      {
+        "id": "H",
+        "libelle": "Homme"
+      },
+      {
+        "id": "F",
+        "libelle": "Femme"
+      },
+      {
+        "id": "NSP",
+        "libelle": "Ne souhaite pas répondre"
+      }
+    ],
+    "source": {
+      "ref": "fiche-reperage-70-75",
+      "page": "1",
+      "extrait": "Situation personnelle : Genre"
+    }
+  },
+  "testsApplicables": {
+    "source": {
+      "ref": "livret",
+      "page": "11",
+      "extrait": "§2.2.1, tableau de l’examen clinique, colonne 70-75 ans ; ADRS et HAD selon l’âge (p. 34)"
+    },
+    "items": [
+      {
+        "id": "imc",
+        "libelle": "Repérer le surpoids, l’obésité, la dénutrition (pesée, taille, IMC)"
+      },
+      {
+        "id": "acuite-visuelle",
+        "libelle": "Œil : acuité visuelle avec échelle simple"
+      },
+      {
+        "id": "amsler",
+        "libelle": "Grille d’Amsler (si > 60 ans)"
+      },
+      {
+        "id": "voix-chuchotee",
+        "libelle": "Audition : test de la voix chuchotée"
+      },
+      {
+        "id": "pression-arterielle",
+        "libelle": "Mesure de la pression artérielle"
+      },
+      {
+        "id": "icope",
+        "libelle": "Repérage de la fragilité avec évaluation des grandes capacités fonctionnelles : test des trois mots, test des cinq levers de chaise… (étape 1 – ICOPE)"
+      },
+      {
+        "id": "spirometrie",
+        "libelle": "Spirométrie/débimétrie de pointe"
+      },
+      {
+        "id": "face",
+        "libelle": "Consommation d’alcool (questionnaire FACE)"
+      },
+      {
+        "id": "fagerstrom",
+        "libelle": "Consommation tabac (test de Fagerström)"
+      },
+      {
+        "id": "cast",
+        "libelle": "Consommation cannabis (questionnaire CAST)"
+      },
+      {
+        "id": "had",
+        "libelle": "Dépistage des troubles anxieux et dépressif (Échelle HAD)"
+      }
+    ]
+  },
+  "autoquestionnaire": {
+    "source": {
+      "ref": "autoquestionnaire-70-75",
+      "page": "1-5",
+      "extrait": "Autoquestionnaire 70-75 ans"
+    },
+    "introduction": "Vous n’êtes pas obligé(e) de répondre à toutes les questions ci-dessous, certaines pourront être abordées directement avec le professionnel de santé si vous le souhaitez.",
+    "sections": [
+      {
+        "id": "situation",
+        "titre": "Situation personnelle, environnement social et familial",
+        "questions": [
+          {
+            "id": "Q1",
+            "libelle": "Vous êtes :",
+            "type": "unique",
+            "options": [
+              {
+                "id": "femme",
+                "libelle": "Une femme"
+              },
+              {
+                "id": "homme",
+                "libelle": "Un homme"
+              },
+              {
+                "id": "autre",
+                "libelle": "Autre"
+              }
+            ]
+          },
+          {
+            "id": "Q2",
+            "libelle": "Assumez-vous un rôle d’aidant ?",
+            "type": "unique",
+            "options": [
+              {
+                "id": "oui",
+                "libelle": "Oui"
+              },
+              {
+                "id": "non",
+                "libelle": "Non"
+              }
+            ],
+            "aide": "Aidez-vous une personne de manière régulière et fréquente, en raison de son âge, de la maladie ou d’une situation de handicap ?"
+          },
+          {
+            "id": "Q3",
+            "libelle": "En cas de besoin, pouvez-vous compter sur une personne de votre entourage ?",
+            "type": "unique",
+            "options": [
+              {
+                "id": "oui",
+                "libelle": "Oui"
+              },
+              {
+                "id": "non",
+                "libelle": "Non"
+              }
+            ]
+          },
+          {
+            "id": "Q4",
+            "libelle": "Au cours des 6 derniers mois, avez-vous eu des contacts avec des proches (amis, membres de votre famille) ?",
+            "type": "unique",
+            "options": [
+              {
+                "id": "oui",
+                "libelle": "Oui"
+              },
+              {
+                "id": "non",
+                "libelle": "Non"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "antecedents",
+        "titre": "Vos antécédents personnels et familiaux",
+        "questions": [
+          {
+            "id": "Q5",
+            "libelle": "Avez-vous ou avez-vous eu une de ces maladies ou facteurs de risques ?",
+            "type": "multiple",
+            "options": [
+              {
+                "id": "hta-diabete-cholesterol",
+                "libelle": "Hypertension artérielle, diabète, cholestérol sanguin élevé"
+              },
+              {
+                "id": "cardiovasculaire",
+                "libelle": "Maladies cardiovasculaires (infarctus, maladie coronaire, insuffisance cardiaque, AVC…)"
+              },
+              {
+                "id": "cancers",
+                "libelle": "Cancers"
+              },
+              {
+                "id": "respiratoire",
+                "libelle": "Maladies respiratoires (asthme, bronchite chronique, BPCO)"
+              },
+              {
+                "id": "arthrose",
+                "libelle": "Arthrose ou maladie rhumatismale"
+              },
+              {
+                "id": "fractures",
+                "libelle": "Fractures d’une vertèbre ou du col du fémur et/ou ostéoporose"
+              },
+              {
+                "id": "autre",
+                "libelle": "Autre(s) maladie(s) :",
+                "precision": true
+              },
+              {
+                "id": "aucune",
+                "libelle": "Aucune",
+                "exclusive": true
+              }
+            ]
+          },
+          {
+            "id": "Q6",
+            "libelle": "À quand remonte votre dernière prise de sang et/ou une analyse d’urine ?",
+            "type": "unique",
+            "options": [
+              {
+                "id": "moins-6-mois",
+                "libelle": "Moins de 6 mois"
+              },
+              {
+                "id": "plus-6-mois",
+                "libelle": "Plus de 6 mois"
+              }
+            ],
+            "aide": "Merci d’en rapporter les résultats, si possible, lors de votre Bilan Prévention."
+          },
+          {
+            "id": "Q7",
+            "libelle": "Des personnes de votre famille proche (mère, père, sœur ou frère) sont ou ont été atteintes de maladies connues ?",
+            "type": "unique",
+            "options": [
+              {
+                "id": "oui",
+                "libelle": "Oui"
+              },
+              {
+                "id": "non",
+                "libelle": "Non"
+              },
+              {
+                "id": "nsp",
+                "libelle": "Je ne sais pas"
+              }
+            ],
+            "aide": "Exemple : diabète, hypertension artérielle, cancer, dégénérescence maculaire liée à l’âge (DMLA), maladie d’Alzheimer, ostéoporose, fracture du col du fémur,..."
+          }
+        ]
+      },
+      {
+        "id": "etat-sante",
+        "titre": "Votre état de santé actuel",
+        "questions": [
+          {
+            "id": "Q8",
+            "libelle": "Suivez-vous actuellement un traitement ?",
+            "type": "unique",
+            "options": [
+              {
+                "id": "oui",
+                "libelle": "Oui"
+              },
+              {
+                "id": "non",
+                "libelle": "Non"
+              }
+            ],
+            "aide": "Si oui, veuillez amener, si possible, vos ordonnances lors de votre Bilan Prévention."
+          },
+          {
+            "id": "Q9",
+            "libelle": "Taille :",
+            "type": "nombre",
+            "unite": "m",
+            "min": 0.5,
+            "max": 2.5,
+            "pas": 0.01
+          },
+          {
+            "id": "Q10",
+            "libelle": "Poids :",
+            "type": "nombre",
+            "unite": "kg",
+            "min": 1,
+            "max": 400,
+            "pas": 0.1
+          },
+          {
+            "id": "Q11",
+            "libelle": "Avez-vous constaté une variation de votre poids lors des 6 derniers mois ?",
+            "type": "unique",
+            "options": [
+              {
+                "id": "amaigrissement",
+                "libelle": "Oui, un amaigrissement"
+              },
+              {
+                "id": "prise",
+                "libelle": "Oui, une prise de poids"
+              },
+              {
+                "id": "non",
+                "libelle": "Non"
+              }
+            ]
+          },
+          {
+            "id": "Q12",
+            "libelle": "Avez-vous observé des gonflements importants et/ou inhabituels de vos chevilles ou de vos jambes ?",
+            "type": "unique",
+            "options": [
+              {
+                "id": "oui",
+                "libelle": "Oui"
+              },
+              {
+                "id": "non",
+                "libelle": "Non"
+              }
+            ]
+          },
+          {
+            "id": "Q13",
+            "libelle": "Vous arrive-t-il d’avoir des douleurs dans la poitrine notamment lors d’un effort ?",
+            "type": "unique",
+            "options": [
+              {
+                "id": "oui",
+                "libelle": "Oui"
+              },
+              {
+                "id": "non",
+                "libelle": "Non"
+              }
+            ]
+          },
+          {
+            "id": "Q14",
+            "libelle": "Toussez-vous souvent (tous les jours) ?",
+            "type": "unique",
+            "options": [
+              {
+                "id": "oui",
+                "libelle": "Oui"
+              },
+              {
+                "id": "non",
+                "libelle": "Non"
+              }
+            ]
+          },
+          {
+            "id": "Q15",
+            "libelle": "Avez-vous souvent une toux grasse ou qui ramène des crachats ?",
+            "type": "unique",
+            "options": [
+              {
+                "id": "oui",
+                "libelle": "Oui"
+              },
+              {
+                "id": "non",
+                "libelle": "Non"
+              }
+            ]
+          },
+          {
+            "id": "Q16",
+            "libelle": "Êtes-vous plus facilement essoufflé(e) que les personnes de votre âge ?",
+            "type": "unique",
+            "options": [
+              {
+                "id": "oui",
+                "libelle": "Oui"
+              },
+              {
+                "id": "non",
+                "libelle": "Non"
+              }
+            ]
+          },
+          {
+            "id": "Q17",
+            "libelle": "Faites-vous des pauses respiratoires ou des ronflements importants lors de votre sommeil, notamment constatés par votre entourage ?",
+            "type": "unique",
+            "options": [
+              {
+                "id": "oui",
+                "libelle": "Oui"
+              },
+              {
+                "id": "non",
+                "libelle": "Non"
+              },
+              {
+                "id": "nsp",
+                "libelle": "Je ne sais pas"
+              }
+            ]
+          },
+          {
+            "id": "Q18",
+            "libelle": "Si vous êtes une femme, à quel âge avez-vous été ménopausée ?",
+            "type": "nombre",
+            "unite": "ans",
+            "min": 20,
+            "max": 70,
+            "pas": 1
+          },
+          {
+            "id": "Q19",
+            "libelle": "Êtes-vous allé(e) chez le dentiste dans les 12 derniers mois ?",
+            "type": "unique",
+            "options": [
+              {
+                "id": "oui",
+                "libelle": "Oui"
+              },
+              {
+                "id": "non",
+                "libelle": "Non"
+              }
+            ]
+          },
+          {
+            "id": "Q20",
+            "libelle": "Avez-vous l’impression de voir moins bien (difficultés pour lire, pour voir de loin…) ?",
+            "type": "unique",
+            "options": [
+              {
+                "id": "oui",
+                "libelle": "Oui"
+              },
+              {
+                "id": "non",
+                "libelle": "Non"
+              }
+            ]
+          },
+          {
+            "id": "Q21",
+            "libelle": "Avez-vous l’impression d’entendre moins bien et/ou votre entourage a-t-il l’impression que votre audition a baissé ?",
+            "type": "unique",
+            "options": [
+              {
+                "id": "oui",
+                "libelle": "Oui"
+              },
+              {
+                "id": "non",
+                "libelle": "Non"
+              }
+            ]
+          },
+          {
+            "id": "Q22",
+            "libelle": "Êtes-vous sujet à des troubles urinaires ?",
+            "type": "unique",
+            "options": [
+              {
+                "id": "oui",
+                "libelle": "Oui"
+              },
+              {
+                "id": "non",
+                "libelle": "Non"
+              }
+            ]
+          },
+          {
+            "id": "Q23",
+            "libelle": "Avez-vous eu, durant les 12 derniers mois, des problèmes (courbatures, douleur, inconfort) au niveau du cou, du dos, des épaules ou des mains qui impactent votre vie quotidienne ?",
+            "type": "unique",
+            "options": [
+              {
+                "id": "oui",
+                "libelle": "Oui"
+              },
+              {
+                "id": "non",
+                "libelle": "Non"
+              }
+            ]
+          },
+          {
+            "id": "Q24",
+            "libelle": "Avez-vous la sensation d’oublier des choses ?",
+            "type": "unique",
+            "options": [
+              {
+                "id": "oui",
+                "libelle": "Oui"
+              },
+              {
+                "id": "non",
+                "libelle": "Non"
+              }
+            ]
+          },
+          {
+            "id": "Q25",
+            "libelle": "Avez-vous des difficultés à réaliser certains gestes de la vie quotidienne ?",
+            "type": "multiple",
+            "options": [
+              {
+                "id": "lit",
+                "libelle": "Quitter son lit et/ou se coucher seul(e)"
+              },
+              {
+                "id": "toilettes",
+                "libelle": "Aller seul(e) aux toilettes"
+              },
+              {
+                "id": "toilette",
+                "libelle": "Faire sa toilette seul(e)"
+              },
+              {
+                "id": "vetir",
+                "libelle": "Se vêtir et/ou se dévêtir seul(e)"
+              },
+              {
+                "id": "manger",
+                "libelle": "Manger et boire seul(e)"
+              },
+              {
+                "id": "marcher",
+                "libelle": "Marcher seul(e) avec ou sans béquille, canne…"
+              },
+              {
+                "id": "transport",
+                "libelle": "Utiliser seul(e) un moyen de transport (transports en commun, voiture….)"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "activite-alimentation",
+        "titre": "Activité physique, sédentarité et alimentation",
+        "questions": [
+          {
+            "id": "Q26",
+            "libelle": "Combien de fois par semaine faites-vous au moins 30 minutes d’activités physiques dynamiques au cours d’une journée (marche, ménage, jogging, vélo, jardinage, activité physique liée à votre profession, autre activité sportive, …) ?",
+            "type": "unique",
+            "options": [
+              {
+                "id": "jamais",
+                "libelle": "Jamais"
+              },
+              {
+                "id": "1-2",
+                "libelle": "1 à 2 fois par semaine"
+              },
+              {
+                "id": "3-4",
+                "libelle": "3 à 4 fois par semaine"
+              },
+              {
+                "id": "5-7",
+                "libelle": "5 à 7 fois par semaine"
+              }
+            ]
+          },
+          {
+            "id": "Q27",
+            "libelle": "Concernant votre consommation de fruits et légumes, vous en mangez :",
+            "type": "unique",
+            "options": [
+              {
+                "id": "5-plus",
+                "libelle": "Au moins 5 portions par jour"
+              },
+              {
+                "id": "1-4",
+                "libelle": "Entre 1 et 4 portions par jour"
+              },
+              {
+                "id": "temps-en-temps",
+                "libelle": "De temps en temps"
+              },
+              {
+                "id": "rarement",
+                "libelle": "Rarement"
+              },
+              {
+                "id": "jamais",
+                "libelle": "Jamais"
+              }
+            ]
+          },
+          {
+            "id": "Q28",
+            "libelle": "À quelle fréquence consommez-vous des aliments gras/sucrés/salés (exemple : charcuterie, soda, bonbons, pâtisseries, chips, fast-food, glaces) ?",
+            "type": "unique",
+            "options": [
+              {
+                "id": "plusieurs-jour",
+                "libelle": "Plusieurs fois par jour"
+              },
+              {
+                "id": "plusieurs-semaine",
+                "libelle": "Plusieurs fois par semaine"
+              },
+              {
+                "id": "une-semaine",
+                "libelle": "Une fois par semaine"
+              },
+              {
+                "id": "une-mois",
+                "libelle": "Une fois par mois"
+              },
+              {
+                "id": "jamais",
+                "libelle": "Jamais"
+              }
+            ]
+          },
+          {
+            "id": "Q29",
+            "libelle": "Combien de temps par jour passez-vous assis(e) ou allongé(e) hors période de sommeil ?",
+            "type": "unique",
+            "options": [
+              {
+                "id": "moins-2h",
+                "libelle": "Moins de 2 heures"
+              },
+              {
+                "id": "2-4h",
+                "libelle": "Entre 2 et 4 heures"
+              },
+              {
+                "id": "4-7h",
+                "libelle": "Entre 4 et 7 heures"
+              },
+              {
+                "id": "plus-7h",
+                "libelle": "Plus de 7 heures"
+              },
+              {
+                "id": "nsp",
+                "libelle": "Je ne sais pas"
+              }
+            ]
+          },
+          {
+            "id": "Q30",
+            "libelle": "Combien de temps par jour passez-vous devant un écran en dehors du travail (téléphone portable, télévision, ordinateur) ?",
+            "type": "unique",
+            "options": [
+              {
+                "id": "moins-1h",
+                "libelle": "Moins d’une heure"
+              },
+              {
+                "id": "1-2h",
+                "libelle": "Entre 1 heure et 2 heures"
+              },
+              {
+                "id": "2-4h",
+                "libelle": "Entre 2 et 4 heures"
+              },
+              {
+                "id": "plus-4h",
+                "libelle": "Plus de 4 heures"
+              },
+              {
+                "id": "nsp",
+                "libelle": "Je ne sais pas"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "sante-environnement",
+        "titre": "Santé-environnement",
+        "questions": [
+          {
+            "id": "Q31",
+            "libelle": "Avez-vous un logement facile d’accès en cas de mobilité réduite ? (logement de plain-pied, logement avec ascenseur, présence d’une rampe d’accès à l’immeuble ou au perron de la maison, …)",
+            "type": "unique",
+            "options": [
+              {
+                "id": "oui",
+                "libelle": "Oui"
+              },
+              {
+                "id": "non",
+                "libelle": "Non"
+              }
+            ]
+          },
+          {
+            "id": "Q32",
+            "libelle": "Avez-vous un logement adapté à la prévention des chutes ? (douche plutôt qu’une baignoire, barre de douche, revêtement anti-chutes, WC surélevé, …)",
+            "type": "unique",
+            "options": [
+              {
+                "id": "oui",
+                "libelle": "Oui"
+              },
+              {
+                "id": "non",
+                "libelle": "Non"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "vaccins-depistages",
+        "titre": "Vaccins, dépistages et santé sexuelle",
+        "questions": [
+          {
+            "id": "Q33",
+            "libelle": "Êtes-vous à jour de vos vaccins et rappels de vaccins ?",
+            "type": "unique",
+            "options": [
+              {
+                "id": "oui",
+                "libelle": "Oui"
+              },
+              {
+                "id": "non",
+                "libelle": "Non"
+              },
+              {
+                "id": "nsp",
+                "libelle": "Je ne sais pas"
+              }
+            ],
+            "aide": "Merci de rapporter, si possible, votre carnet de vaccination lors de votre Bilan Prévention."
+          },
+          {
+            "id": "Q34",
+            "libelle": "Avez-vous déjà réalisé un test de dépistage du cancer colorectal ?",
+            "type": "unique",
+            "options": [
+              {
+                "id": "moins-2-ans",
+                "libelle": "Oui, il y a moins de 2 ans"
+              },
+              {
+                "id": "plus-2-ans",
+                "libelle": "Oui, il y a plus de 2 ans"
+              },
+              {
+                "id": "jamais",
+                "libelle": "Non, jamais"
+              },
+              {
+                "id": "nsp",
+                "libelle": "Je ne sais pas"
+              }
+            ],
+            "aide": "Si oui, merci de rapporter si possible, les résultats de ce dépistage lors de votre Bilan Prévention."
+          },
+          {
+            "id": "Q35",
+            "libelle": "Avez-vous déjà réalisé une mammographie de dépistage du cancer du sein ?",
+            "type": "unique",
+            "options": [
+              {
+                "id": "moins-2-ans",
+                "libelle": "Oui, il y a moins de 2 ans"
+              },
+              {
+                "id": "plus-2-ans",
+                "libelle": "Oui, il y a plus de 2 ans"
+              },
+              {
+                "id": "jamais",
+                "libelle": "Non, jamais"
+              },
+              {
+                "id": "nsp",
+                "libelle": "Je ne sais pas"
+              }
+            ],
+            "aide": "Si oui, merci de rapporter si possible, les résultats de ce dépistage lors de votre Bilan Prévention."
+          },
+          {
+            "id": "Q35bis",
+            "libelle": "Avez-vous déjà réalisé un frottis de dépistage du cancer du col de l’utérus ?",
+            "type": "unique",
+            "options": [
+              {
+                "id": "oui",
+                "libelle": "Oui"
+              },
+              {
+                "id": "non",
+                "libelle": "Non"
+              },
+              {
+                "id": "nsp",
+                "libelle": "Je ne sais pas"
+              }
+            ],
+            "aide": "Si oui, merci de rapporter si possible, les résultats de ce dépistage lors de votre Bilan Prévention."
+          },
+          {
+            "id": "Q36",
+            "libelle": "Êtes-vous dans l’une des situations suivantes (possibilité de cocher plusieurs réponses) ?",
+            "type": "multiple",
+            "options": [
+              {
+                "id": "plusieurs-partenaires",
+                "libelle": "Plus d’un(e) partenaire sexuel(le) au cours des 12 derniers mois"
+              },
+              {
+                "id": "arret-preservatif",
+                "libelle": "Souhait d’arrêter le préservatif avec mon nouveau (ou ma nouvelle) partenaire"
+              },
+              {
+                "id": "partenaire-ist",
+                "libelle": "Mon(ma) partenaire sexuel(le) a eu un (ou plusieurs) diagnostic(s) d’infection sexuellement transmissible (VIH, chlamydia, gonocoque, syphilis…) dans les 12 derniers mois"
+              },
+              {
+                "id": "rapports-non-concerne",
+                "libelle": "Rapports sexuels ces 12 derniers mois, mais non concerné(e) par une de ces trois situations ci-dessus"
+              },
+              {
+                "id": "non-concerne",
+                "libelle": "Non concerné(e)",
+                "exclusive": true
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "addictions",
+        "titre": "Conduites addictives, consommation de boissons alcoolisées, tabac et autres substances",
+        "questions": [
+          {
+            "id": "Q37",
+            "libelle": "Au cours de l’année écoulée, concernant votre consommation de boissons alcoolisées :",
+            "type": "multiple",
+            "options": [
+              {
+                "id": "plus2ParJour",
+                "libelle": "Vous buvez plus de 2 verres standards par jour"
+              },
+              {
+                "id": "plus10ParSemaine",
+                "libelle": "Vous buvez plus de 10 verres standards par semaine"
+              },
+              {
+                "id": "moins2JoursSans",
+                "libelle": "Vous ne buvez pas de boissons alcoolisées au moins 2 jours dans la semaine"
+              }
+            ]
+          },
+          {
+            "id": "Q38",
+            "libelle": "Actuellement, fumez-vous (cigarette, tabac à rouler, cigare, pipe, chicha, narguilé…) ou vapotez-vous ?",
+            "type": "multiple",
+            "options": [
+              {
+                "id": "fume",
+                "libelle": "Oui, je fume"
+              },
+              {
+                "id": "vapote",
+                "libelle": "Oui, je vapote"
+              },
+              {
+                "id": "non",
+                "libelle": "Non",
+                "exclusive": true
+              },
+              {
+                "id": "arrete",
+                "libelle": "J’ai arrêté",
+                "exclusive": true
+              }
+            ]
+          },
+          {
+            "id": "Q39",
+            "libelle": "Si vous avez arrêté de fumer, depuis combien de temps ?",
+            "type": "unique",
+            "options": [
+              {
+                "id": "moins-1-an",
+                "libelle": "Moins d’un an"
+              },
+              {
+                "id": "1-5-ans",
+                "libelle": "Entre 1 an et 5 ans"
+              },
+              {
+                "id": "plus-5-ans",
+                "libelle": "Plus de 5 ans"
+              }
+            ],
+            "afficherSi": {
+              "question": "Q38",
+              "valeurs": [
+                "arrete"
+              ]
+            }
+          },
+          {
+            "id": "Q40",
+            "libelle": "Avez-vous consommé d’autres substances au cours des 12 derniers mois ? Cannabis (haschisch, marijuana, herbe, joint ou shit) ou d’autres drogues (ecstasy, cocaïne, héroïne etc.) ?",
+            "type": "multiple",
+            "options": [
+              {
+                "id": "cannabis",
+                "libelle": "Oui, du cannabis"
+              },
+              {
+                "id": "autres-drogues",
+                "libelle": "Oui, d’autres drogues"
+              },
+              {
+                "id": "non",
+                "libelle": "Non",
+                "exclusive": true
+              }
+            ]
+          },
+          {
+            "id": "Q41",
+            "libelle": "Au cours des 12 derniers mois, avez-vous misé de l’argent pour un jeu (loterie, poker, ...), un pari (sportif, hippique, ...) ?",
+            "type": "unique",
+            "options": [
+              {
+                "id": "souvent",
+                "libelle": "Oui, souvent"
+              },
+              {
+                "id": "de-temps-en-temps",
+                "libelle": "Oui, de temps en temps"
+              },
+              {
+                "id": "rarement",
+                "libelle": "Oui, rarement"
+              },
+              {
+                "id": "non",
+                "libelle": "Non"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "bien-etre",
+        "titre": "Santé et bien-être mental, violences",
+        "questions": [
+          {
+            "id": "Q42",
+            "libelle": "Votre regard sur le fait de passer ou d’être à la retraite est :",
+            "type": "unique",
+            "options": [
+              {
+                "id": "tres-positif",
+                "libelle": "Très positif"
+              },
+              {
+                "id": "plutot-positif",
+                "libelle": "Plutôt positif"
+              },
+              {
+                "id": "plutot-negatif",
+                "libelle": "Plutôt négatif"
+              },
+              {
+                "id": "tres-negatif",
+                "libelle": "Très négatif"
+              }
+            ]
+          },
+          {
+            "id": "Q43",
+            "libelle": "Depuis que vous êtes en retraite, vous impliquez-vous dans de nouveaux projets (sorties, passe-temps, clubs, associations...) ?",
+            "type": "unique",
+            "options": [
+              {
+                "id": "realises",
+                "libelle": "Oui, et j’ai déjà mis en place ces projets"
+              },
+              {
+                "id": "prevus",
+                "libelle": "Oui, j’ai des projets prévus mais je ne les ai pas encore concrétisés"
+              },
+              {
+                "id": "non",
+                "libelle": "Non, je ne sais pas encore quels seront mes projets"
+              }
+            ]
+          },
+          {
+            "id": "Q44",
+            "libelle": "Diriez-vous que vous avez des problèmes de sommeil ?",
+            "type": "multiple",
+            "options": [
+              {
+                "id": "souvent",
+                "libelle": "Oui, souvent"
+              },
+              {
+                "id": "parfois",
+                "libelle": "Oui, parfois"
+              },
+              {
+                "id": "non",
+                "libelle": "Non"
+              },
+              {
+                "id": "somniferes",
+                "libelle": "Vous prenez des somnifères"
+              }
+            ]
+          },
+          {
+            "id": "Q45",
+            "libelle": "Concernant le sommeil, en moyenne vous dormez :",
+            "type": "unique",
+            "options": [
+              {
+                "id": "moins-6h",
+                "libelle": "Moins de 6h par nuit"
+              },
+              {
+                "id": "6-10h",
+                "libelle": "Entre 6h et 10h par nuit"
+              },
+              {
+                "id": "10h-plus",
+                "libelle": "10h ou plus par nuit"
+              }
+            ]
+          },
+          {
+            "id": "Q46",
+            "libelle": "Au cours des 2 dernières semaines, combien de fois avez-vous eu un sentiment de nervosité, d’anxiété ou de tension ?",
+            "type": "unique",
+            "options": [
+              {
+                "id": "jamais",
+                "libelle": "Jamais"
+              },
+              {
+                "id": "plusieurs-jours",
+                "libelle": "Plusieurs jours"
+              },
+              {
+                "id": "plus-7-jours",
+                "libelle": "Plus de sept jours"
+              },
+              {
+                "id": "presque-tous",
+                "libelle": "Presque tous les jours"
+              }
+            ]
+          },
+          {
+            "id": "Q47",
+            "libelle": "Au cours des 2 dernières semaines, combien de fois avez-vous été incapable d’arrêter de vous inquiéter ou de contrôler vos inquiétudes ?",
+            "type": "unique",
+            "options": [
+              {
+                "id": "jamais",
+                "libelle": "Jamais"
+              },
+              {
+                "id": "plusieurs-jours",
+                "libelle": "Plusieurs jours"
+              },
+              {
+                "id": "plus-7-jours",
+                "libelle": "Plus de sept jours"
+              },
+              {
+                "id": "presque-tous",
+                "libelle": "Presque tous les jours"
+              }
+            ]
+          },
+          {
+            "id": "Q48",
+            "libelle": "Au cours des 2 dernières semaines, combien de fois avez-vous éprouvé peu d’intérêt ou de plaisir à faire les choses ?",
+            "type": "unique",
+            "options": [
+              {
+                "id": "jamais",
+                "libelle": "Jamais"
+              },
+              {
+                "id": "plusieurs-jours",
+                "libelle": "Plusieurs jours"
+              },
+              {
+                "id": "plus-7-jours",
+                "libelle": "Plus de sept jours"
+              },
+              {
+                "id": "presque-tous",
+                "libelle": "Presque tous les jours"
+              }
+            ]
+          },
+          {
+            "id": "Q49",
+            "libelle": "Au cours des 2 dernières semaines, combien de fois avez-vous éprouvé un sentiment de tristesse, de déprime ou de désespoir ?",
+            "type": "unique",
+            "options": [
+              {
+                "id": "jamais",
+                "libelle": "Jamais"
+              },
+              {
+                "id": "plusieurs-jours",
+                "libelle": "Plusieurs jours"
+              },
+              {
+                "id": "plus-7-jours",
+                "libelle": "Plus de sept jours"
+              },
+              {
+                "id": "presque-tous",
+                "libelle": "Presque tous les jours"
+              }
+            ]
+          },
+          {
+            "id": "Q50",
+            "libelle": "Avez-vous déjà eu des idées noires/suicidaires ou fait une tentative de suicide ?",
+            "type": "multiple",
+            "options": [
+              {
+                "id": "idees",
+                "libelle": "Oui, des idées noires/suicidaires"
+              },
+              {
+                "id": "tentative",
+                "libelle": "Oui, une ou des tentative(s) de suicide"
+              },
+              {
+                "id": "non",
+                "libelle": "Non",
+                "exclusive": true
+              }
+            ]
+          },
+          {
+            "id": "Q51",
+            "libelle": "Avez-vous déjà été victime de violences physiques, sexuelles ou psychiques (coups, mutilations, menaces, chantage, humiliations…), harcèlements, discrimination, soumission chimique etc… ?",
+            "type": "unique",
+            "options": [
+              {
+                "id": "oui",
+                "libelle": "Oui"
+              },
+              {
+                "id": "non",
+                "libelle": "Non"
+              },
+              {
+                "id": "nsp",
+                "libelle": "Je ne sais pas"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "precisions",
+        "titre": "Précisions complémentaires concernant votre santé",
+        "questions": [
+          {
+            "id": "Q52",
+            "libelle": "Souhaitez-vous aborder un ou plusieurs sujets en priorité, avec le professionnel de santé au cours de votre Bilan Prévention ?",
+            "type": "multiple",
+            "options": [
+              {
+                "id": "mieux-dormir",
+                "libelle": "Mieux dormir"
+              },
+              {
+                "id": "alimentation-bouger",
+                "libelle": "Améliorer mon alimentation et bouger plus"
+              },
+              {
+                "id": "tabac",
+                "libelle": "Réduire ou arrêter ma consommation de tabac"
+              },
+              {
+                "id": "alcool",
+                "libelle": "Réduire ou arrêter ma consommation d’alcool"
+              },
+              {
+                "id": "bien-etre",
+                "libelle": "Améliorer mon bien-être mental, réduire mon stress ou mon anxiété"
+              },
+              {
+                "id": "vieillissement",
+                "libelle": "Mieux connaitre / comprendre / prévenir les effets du vieillissement"
+              },
+              {
+                "id": "depistages",
+                "libelle": "Mieux m’informer sur les dépistages concernant ma tranche d’âge"
+              }
+            ]
+          },
+          {
+            "id": "Q52bis",
+            "libelle": "Souhaitez-vous aborder un ou plusieurs sujets en priorité, avec le professionnel de santé au cours de votre Bilan Prévention ?",
+            "type": "texte"
+          }
+        ]
+      }
+    ]
+  },
+  "ficheReperage": {
+    "source": {
+      "ref": "fiche-reperage-70-75",
+      "page": "1-2",
+      "extrait": "Fiche d’aide au repérage des risques entre 70 et 75 ans, à compléter par le professionnel de santé"
+    },
+    "sections": [
+      {
+        "id": "situation",
+        "titre": "Situation personnelle",
+        "champs": [
+          {
+            "id": "date-rdv",
+            "libelle": "Date du rendez-vous",
+            "type": "calcule",
+            "lien": "session.dateRdv"
+          },
+          {
+            "id": "nom-prenom",
+            "libelle": "Nom et prénom",
+            "type": "texte"
+          },
+          {
+            "id": "age",
+            "libelle": "Âge",
+            "type": "calcule",
+            "lien": "session.age"
+          },
+          {
+            "id": "genre",
+            "libelle": "Genre",
+            "type": "calcule",
+            "lien": "session.genre"
+          },
+          {
+            "id": "activite",
+            "libelle": "Activité actuelle",
+            "type": "texte",
+            "reponsesAssociees": [
+              "Q42"
+            ]
+          },
+          {
+            "id": "antecedents-medicaux",
+            "libelle": "Antécédents médicaux/d’hospitalisation",
+            "type": "ouiNon",
+            "precision": "Si oui, lesquels"
+          },
+          {
+            "id": "handicap-mdph",
+            "libelle": "Situation de handicap : inscrit à la MDPH",
+            "type": "case"
+          },
+          {
+            "id": "pa",
+            "libelle": "Pression artérielle",
+            "type": "calcule",
+            "lien": "tests.pa"
+          },
+          {
+            "id": "taille",
+            "libelle": "Taille",
+            "type": "nombre",
+            "unite": "m",
+            "min": 0.5,
+            "max": 2.5,
+            "pas": 0.01
+          },
+          {
+            "id": "poids",
+            "libelle": "Poids",
+            "type": "nombre",
+            "unite": "kg",
+            "min": 1,
+            "max": 400,
+            "pas": 0.1
+          },
+          {
+            "id": "medecin-traitant",
+            "libelle": "Médecin traitant",
+            "type": "ouiNon",
+            "aide": "Si pas de médecin traitant, signaler, avec l’accord du patient, la situation à la CPAM"
+          },
+          {
+            "id": "antecedents-familiaux",
+            "libelle": "Antécédents familiaux",
+            "type": "ouiNon",
+            "precision": "Si oui, lesquels"
+          }
+        ]
+      },
+      {
+        "id": "social",
+        "titre": "Environnement social et familial",
+        "thematique": "bien-etre-mental-social",
+        "champs": [
+          {
+            "id": "role-aidant",
+            "libelle": "Rôle d’aidant",
+            "type": "case",
+            "risque": true
+          },
+          {
+            "id": "isolement",
+            "libelle": "Situation d’isolement",
+            "type": "case",
+            "risque": true,
+            "reponsesAssociees": [
+              "Q3",
+              "Q4"
+            ]
+          },
+          {
+            "id": "perte-autonomie",
+            "libelle": "Perte d’autonomie/dépendance",
+            "type": "case",
+            "risque": true,
+            "thematique": "perte-autonomie",
+            "reponsesAssociees": [
+              "Q25"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "etat-sante",
+        "titre": "État de santé actuel",
+        "thematique": "maladies-chroniques",
+        "champs": [
+          {
+            "id": "traitements",
+            "libelle": "Si le patient suit un traitement, lesquels",
+            "type": "texte",
+            "reponsesAssociees": [
+              "Q8"
+            ]
+          },
+          {
+            "id": "nombre-traitements",
+            "libelle": "Nombre de traitements en cours",
+            "type": "nombre",
+            "min": 0,
+            "max": 100,
+            "pas": 1,
+            "aideCalcul": true,
+            "aide": "Aide au calcul, absente de la fiche officielle : renseigne la case « Polymédication »"
+          },
+          {
+            "id": "medicament-contre-indique",
+            "libelle": "Médicament ou association contre-indiquée",
+            "type": "case",
+            "risque": true
+          },
+          {
+            "id": "polymedication",
+            "libelle": "Polymédication",
+            "type": "case",
+            "risque": true
+          },
+          {
+            "id": "toux",
+            "libelle": "Si toux fréquente, grasse ramenant des crachats ou essoufflement prononcé",
+            "type": "choix",
+            "options": [
+              {
+                "id": "pas-explorations",
+                "libelle": "Pas d’explorations complémentaires réalisées"
+              },
+              {
+                "id": "explorations-realisees",
+                "libelle": "Des explorations complémentaires ont déjà été réalisées"
+              }
+            ],
+            "risque": true,
+            "reponsesAssociees": [
+              "Q14",
+              "Q15",
+              "Q16"
+            ]
+          },
+          {
+            "id": "apnee-appareille",
+            "libelle": "Le patient est appareillé pour une apnée du sommeil",
+            "type": "case",
+            "aide": "Si pauses respiratoires ou ronflements importants pendant le sommeil :",
+            "thematique": "sommeil",
+            "reponsesAssociees": [
+              "Q17"
+            ]
+          },
+          {
+            "id": "polysomnographie",
+            "libelle": "Polysomnographie déjà réalisée avant le Bilan Prévention",
+            "type": "case"
+          },
+          {
+            "id": "variation-poids",
+            "libelle": "Si variation de poids",
+            "type": "choix",
+            "options": [
+              {
+                "id": "gain",
+                "libelle": "Gain"
+              },
+              {
+                "id": "perte",
+                "libelle": "Perte"
+              }
+            ],
+            "precision": "de ... kg en ... mois",
+            "risque": true,
+            "reponsesAssociees": [
+              "Q11"
+            ]
+          },
+          {
+            "id": "perte-appetit",
+            "libelle": "Perte d’appétit",
+            "type": "case",
+            "risque": true,
+            "thematique": "alimentation"
+          },
+          {
+            "id": "osteodensitometrie-realisee",
+            "libelle": "Ostéodensitométrie réalisée",
+            "type": "case",
+            "aide": "Si ostéoporose :"
+          },
+          {
+            "id": "risque-chute",
+            "libelle": "La personne présente des risques, précisez",
+            "type": "case",
+            "precision": "Précisez",
+            "aide": "Recherche de facteurs de risques de chute :",
+            "risque": true,
+            "thematique": "perte-autonomie",
+            "reponsesAssociees": [
+              "Q31",
+              "Q32"
+            ]
+          },
+          {
+            "id": "amsler",
+            "libelle": "Si suspicion de DMLA : si réalisé lors du Bilan Prévention, résultat du test de AMLER",
+            "type": "calcule",
+            "lien": "tests.amsler"
+          },
+          {
+            "id": "fractures",
+            "libelle": "Si fractures du rachis et/ou du col du fémur, précisez si liées à un traumatisme majeur",
+            "type": "texte"
+          }
+        ]
+      },
+      {
+        "id": "icope",
+        "titre": "Perte d’autonomie – évaluation des capacités intrinsèques (ICOPE)",
+        "thematique": "perte-autonomie",
+        "champs": [
+          {
+            "id": "vision-optometrique",
+            "libelle": "Résultat du tableau optométrique de l’OMS",
+            "type": "texte",
+            "aide": "Capacités visuelles :",
+            "reponsesAssociees": [
+              "Q20"
+            ]
+          },
+          {
+            "id": "voix-chuchotee-resultat",
+            "libelle": "Résultat du test de la voix chuchotée",
+            "type": "texte",
+            "aide": "Capacités auditives :",
+            "reponsesAssociees": [
+              "Q21"
+            ]
+          },
+          {
+            "id": "audiometrie",
+            "libelle": "Résultat avec l’audiométrie à 35 dB",
+            "type": "texte"
+          },
+          {
+            "id": "chaise",
+            "libelle": "Test de la chaise : le patient s’est levé de la chaise 5 fois en 14s",
+            "type": "case",
+            "aide": "Capacités locomotrices :"
+          },
+          {
+            "id": "trois-mots",
+            "libelle": "Résultat du test des 3 mots réalisé",
+            "type": "texte",
+            "aide": "Capacités cognitives :",
+            "reponsesAssociees": [
+              "Q24"
+            ]
+          },
+          {
+            "id": "orientation",
+            "libelle": "Résultat du test d’orientation dans le temps et l’espace",
+            "type": "texte"
+          },
+          {
+            "id": "suivi-icope",
+            "libelle": "Proposition suivi ICOPE",
+            "type": "case"
+          }
+        ]
+      },
+      {
+        "id": "sante-mentale",
+        "titre": "Santé mentale",
+        "thematique": "bien-etre-mental-social",
+        "champs": [
+          {
+            "id": "phq4",
+            "libelle": "Résultat au test Score PHQ4",
+            "type": "texte",
+            "reponsesAssociees": [
+              "Q46",
+              "Q47",
+              "Q48",
+              "Q49"
+            ]
+          },
+          {
+            "id": "had",
+            "libelle": "Résultat au test Échelle HAD",
+            "type": "calcule",
+            "lien": "tests.had"
+          },
+          {
+            "id": "retraite-mal-vecue",
+            "libelle": "Si passage à la retraite mal vécu : précisez",
+            "type": "texte",
+            "reponsesAssociees": [
+              "Q42",
+              "Q43"
+            ]
+          },
+          {
+            "id": "travail-moral",
+            "libelle": "Si patient toujours actif, Conditions de travail pénibles : Moralement",
+            "type": "case",
+            "risque": true
+          },
+          {
+            "id": "travail-physique",
+            "libelle": "Si patient toujours actif, Conditions de travail pénibles : Physiquement",
+            "type": "case",
+            "risque": true
+          },
+          {
+            "id": "idees-suicidaires",
+            "libelle": "Idées suicidaires",
+            "type": "case",
+            "risque": true,
+            "horsFicheOfficielle": true,
+            "aide": "Case absente de la fiche officielle 70-75, ajoutée par l’outil : l’autoquestionnaire pose la question (Q50) et l’alerte 31 14 (M10) s’appuie sur cette case."
+          },
+          {
+            "id": "antecedents-anxio-depressifs",
+            "libelle": "Antécédents de troubles anxio-dépressifs",
+            "type": "case",
+            "risque": true
+          },
+          {
+            "id": "antecedent-passage-acte",
+            "libelle": "Antécédent de passage à l’acte",
+            "type": "case",
+            "risque": true,
+            "horsFicheOfficielle": true,
+            "aide": "Case absente de la fiche officielle 70-75, ajoutée par l’outil : l’autoquestionnaire pose la question (Q50) et la tentative déclarée doit rester visible."
+          },
+          {
+            "id": "sommeil-insuffisant",
+            "libelle": "Sommeil insuffisant et/ou de mauvaise qualité",
+            "type": "case",
+            "risque": true,
+            "thematique": "sommeil"
+          }
+        ]
+      },
+      {
+        "id": "violences",
+        "titre": "Violences physiques, sexuelles ou psychiques",
+        "thematique": "violences",
+        "champs": [
+          {
+            "id": "harcelement",
+            "libelle": "Harcèlement, discrimination, humiliation",
+            "type": "case",
+            "risque": true
+          },
+          {
+            "id": "violences",
+            "libelle": "Violences en cours ou passées",
+            "type": "case",
+            "risque": true
+          },
+          {
+            "id": "violences-autre",
+            "libelle": "Autre",
+            "type": "texte"
+          },
+          {
+            "id": "violences-lieu-maison",
+            "libelle": "À la maison",
+            "type": "case",
+            "aide": "Si cas de violences (physiques, psychiques, humiliation…) : précisez"
+          },
+          {
+            "id": "violences-lieu-travail",
+            "libelle": "Au travail",
+            "type": "case"
+          },
+          {
+            "id": "violences-lieu-espace-public",
+            "libelle": "Dans l’espace public",
+            "type": "case"
+          },
+          {
+            "id": "violences-lieu-internet",
+            "libelle": "Internet",
+            "type": "case"
+          },
+          {
+            "id": "violences-lieu-loisirs",
+            "libelle": "Lieu de loisirs",
+            "type": "case"
+          },
+          {
+            "id": "violences-lieu-autre",
+            "libelle": "Autre lieu",
+            "type": "texte"
+          }
+        ]
+      },
+      {
+        "id": "alimentation",
+        "titre": "Alimentation",
+        "champs": [
+          {
+            "id": "alim-grasse",
+            "libelle": "Alimentation trop : Grasse",
+            "type": "case",
+            "risque": true,
+            "reponsesAssociees": [
+              "Q28"
+            ]
+          },
+          {
+            "id": "alim-sucree",
+            "libelle": "Alimentation trop : Sucrée",
+            "type": "case",
+            "risque": true,
+            "reponsesAssociees": [
+              "Q28"
+            ]
+          },
+          {
+            "id": "alim-salee",
+            "libelle": "Alimentation trop : Salée",
+            "type": "case",
+            "risque": true,
+            "reponsesAssociees": [
+              "Q28"
+            ]
+          },
+          {
+            "id": "fruits-legumes",
+            "libelle": "Consommation de fruits et légumes insuffisante",
+            "type": "case",
+            "risque": true,
+            "reponsesAssociees": [
+              "Q27"
+            ]
+          },
+          {
+            "id": "alimentation-autre",
+            "libelle": "Autre",
+            "type": "texte"
+          }
+        ],
+        "thematique": "alimentation"
+      },
+      {
+        "id": "addictions",
+        "titre": "Pratiques addictives et usages à risque",
+        "thematique": "addictions",
+        "champs": [
+          {
+            "id": "tabac",
+            "libelle": "Tabac, vapotage",
+            "type": "case",
+            "risque": true
+          },
+          {
+            "id": "resultat-fagerstrom",
+            "libelle": "Résultat test de Fagerstrom simplifié (HAS)",
+            "type": "calcule",
+            "lien": "tests.fagerstrom"
+          },
+          {
+            "id": "alcool",
+            "libelle": "Alcool",
+            "type": "case",
+            "risque": true
+          },
+          {
+            "id": "resultat-face",
+            "libelle": "Résultat questionnaire FACE ou AUDIT (HAS)",
+            "type": "calcule",
+            "lien": "tests.face"
+          },
+          {
+            "id": "cannabis",
+            "libelle": "Cannabis",
+            "type": "case",
+            "risque": true
+          },
+          {
+            "id": "resultat-cast",
+            "libelle": "Résultat questionnaire CAST",
+            "type": "calcule",
+            "lien": "tests.cast"
+          },
+          {
+            "id": "autres-drogues",
+            "libelle": "Autres drogues",
+            "type": "texte"
+          },
+          {
+            "id": "arret-consommation",
+            "libelle": "Arrêt d’une consommation (précisez le produit et le motif d’arrêt)",
+            "type": "texte",
+            "reponsesAssociees": [
+              "Q39"
+            ]
+          },
+          {
+            "id": "jeux",
+            "libelle": "Jeux d’argent",
+            "type": "case",
+            "risque": true,
+            "reponsesAssociees": [
+              "Q41"
+            ]
+          },
+          {
+            "id": "medicaments-addictogenes",
+            "libelle": "Médicaments addictogènes",
+            "type": "texte"
+          }
+        ]
+      },
+      {
+        "id": "activite",
+        "titre": "Activité physique et sédentarité",
+        "thematique": "activite-physique",
+        "champs": [
+          {
+            "id": "activite-pourquoi",
+            "libelle": "Activité physique, si non pourquoi",
+            "type": "texte",
+            "risque": true,
+            "reponsesAssociees": [
+              "Q26"
+            ]
+          },
+          {
+            "id": "sedentarite",
+            "libelle": "Sédentarité",
+            "type": "case",
+            "risque": true,
+            "reponsesAssociees": [
+              "Q29"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "sante-sexuelle",
+        "titre": "Santé sexuelle",
+        "thematique": "sante-sexuelle",
+        "champs": [
+          {
+            "id": "exposition-ist",
+            "libelle": "Exposition aux IST, troubles sexuels",
+            "type": "case",
+            "risque": true
+          },
+          {
+            "id": "sexualite-autre",
+            "libelle": "Autre",
+            "type": "texte"
+          }
+        ]
+      },
+      {
+        "id": "parcours",
+        "titre": "Parcours de santé, vaccinations et dépistages",
+        "thematique": "cancers",
+        "champs": [
+          {
+            "id": "vaccins-a-realiser",
+            "libelle": "Vaccinations et rappels de vaccination recommandés à réaliser",
+            "type": "case",
+            "precision": "Lesquels",
+            "thematique": "vaccinations",
+            "risque": true,
+            "reponsesAssociees": [
+              "Q33"
+            ]
+          },
+          {
+            "id": "vaccins-realises",
+            "libelle": "Vaccin(s) réalisé(s) lors du bilan",
+            "type": "case",
+            "precision": "Lesquels"
+          },
+          {
+            "id": "prescription-vaccins",
+            "libelle": "Prescription remise si vaccin(s) non réalisé(s) lors du Bilan Prévention",
+            "type": "case",
+            "precision": "Lesquels"
+          },
+          {
+            "id": "depistage-vih",
+            "libelle": "Dépistage VIH/IST à effectuer",
+            "type": "case",
+            "risque": true,
+            "thematique": "sante-sexuelle"
+          },
+          {
+            "id": "prescription-vih",
+            "libelle": "Prescription remise pour le dépistage VIH/IST lors du Bilan Prévention",
+            "type": "case"
+          },
+          {
+            "id": "prep",
+            "libelle": "Indication à la mise en place d’une PrEP VIH",
+            "type": "case",
+            "risque": true,
+            "thematique": "sante-sexuelle"
+          },
+          {
+            "id": "expl-mammographie",
+            "libelle": "Mammographie de dépistage organisé du cancer du sein",
+            "type": "case",
+            "reponsesAssociees": [
+              "Q35"
+            ]
+          },
+          {
+            "id": "expl-colorectal",
+            "libelle": "Test de dépistage organisé du cancer colorectal",
+            "type": "case",
+            "reponsesAssociees": [
+              "Q34"
+            ]
+          },
+          {
+            "id": "expl-col",
+            "libelle": "Dépistage du cancer du col de l’utérus",
+            "type": "case",
+            "reponsesAssociees": [
+              "Q35bis"
+            ]
+          },
+          {
+            "id": "expl-sein-risque",
+            "libelle": "Dépistage du cancer du sein chez un patient à risque élevé/très élevé",
+            "type": "case"
+          },
+          {
+            "id": "expl-colorectal-risque",
+            "libelle": "Dépistage du cancer colorectal chez un patient à risque élevé/très élevé",
+            "type": "case"
+          },
+          {
+            "id": "expl-diabete",
+            "libelle": "Dépistage du diabète",
+            "type": "case"
+          },
+          {
+            "id": "expl-irc",
+            "libelle": "Dépistage de l’insuffisance rénale chronique",
+            "type": "case"
+          },
+          {
+            "id": "expl-hta",
+            "libelle": "HTA (pour objectif thérapeutique non atteint, diagnostic d’une HTA….)",
+            "type": "case"
+          },
+          {
+            "id": "expl-osteodensitometrie",
+            "libelle": "Ostéodensitométrie",
+            "type": "case"
+          },
+          {
+            "id": "expl-bilan-bio",
+            "libelle": "Bilan biologique",
+            "type": "case",
+            "precision": "Précisez"
+          },
+          {
+            "id": "expl-autres",
+            "libelle": "Autres",
+            "type": "texte"
+          }
+        ]
+      },
+      {
+        "id": "environnement",
+        "titre": "Santé et environnement",
+        "champs": [
+          {
+            "id": "habitat",
+            "libelle": "Habitat non aéré, moisissures, acariens",
+            "type": "case",
+            "risque": true
+          },
+          {
+            "id": "polluants",
+            "libelle": "Exposition à des polluants/produits chimiques dans un cadre professionnel",
+            "type": "case",
+            "risque": true
+          },
+          {
+            "id": "bruit",
+            "libelle": "Exposition au bruit",
+            "type": "case",
+            "risque": true
+          },
+          {
+            "id": "environnement-autre",
+            "libelle": "Autre",
+            "type": "texte"
+          },
+          {
+            "id": "chlordecone",
+            "libelle": "Pour les personnes domiciliées aux Antilles françaises : informations transmises sur le risque lié à l’exposition au chlordécone et sur les mesures de prévention",
+            "type": "case",
+            "thematique": "chlordecone"
+          }
+        ],
+        "thematique": "sante-environnement"
+      },
+      {
+        "id": "commentaires",
+        "titre": "Commentaires du professionnel de santé",
+        "champs": [
+          {
+            "id": "commentaires",
+            "libelle": "Commentaires",
+            "type": "texte",
+            "multiligne": true
+          }
+        ]
+      }
+    ]
+  },
+  "liaisons": {
+    "taille": "taille",
+    "poids": "poids",
+    "medecinTraitant": "medecin-traitant",
+    "nombreTraitements": "nombre-traitements",
+    "polymedication": "polymedication",
+    "ideesSuicidaires": "idees-suicidaires",
+    "risqueEleveColorectal": "expl-colorectal-risque",
+    "risqueEleveSein": "expl-sein-risque",
+    "questionReperesAlcool": "Q37"
+  },
+  "mapping": {
+    "source": {
+      "ref": "fiche-reperage-70-75",
+      "page": "1-2",
+      "extrait": "Correspondance autoquestionnaire → fiche établie pour l’outil, à valider par le pharmacien référent"
+    },
+    "regles": [
+      {
+        "question": "Q2",
+        "siReponse": [
+          "oui"
+        ],
+        "champ": "role-aidant",
+        "valeur": true
+      },
+      {
+        "question": "Q3",
+        "siReponse": [
+          "non"
+        ],
+        "champ": "isolement",
+        "valeur": true
+      },
+      {
+        "question": "Q4",
+        "siReponse": [
+          "non"
+        ],
+        "champ": "isolement",
+        "valeur": true,
+        "aVerifier": true
+      },
+      {
+        "question": "Q5",
+        "siReponse": [
+          "hta-diabete-cholesterol",
+          "cardiovasculaire",
+          "cancers",
+          "respiratoire",
+          "arthrose",
+          "fractures",
+          "autre"
+        ],
+        "champ": "antecedents-medicaux",
+        "valeur": "oui"
+      },
+      {
+        "question": "Q5",
+        "siReponse": [
+          "aucune"
+        ],
+        "champ": "antecedents-medicaux",
+        "valeur": "non"
+      },
+      {
+        "question": "Q7",
+        "siReponse": [
+          "oui"
+        ],
+        "champ": "antecedents-familiaux",
+        "valeur": "oui"
+      },
+      {
+        "question": "Q7",
+        "siReponse": [
+          "non"
+        ],
+        "champ": "antecedents-familiaux",
+        "valeur": "non"
+      },
+      {
+        "question": "Q9",
+        "champ": "taille",
+        "copier": true
+      },
+      {
+        "question": "Q10",
+        "champ": "poids",
+        "copier": true
+      },
+      {
+        "question": "Q11",
+        "siReponse": [
+          "amaigrissement"
+        ],
+        "champ": "variation-poids",
+        "valeur": "perte"
+      },
+      {
+        "question": "Q11",
+        "siReponse": [
+          "prise"
+        ],
+        "champ": "variation-poids",
+        "valeur": "gain"
+      },
+      {
+        "question": "Q27",
+        "siReponse": [
+          "1-4",
+          "temps-en-temps",
+          "rarement",
+          "jamais"
+        ],
+        "champ": "fruits-legumes",
+        "valeur": true,
+        "aVerifier": true
+      },
+      {
+        "question": "Q29",
+        "siReponse": [
+          "plus-7h"
+        ],
+        "champ": "sedentarite",
+        "valeur": true,
+        "aVerifier": true
+      },
+      {
+        "question": "Q33",
+        "siReponse": [
+          "non"
+        ],
+        "champ": "vaccins-a-realiser",
+        "valeur": true
+      },
+      {
+        "question": "Q36",
+        "siReponse": [
+          "plusieurs-partenaires",
+          "arret-preservatif",
+          "partenaire-ist"
+        ],
+        "champ": "exposition-ist",
+        "valeur": true
+      },
+      {
+        "question": "Q37",
+        "siReponse": [
+          "plus2ParJour",
+          "plus10ParSemaine",
+          "moins2JoursSans"
+        ],
+        "champ": "alcool",
+        "valeur": true
+      },
+      {
+        "question": "Q38",
+        "siReponse": [
+          "fume",
+          "vapote"
+        ],
+        "champ": "tabac",
+        "valeur": true
+      },
+      {
+        "question": "Q40",
+        "siReponse": [
+          "cannabis"
+        ],
+        "champ": "cannabis",
+        "valeur": true
+      },
+      {
+        "question": "Q40",
+        "siReponse": [
+          "autres-drogues"
+        ],
+        "champ": "autres-drogues",
+        "valeur": "Oui, d’autres drogues"
+      },
+      {
+        "question": "Q41",
+        "siReponse": [
+          "souvent",
+          "de-temps-en-temps",
+          "rarement"
+        ],
+        "champ": "jeux",
+        "valeur": true
+      },
+      {
+        "question": "Q42",
+        "siReponse": [
+          "plutot-negatif"
+        ],
+        "champ": "retraite-mal-vecue",
+        "valeur": "Plutôt négatif",
+        "aVerifier": true
+      },
+      {
+        "question": "Q42",
+        "siReponse": [
+          "tres-negatif"
+        ],
+        "champ": "retraite-mal-vecue",
+        "valeur": "Très négatif",
+        "aVerifier": true
+      },
+      {
+        "question": "Q44",
+        "siReponse": [
+          "souvent",
+          "parfois"
+        ],
+        "champ": "sommeil-insuffisant",
+        "valeur": true
+      },
+      {
+        "question": "Q45",
+        "siReponse": [
+          "moins-6h"
+        ],
+        "champ": "sommeil-insuffisant",
+        "valeur": true,
+        "aVerifier": true
+      },
+      {
+        "question": "Q50",
+        "siReponse": [
+          "idees"
+        ],
+        "champ": "idees-suicidaires",
+        "valeur": true
+      },
+      {
+        "question": "Q50",
+        "siReponse": [
+          "tentative"
+        ],
+        "champ": "antecedent-passage-acte",
+        "valeur": true
+      },
+      {
+        "question": "Q51",
+        "siReponse": [
+          "oui"
+        ],
+        "champ": "violences",
+        "valeur": true
+      },
+      {
+        "question": "Q25",
+        "siReponse": [
+          "lit",
+          "toilettes",
+          "toilette",
+          "vetir",
+          "manger",
+          "marcher",
+          "transport"
+        ],
+        "champ": "perte-autonomie",
+        "valeur": true,
+        "aVerifier": true
+      },
+      {
+        "question": "Q26",
+        "siReponse": [
+          "jamais"
+        ],
+        "champ": "activite-pourquoi",
+        "valeur": "Activité physique déclarée : jamais",
+        "aVerifier": true
+      },
+      {
+        "question": "Q26",
+        "siReponse": [
+          "1-2"
+        ],
+        "champ": "activite-pourquoi",
+        "valeur": "Activité physique déclarée : 1 à 2 fois par semaine",
+        "aVerifier": true
+      },
+      {
+        "question": "Q32",
+        "siReponse": [
+          "non"
+        ],
+        "champ": "risque-chute",
+        "valeur": true,
+        "aVerifier": true
+      }
+    ]
+  },
+  "conseilsPatient": {
+    "source": {
+      "ref": "autoquestionnaire-70-75",
+      "page": "dernières pages",
+      "extrait": "Les bons conseils pour prendre soin de soi"
+    },
+    "items": [
+      {
+        "thematique": "activite-physique",
+        "titre": "Bouger davantage",
+        "texte": "30 minutes par jour d’activité physique d’intensité modérée."
+      },
+      {
+        "thematique": "alimentation",
+        "titre": "Manger sainement",
+        "texte": "Fruits et légumes ; moins de gras, de sel et de sucres ; poissons 2 fois par semaine ; produits frais cuisinés à la maison..."
+      },
+      {
+        "thematique": "bien-etre-mental-social",
+        "titre": "Réduire son stress",
+        "texte": "Respirer, en parler à ses proches, lister mes besoins, prioriser..."
+      },
+      {
+        "thematique": "bien-etre-mental-social",
+        "titre": "Préserver sa santé mentale",
+        "texte": "La santé mentale est indispensable à votre bien-être."
+      },
+      {
+        "thematique": "addictions",
+        "titre": "Arrêter le tabac",
+        "texte": "Utiliser des substituts nicotiniques et se faire aider par un professionnel de santé."
+      },
+      {
+        "thematique": "addictions",
+        "titre": "Maîtriser l’alcool",
+        "texte": "2 verres par jour, soit 10 par semaine, au maximum avec 2 jours sans alcool."
+      },
+      {
+        "thematique": "sommeil",
+        "titre": "Bien dormir",
+        "texte": "Se coucher et se lever à heure fixe, réserver la chambre au sommeil, éviter les écrans…"
+      },
+      {
+        "thematique": "violences",
+        "titre": "Lutter contre les violences",
+        "texte": "Les violences ont toutes des conséquences importantes. Pour être écouté, informé ou orienté, appeler le 3919."
+      },
+      {
+        "thematique": "cancers",
+        "titre": "Dépister les cancers",
+        "texte": "Chez les femmes, le dépistage du cancer du col de l’utérus, c’est tous les 5 ans chez votre médecin ou sage-femme ! À partir de 50 ans, je pense à faire le test de dépistage du cancer colorectal (et la mammographie si je suis une femme)."
+      }
+    ]
+  },
+  "souhaitsPatient": {
+    "question": "Q52",
+    "source": {
+      "ref": "autoquestionnaire-70-75",
+      "page": "dernière page de questions",
+      "extrait": "Q52 - Sujets que le patient souhaite aborder en priorité ; correspondance avec les thématiques établie pour l’outil"
+    },
+    "correspondances": [
+      {
+        "option": "mieux-dormir",
+        "thematiques": [
+          "sommeil"
+        ]
+      },
+      {
+        "option": "alimentation-bouger",
+        "thematiques": [
+          "alimentation",
+          "activite-physique"
+        ]
+      },
+      {
+        "option": "tabac",
+        "thematiques": [
+          "addictions"
+        ]
+      },
+      {
+        "option": "alcool",
+        "thematiques": [
+          "addictions"
+        ]
+      },
+      {
+        "option": "bien-etre",
+        "thematiques": [
+          "bien-etre-mental-social"
+        ]
+      },
+      {
+        "option": "depistages",
+        "thematiques": [
+          "cancers"
+        ]
+      },
+      {
+        "option": "vieillissement",
+        "thematiques": [
+          "perte-autonomie"
+        ]
+      }
+    ]
+  },
+  "export": {
+    "source": {
+      "ref": "livret",
+      "page": "11",
+      "extrait": "Court examen clinique : IMC et pression artérielle pour toutes les tranches ; liste des calculs obligatoires établie pour l’outil (PRD §8), à valider"
+    },
+    "calculsObligatoires": [
+      "imc",
+      "pression-arterielle"
+    ]
+  },
+  "affichage": {
+    "themeRecommande": "contraste",
+    "origine": "PRD C3 : thème contrasté en grands caractères pour les 70-75 ans"
+  }
+}

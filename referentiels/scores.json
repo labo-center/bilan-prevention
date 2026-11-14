@@ -1,5 +1,5 @@
 {
-  "version": "0.2.0",
+  "version": "0.3.0",
   "dateValidation": null,
   "sources": [
     {
@@ -991,6 +991,10 @@
     "siAnormal": {
       "niveau": "rouge",
       "message": "Lignes déformées, ondulées ou taches sombres : orienter rapidement vers un ophtalmologue (moins d’une semaine)"
+    },
+    "applicabilite": {
+      "ageMin": 61,
+      "extrait": "Livret p. 11 : « + grille d’Amsler si > 60 ans » ; à 60 ans révolus, le test n’est pas proposé"
     }
   },
   "polymedication": {

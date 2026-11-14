@@ -1,4 +1,5 @@
 import type { RegleMapping } from '../referentiels/schemaSaisie';
+import type { SaisieIcope } from './icope';
 import type { Bras } from './pa';
 import { preRemplirFiche, type Fiche, type ReponseAQ, type ReponsesAQ, type ValeurChamp } from './preremplissage';
 
@@ -23,6 +24,10 @@ export interface TestsSaisis {
   fagerstrom: { cigarettesParJour?: number; delaiPremiereCigarette?: number };
   cast: Record<string, boolean | undefined>;
   had: Record<string, number | undefined>;
+  adrs: Record<string, boolean | undefined>;
+  /** Grille d'Amsler : true = anomalie (lignes déformées, taches), false = normale. */
+  amsler?: boolean;
+  icope: SaisieIcope;
   /** Résultats libres (acuité visuelle, voix chuchotée, spirométrie). */
   textes: Record<string, string | undefined>;
   /** Identifiants des alertes bloquantes acquittées par le professionnel. */
@@ -80,6 +85,8 @@ export function creerSession(ouverture: Ouverture, debut = 0): Session {
       fagerstrom: {},
       cast: {},
       had: {},
+      adrs: {},
+      icope: {},
       textes: {},
       acquittements: [],
     },
@@ -96,7 +103,9 @@ export type Action =
   | { type: 'champ'; champ: string; valeur?: ValeurChamp; precision?: string }
   | { type: 'pa'; lignes: LignePa[] }
   | { type: 'face' | 'had'; item: string; points: number | undefined }
-  | { type: 'cast'; item: string; oui: boolean | undefined }
+  | { type: 'cast' | 'adrs'; item: string; oui: boolean | undefined }
+  | { type: 'amsler'; anormal: boolean | undefined }
+  | { type: 'icope'; saisie: SaisieIcope }
   | { type: 'fagerstrom'; item: 'cigarettesParJour' | 'delaiPremiereCigarette'; points: number | undefined }
   | { type: 'texteTest'; test: string; texte: string }
   | { type: 'acquitter'; alerte: string }
@@ -157,7 +166,12 @@ export function reduireSession(s: Session, a: Action, regles: readonly RegleMapp
     case 'had':
       return { ...s, tests: { ...s.tests, [a.type]: { ...s.tests[a.type], [a.item]: a.points } } };
     case 'cast':
-      return { ...s, tests: { ...s.tests, cast: { ...s.tests.cast, [a.item]: a.oui } } };
+    case 'adrs':
+      return { ...s, tests: { ...s.tests, [a.type]: { ...s.tests[a.type], [a.item]: a.oui } } };
+    case 'amsler':
+      return { ...s, tests: { ...s.tests, amsler: a.anormal } };
+    case 'icope':
+      return { ...s, tests: { ...s.tests, icope: a.saisie } };
     case 'fagerstrom':
       return { ...s, tests: { ...s.tests, fagerstrom: { ...s.tests.fagerstrom, [a.item]: a.points } } };
     case 'texteTest':

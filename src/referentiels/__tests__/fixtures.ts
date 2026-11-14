@@ -46,3 +46,12 @@ export function orientationReelle() {
 export function lireOrientation(): Record<string, unknown> {
   return JSON.parse(lireReferentielsReels()['referentiels/orientation.json']!) as Record<string, unknown>;
 }
+
+/** Référentiel de tranche réel, validé, par identifiant (« 18-25 », « 60-65 »…). */
+export function trancheReelle(id: string) {
+  const r = chargerReferentiels(lireReferentielsReels());
+  if (!r.ok) throw new Error(`référentiels invalides : ${JSON.stringify(r.erreurs)}`);
+  const t = r.tranches.find((x) => x.tranche.id === id);
+  if (!t) throw new Error(`tranche ${id} absente`);
+  return t;
+}

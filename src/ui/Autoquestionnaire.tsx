@@ -49,7 +49,8 @@ function QuestionAQ({
   repondre: (v: string | string[] | number | undefined) => void;
   preciser: (cle: string, texte: string) => void;
 }) {
-  const titre = `${q.id === 'Q46bis' ? 'Q46 bis' : q.id} - ${q.libelle}`;
+  // Numérotation du PDF : « Q46bis » s'affiche « Q46 bis ».
+  const titre = `${q.id.replace(/bis$/, ' bis')} - ${q.libelle}`;
 
   if (q.type === 'nombre') {
     return (

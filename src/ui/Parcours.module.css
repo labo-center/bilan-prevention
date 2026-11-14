@@ -161,3 +161,7 @@
 /* Minuteur d'entretien (S3) */
 .minuteur, .minuteurDepasse { margin: 0; flex-basis: 100%; padding: var(--mbp-espace-1) var(--mbp-espace-2); border-radius: var(--mbp-rayon); }
 .minuteurDepasse { background: var(--mbp-orange-fond); border-left: var(--mbp-espace-1) solid var(--mbp-orange-trait); }
+
+/* ICOPE : un bloc par domaine */
+.domaineIcope { display: flex; flex-direction: column; gap: var(--mbp-espace-2); padding: var(--mbp-espace-3); border: var(--mbp-bordure) solid var(--mbp-trait); border-radius: var(--mbp-rayon); }
+.domaineIcope[data-statut='positif'] { border-left: var(--mbp-espace-1) solid var(--mbp-orange-trait); background: var(--mbp-orange-fond); }

@@ -8,11 +8,16 @@ const avec = (obj: unknown, fichier = 'referentiels/45-50.json') => ({
   [fichier]: JSON.stringify(obj),
 });
 
+/** Tranches présentes dans referentiels/ (incrément 6 : les 4 tranches du dispositif). */
+const TRANCHES_ATTENDUES = Object.keys(lireReferentielsReels())
+  .flatMap((f) => /(\d{2}-\d{2})\.json$/.exec(f)?.[1] ?? [])
+  .sort();
+
 describe('chargerReferentiels', () => {
-  it('valide le référentiel 45-50 réel du dépôt', () => {
+  it('valide les référentiels réels du dépôt', () => {
     const r = chargerReferentiels(lireReferentielsReels());
-    expect(r.ok).toBe(true);
-    if (r.ok) expect(r.tranches.map((t) => t.tranche.id)).toEqual(['45-50']);
+    expect(r.ok ? [] : r.erreurs).toEqual([]);
+    if (r.ok) expect(r.tranches.map((t) => t.tranche.id)).toEqual(TRANCHES_ATTENDUES);
   });
 
   it('JSON syntaxiquement corrompu : refus avec le chemin du fichier', () => {
@@ -91,7 +96,7 @@ describe('chargerReferentiels', () => {
   });
 
   it('aucun référentiel de tranche : refus', () => {
-    const { 'referentiels/45-50.json': _, ...sansTranche } = lireReferentielsReels();
+    const sansTranche = Object.fromEntries(Object.entries(lireReferentielsReels()).filter(([f]) => !/\d{2}-\d{2}\.json$/.test(f)));
     expect(chargerReferentiels(sansTranche).ok).toBe(false);
   });
 

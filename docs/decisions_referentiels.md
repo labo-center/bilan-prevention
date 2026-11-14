@@ -33,11 +33,24 @@ Ce document trace les écarts entre le PRD et les sources officielles, et les ch
 | Contrôle de facturation | RDP 30 € et au plus 1 acte complémentaire (RVA ou kit DOCCR) ; deux actes cochés bloquent l'export PDF | Livret p. 21, PRD S2 |
 | PA retenue | Moyenne par bras ; bras retenu = le plus sévère au regard des seuils, puis la plus haute systolique. Comparaison sur la moyenne exacte (139,5 reste sous 140) | Livret p. 29 et 41 |
 
+## Incrément 6 : tranches 18-25, 60-65 et 70-75
+| Sujet | Décision | Source |
+|---|---|---|
+| Transcription | Autoquestionnaires (47, 51 et 52 questions) et fiches de repérage transcrits de chaque PDF ; éléments communs repris de 45-50 après comparaison texte à texte | Autoquestionnaires et fiches 18-25, 60-65, 70-75 |
+| PPP et conseils patient | Identiques dans les 4 tranches (comparaison des PDF) | PPP et autoquestionnaires |
+| ADRS / HAD en 18-25 | Les deux échelles figurent dans les tests de la tranche ; l'outil propose l'ADRS de 18 à 20 ans et la HAD à partir de 20 ans (les deux à 20 ans). La fiche 18-25 ne prévoit qu'un champ « Échelle HAD » : le résultat ADRS figure dans les résultats des tests du PDF | Livret p. 11 et 34 |
+| Grille d'Amsler | Proposée à partir de 61 ans révolus (« si > 60 ans ») : pas à 60 ans | Livret p. 11 et 29 |
+| ICOPE | Saisie par domaine selon le livret p. 31 ; critères hors mobilité toujours « à vérifier » | Livret p. 30-31 |
+| Fiche 70-75 : cases « Idées suicidaires » et « Antécédent de passage à l’acte » | Absentes de la fiche officielle 70-75 (vérifié sur l'image), alors que l'autoquestionnaire pose la question (Q50). Ajoutées par l'outil, marquées « hors fiche officielle » à l'écran, pour l'alerte 31 14 (M10) | Fiche et autoquestionnaire 70-75 |
+| Résultat d'Amsler sur la fiche 60-65 et 70-75 | Le libellé officiel « test de AMLER » est conservé tel quel ; le champ affiche le résultat saisi dans les tests | Fiches 60-65 et 70-75 |
+| Correspondances par interprétation (« à vérifier ») | 18-25 : antécédents anxio-dépressifs depuis Q10. 60-65 : isolement si pas de contact avec les proches (Q4), conditions de travail pénibles (Q24), perte d'autonomie (Q26), regard négatif sur la retraite (Q41). 70-75 : perte d'autonomie si un geste du quotidien est difficile (Q25), risque de chute si logement non adapté (Q32), retraite (Q42) | Choix du concepteur, à valider |
+| Thème grands caractères (C3) | Activé d'office à l'ouverture d'une session 70-75, désactivable ; disponible pour toutes les tranches par le bouton « Grands caractères » | PRD C3 |
+
 ## À vérifier (absent des sources fournies)
 | Élément | État dans le référentiel |
 |---|---|
 | Seuils IMC (OMS adulte) | Présents, `aVerifier: true` (HYP9) |
-| Seuil de dénutrition à 70 ans et plus | Non saisi, à traiter avec la tranche 70-75 (incrément 6) |
+| Seuil de dénutrition à 70 ans et plus | Non implémenté : aucun seuil dans les sources fournies (HYP9). Le domaine nutrition d'ICOPE et la case « Perte d’appétit » de la fiche couvrent le repérage |
 | ICOPE : critères de positivité hors mobilité, orientation médecin traitant | Présents, `aVerifier: true` ; seul le critère de mobilité (< 14 s) est sourcé |
 | PHQ-4 | Les 4 items sont les questions Q40 à Q43 de l'autoquestionnaire, mais ni la cotation ni les seuils ne figurent dans les sources : pas de calcul. Le champ « Résultat au test Score PHQ4 » de la fiche se saisit librement, avec les réponses Q40 à Q43 rappelées à côté |
 | Q46 (sujets que le patient souhaite aborder) | Réponses conservées en session, exploitées à la décision partagée (incrément 4) |

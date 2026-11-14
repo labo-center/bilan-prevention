@@ -1,6 +1,9 @@
 import type { ReferentielScores } from '../referentiels/schemaScores';
 import type { ReferentielTranche } from '../referentiels/schemas';
+import { calculerAdrs, type ResultatAdrs } from './adrs';
 import { calculerCast, type ResultatCast } from './cast';
+import { testApplicable } from './humeur';
+import { evaluerIcope, type ResultatIcope } from './icope';
 import { depistagesApplicables, type Depistage } from './depistages';
 import { calculerFace, type ResultatFace } from './face';
 import { calculerFagerstrom, type ResultatFagerstrom } from './fagerstrom';
@@ -10,7 +13,7 @@ import { evaluerPa, type MesurePa, type ResultatPa } from './pa';
 import { dedoublonner, trierRisques, type Risque } from './risques';
 import type { Session } from './session';
 import {
-  evaluerIdeesSuicidaires, evaluerMedecinTraitant, evaluerPolymedication, evaluerReperesAlcool,
+  evaluerAmsler, evaluerIdeesSuicidaires, evaluerMedecinTraitant, evaluerPolymedication, evaluerReperesAlcool,
 } from './situations';
 import type { Interpretation } from './types';
 
@@ -20,7 +23,16 @@ export interface EvaluationSession {
   face: ResultatFace;
   fagerstrom: ResultatFagerstrom;
   cast: ResultatCast;
+  /** Vide si la HAD n'est pas applicable (moins de 20 ans). */
   had: ResultatDimensionHad[];
+  /** null si l'ADRS n'est pas applicable (plus de 20 ans). */
+  adrs: ResultatAdrs | null;
+  /** null si non applicable ou grille normale ; alerte si anomalie. */
+  amsler: Interpretation | null;
+  /** null si ICOPE n'est pas un test de la tranche. */
+  icope: ResultatIcope | null;
+  /** Tests de la tranche proposés à cette personne (filtrés par l'âge). */
+  testsProposes: string[];
   reperesAlcool: ReturnType<typeof evaluerReperesAlcool>;
   polymedication: Interpretation | null;
   ideesSuicidaires: ReturnType<typeof evaluerIdeesSuicidaires>;
@@ -46,6 +58,9 @@ export function evaluerSession(session: Session, tranche: ReferentielTranche, sc
     l.systolique !== null && l.diastolique !== null ? [{ bras: l.bras, systolique: l.systolique, diastolique: l.diastolique }] : [],
   );
 
+  const testsProposes = tranche.testsApplicables.items.map((t) => t.id).filter((t) => testApplicable(t, ouverture.age, scores));
+  const propose = (t: string) => testsProposes.includes(t);
+
   const brutAlcool = session.autoquestionnaire.reponses[lien.questionReperesAlcool];
   const reponsesAlcool: readonly string[] = Array.isArray(brutAlcool) ? brutAlcool : [];
 
@@ -55,7 +70,11 @@ export function evaluerSession(session: Session, tranche: ReferentielTranche, sc
     face: calculerFace(tests.face, ouverture.genre, scores.face),
     fagerstrom: calculerFagerstrom(tests.fagerstrom, scores.fagerstrom),
     cast: calculerCast(tests.cast, scores.cast),
-    had: calculerHad(tests.had, scores.had),
+    had: propose('had') ? calculerHad(tests.had, scores.had) : [],
+    adrs: propose('adrs') ? calculerAdrs(tests.adrs, scores.adrs) : null,
+    amsler: propose('amsler') ? evaluerAmsler(tests.amsler, scores.amsler) : null,
+    icope: propose('icope') ? evaluerIcope(tests.icope, scores.icope) : null,
+    testsProposes,
     reperesAlcool: evaluerReperesAlcool(
       Object.fromEntries(scores.reperesAlcool.reperes.map((r) => [r.id, reponsesAlcool.includes(r.id)])),
       scores.reperesAlcool,
@@ -99,6 +118,12 @@ export function evaluerSession(session: Session, tranche: ReferentielTranche, sc
   if (ev.cast.complet) ajouter('cast', scores.cast.thematique, ev.cast.interpretation, src(scores.cast.source));
   for (const d of ev.had) {
     if (d.complet) ajouter(`had-${d.dimension}`, scores.had.thematique, { ...d.interpretation, message: `${d.libelle} : ${d.interpretation.message}` }, src(scores.had.source));
+  }
+  if (ev.adrs?.complet) ajouter('adrs', scores.adrs.thematique, ev.adrs.interpretation, src(scores.adrs.source));
+  ajouter('amsler', scores.amsler.thematique, ev.amsler, src(scores.amsler.source));
+  if (ev.icope?.conclusion) {
+    const positifs = ev.icope.domaines.filter((d) => d.statut === 'positif').map((d) => d.libelle);
+    ajouter('icope', scores.icope.thematique, { ...ev.icope.conclusion, message: `${ev.icope.conclusion.message} (domaine${positifs.length > 1 ? 's' : ''} : ${positifs.join(', ')})` }, src(scores.icope.source));
   }
   ajouter(lien.polymedication, scores.polymedication.thematique, ev.polymedication, src(scores.polymedication.source));
   ajouter(lien.medecinTraitant, scores.medecinTraitant.thematique, ev.medecinTraitant, src(scores.medecinTraitant.source));

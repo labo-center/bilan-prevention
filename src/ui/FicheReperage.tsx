@@ -1,4 +1,5 @@
 import { useId } from 'react';
+import { texteAmsler } from '../logic/document';
 import type { EvaluationSession } from '../logic/evaluation';
 import type { EntreeFiche } from '../logic/preremplissage';
 import type { Session } from '../logic/session';
@@ -37,6 +38,8 @@ export function texteCalcule(lien: Extract<Champ, { type: 'calcule' }>['lien'], 
       return score(ev.fagerstrom);
     case 'tests.cast':
       return score(ev.cast);
+    case 'tests.amsler':
+      return texteAmsler(session, ev) ?? 'Non réalisé';
   }
 }
 
@@ -74,6 +77,7 @@ export function FicheReperage({ session, tranche, dispatch, evaluation }: PropsE
                 ) : (
                   <SaisieChamp champ={c} entree={session.fiche[c.id]} modifier={(m) => dispatch({ type: 'champ', champ: c.id, ...m })} />
                 )}
+                {c.horsFicheOfficielle && <span className={styles.badgeAVerifier}>hors fiche officielle</span>}
                 {rappel(c)}
               </div>
             ))}
@@ -119,6 +123,7 @@ function SaisieChamp({
     case 'case':
       return (
         <>
+          {c.aide && <p className={styles.aide}>{c.aide}</p>}
           <label className={styles.option}>
             <input type="checkbox" checked={v === true} onChange={(e) => modifier({ valeur: e.target.checked })} />
             {c.libelle}
@@ -159,6 +164,7 @@ function SaisieChamp({
     case 'texte':
       return (
         <div className={styles.champTexte}>
+          {c.aide && <p className={styles.aide}>{c.aide}</p>}
           <label htmlFor={id}>
             {c.libelle} <Marques entree={entree} />
           </label>

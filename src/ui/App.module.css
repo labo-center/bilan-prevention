@@ -1,6 +1,31 @@
 .app {
   min-height: 100%;
   padding: var(--mbp-espace-4);
+  /* Réappliqués ici pour que le thème choisi en cours de session prenne effet. */
+  font-size: var(--mbp-taille-texte);
+  color: var(--mbp-texte);
+  background: var(--mbp-fond);
+}
+.entete {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--mbp-espace-3);
+}
+.bascule {
+  font: inherit;
+  min-height: var(--mbp-cible-tactile);
+  padding: var(--mbp-espace-2) var(--mbp-espace-4);
+  border-radius: var(--mbp-rayon);
+  border: var(--mbp-bordure) solid var(--mbp-primaire);
+  background: var(--mbp-surface);
+  color: var(--mbp-primaire);
+  cursor: pointer;
+}
+.bascule[aria-pressed='true'] {
+  background: var(--mbp-primaire);
+  color: var(--mbp-primaire-texte);
 }
 .entete,
 .contenu {

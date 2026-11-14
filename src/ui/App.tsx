@@ -11,7 +11,8 @@ import styles from './App.module.css';
 const CLE_SESSION = 'session';
 
 export function App({ chargement }: { chargement: ResultatChargement }) {
-  const { data, config } = useBrick();
+  const { data, config, theme } = useBrick();
+  const [themeActif, setThemeActif] = useState(theme);
   const racine = useRef<HTMLDivElement>(null);
   const [session, setSession] = useState<Session | null>(() => data.lire<Session>(CLE_SESSION) ?? null);
   const [avis, setAvis] = useState<string | null>(null);
@@ -37,14 +38,25 @@ export function App({ chargement }: { chargement: ResultatChargement }) {
 
   const ouvrir = (o: Ouverture) => {
     setAvis(null);
+    // Thème recommandé par la tranche (grands caractères pour les 70-75 ans, PRD C3), modifiable ensuite.
+    const recommande = chargement.ok ? chargement.tranches.find((t) => t.tranche.id === o.trancheId)?.affichage?.themeRecommande : undefined;
+    if (recommande) setThemeActif(recommande);
     setSession(creerSession(o, Date.now()));
   };
   const dispatch = (a: Action) => setSession((s) => (s && tranche ? reduireSession(s, a, tranche.mapping.regles) : s));
 
   return (
-    <div className={styles.app} ref={racine}>
+    <div className={styles.app} ref={racine} data-theme={themeActif}>
       <header className={styles.entete}>
         <h1 className={styles.titre}>Copilote Mon Bilan Prévention</h1>
+        <button
+          type="button"
+          className={styles.bascule}
+          aria-pressed={themeActif === 'contraste'}
+          onClick={() => setThemeActif(themeActif === 'contraste' ? 'clair' : 'contraste')}
+        >
+          Grands caractères
+        </button>
       </header>
       <main className={styles.contenu}>
         {session && tranche ? (

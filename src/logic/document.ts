@@ -46,6 +46,25 @@ const dateFr = (iso: string) => iso.split('-').reverse().join('/');
 /** Nombre au format français, jusqu'à 2 décimales sans zéro inutile (1,75 m ; 139,5 mmHg ; 80 kg). */
 export const nombreFr = (n: number) => String(Math.round(n * 100) / 100).replace('.', ',');
 
+/** Résultat de la grille d'Amsler : null si non réalisée. */
+export function texteAmsler(session: Session, ev: EvaluationSession): string | null {
+  if (session.tests.amsler === undefined) return null;
+  return session.tests.amsler && ev.amsler ? `Anomalie - ${ev.amsler.message}` : 'Grille normale';
+}
+
+/** Synthèse ICOPE : domaines positifs, puis domaines non évalués ; null si rien n'a été saisi. */
+export function texteIcope(r: NonNullable<EvaluationSession['icope']>): string | null {
+  if (r.domaines.every((d) => d.statut === 'non-evalue')) return null;
+  const liste = (statut: string) => r.domaines.filter((d) => d.statut === statut).map((d) => d.libelle).join(', ');
+  const positifs = liste('positif');
+  const nonEvalues = liste('non-evalue');
+  return [
+    positifs ? `Domaine(s) positif(s) : ${positifs}` : 'Aucun domaine positif',
+    nonEvalues ? `non évalué(s) : ${nonEvalues}` : '',
+    r.conclusion ? r.conclusion.message : '',
+  ].filter(Boolean).join(' - ');
+}
+
 /** Pied de page : version des trois référentiels, état de validation et date d'édition. */
 export function piedDePage(tranche: ReferentielTranche, scores: ReferentielScores, orientation: ReferentielOrientation, dateEdition: string): string {
   const refs = [tranche, scores, orientation];
@@ -81,6 +100,7 @@ export function construireDocument(
     'tests.face': score(ev.face),
     'tests.fagerstrom': score(ev.fagerstrom),
     'tests.cast': score(ev.cast),
+    'tests.amsler': texteAmsler(session, ev),
   };
 
   const sectionsFiche: SectionDocument[] = tranche.ficheReperage.sections
@@ -109,7 +129,8 @@ export function construireDocument(
   const resultats: LigneDocument[] = [];
   const titres = new Map(tranche.testsApplicables.items.map((t) => [t.id, t.libelle]));
   const manquants: string[] = [];
-  for (const t of tranche.testsApplicables.items) {
+  // Seuls les tests proposés à cette personne (ADRS, HAD et Amsler dépendent de l'âge).
+  for (const t of tranche.testsApplicables.items.filter((x) => ev.testsProposes.includes(x.id))) {
     let v: string | null;
     let aVerifier = false;
     if (t.id === 'imc') {
@@ -121,6 +142,13 @@ export function construireDocument(
       v = score(ev[t.id]);
     } else if (t.id === 'had') {
       v = calcule['tests.had'] ?? null;
+    } else if (t.id === 'adrs') {
+      v = ev.adrs ? score(ev.adrs) : null;
+    } else if (t.id === 'amsler') {
+      v = texteAmsler(session, ev);
+    } else if (t.id === 'icope') {
+      v = ev.icope ? texteIcope(ev.icope) : null;
+      aVerifier = ev.icope?.domaines.some((d) => d.statut === 'positif' && d.aVerifier) ?? false;
     } else {
       v = session.tests.textes[t.id]?.trim() || null;
     }

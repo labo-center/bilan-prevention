@@ -190,7 +190,13 @@ export const schemaScores = z
       siPositif: conclusion,
       noteAVerifier: z.string().optional(),
     }),
-    amsler: z.object({ thematique, source: referenceSource, siAnormal: conclusion }),
+    amsler: z.object({
+      thematique,
+      source: referenceSource,
+      /** Âge minimal (inclus) : le livret propose le test « si > 60 ans ». */
+      applicabilite: z.object({ ageMin: z.number().int().min(0), extrait: z.string().min(1) }),
+      siAnormal: conclusion,
+    }),
     polymedication: z.object({
       thematique,
       source: referenceSource,

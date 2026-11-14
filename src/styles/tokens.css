@@ -52,8 +52,12 @@
   background: var(--mbp-fond);
 }
 
-/* Thème contrasté, grands caractères (PRD C3) */
-[data-mbp-racine][data-theme='contraste'] {
+/*
+ * Thème contrasté, grands caractères (PRD C3). Porté soit par le conteneur (thème fixé par l'hôte),
+ * soit par la racine de l'application (bascule en cours de session, d'office pour les 70-75 ans).
+ */
+[data-mbp-racine][data-theme='contraste'],
+[data-mbp-racine] [data-theme='contraste'] {
   --mbp-taille-texte: 1.25rem;
   --mbp-taille-titre: 1.875rem;
   --mbp-taille-sous-titre: 1.375rem;

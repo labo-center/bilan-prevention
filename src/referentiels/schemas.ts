@@ -42,6 +42,8 @@ export const schemaReferentielTranche = z
     mapping: schemaMapping,
     conseilsPatient: schemaConseilsPatient,
     souhaitsPatient: schemaSouhaitsPatient,
+    /** Affichage recommandé pour la tranche (thème grands caractères pour les 70-75 ans, PRD C3). */
+    affichage: z.object({ themeRecommande: z.enum(['clair', 'contraste']), origine: z.string().min(1) }).strict().optional(),
     export: z.object({
       source: referenceSource,
       /** Tests dont le résultat manquant fait porter la mention « INCOMPLET » au PDF. */
