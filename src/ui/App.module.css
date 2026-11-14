@@ -36,3 +36,10 @@
   border-bottom: var(--mbp-bordure) solid var(--mbp-trait);
   overflow-wrap: anywhere;
 }
+.avis {
+  margin: 0 0 var(--mbp-espace-4);
+  padding: var(--mbp-espace-3);
+  background: var(--mbp-info-fond);
+  border-left: var(--mbp-espace-1) solid var(--mbp-info-trait);
+  border-radius: var(--mbp-rayon);
+}

@@ -1,5 +1,5 @@
 {
-  "version": "0.1.0",
+  "version": "0.2.0",
   "dateValidation": null,
   "sources": [
     {
@@ -490,6 +490,8 @@
         "Peur des conséquences",
         "Choix d’autres priorités"
       ]
-    }
+    },
+    "mentionOpposition": "Le patient s’oppose à la transmission au médecin traitant.",
+    "origineMentionOpposition": "Critère M14 du PRD"
   }
 }

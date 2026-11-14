@@ -6,9 +6,12 @@ export interface BrickConfig {
    * Par défaut le fichier livré à côté de la brique (copié au build depuis docs/sources/).
    */
   urlFichesThematiques: string;
+  /** Purge automatique de la session après ce délai sans interaction (M15, PGSSI-S). */
+  inactiviteMinutes: number;
 }
 
 export const configParDefaut: BrickConfig = {
   sourceDonnees: 'memory',
   urlFichesThematiques: 'fiches-thematiques.pdf',
+  inactiviteMinutes: 30,
 };

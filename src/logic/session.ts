@@ -49,6 +49,8 @@ export interface Ppp {
   /** Cellules modifiées par le professionnel ; une cellule absente prend sa valeur par défaut. */
   cellules: Readonly<Record<string, Partial<Record<ColonnePpp, string>>>>;
   modalitesSuivi: string;
+  /** Le patient s'oppose à la transmission du PPP au médecin traitant. */
+  opposition: boolean;
 }
 
 export interface Session {
@@ -58,9 +60,13 @@ export interface Session {
   tests: TestsSaisis;
   decision: DecisionPartagee;
   ppp: Ppp;
+  /** Actes facturés en sus du Bilan Prévention (codes de scores.json). */
+  actesComplementaires: string[];
+  /** Horodatage d'ouverture (ms), pour le minuteur d'entretien. */
+  debut: number;
 }
 
-export function creerSession(ouverture: Ouverture): Session {
+export function creerSession(ouverture: Ouverture, debut = 0): Session {
   return {
     ouverture,
     autoquestionnaire: { reponses: {}, precisions: {} },
@@ -78,7 +84,9 @@ export function creerSession(ouverture: Ouverture): Session {
       acquittements: [],
     },
     decision: { priorites: [], entretiens: {} },
-    ppp: { cellules: {}, modalitesSuivi: '' },
+    ppp: { cellules: {}, modalitesSuivi: '', opposition: false },
+    actesComplementaires: [],
+    debut,
   };
 }
 
@@ -97,7 +105,9 @@ export type Action =
   | { type: 'balance'; thematique: string; case: string; texte: string }
   | { type: 'ouvrirBalance'; thematique: string }
   | { type: 'cellulePpp'; thematique: string; colonne: ColonnePpp; texte: string }
-  | { type: 'modalitesSuivi'; texte: string };
+  | { type: 'modalitesSuivi'; texte: string }
+  | { type: 'opposition'; oppose: boolean }
+  | { type: 'acte'; code: string; coche: boolean };
 
 /**
  * Ajoute ou retire une priorité. Au-delà du maximum, la sélection est refusée (M12) :
@@ -172,6 +182,13 @@ export function reduireSession(s: Session, a: Action, regles: readonly RegleMapp
     }
     case 'modalitesSuivi':
       return { ...s, ppp: { ...s.ppp, modalitesSuivi: a.texte } };
+    case 'opposition':
+      return { ...s, ppp: { ...s.ppp, opposition: a.oppose } };
+    case 'acte': {
+      // Cocher deux actes reste possible : le contrôle de facturation signale l'erreur de façon bloquante (S2).
+      const autres = s.actesComplementaires.filter((c) => c !== a.code);
+      return { ...s, actesComplementaires: a.coche ? [...autres, a.code] : autres };
+    }
   }
 }
 

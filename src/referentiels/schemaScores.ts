@@ -225,6 +225,14 @@ export const schemaScores = z
       ),
       genreNonRenseigne: z.string().min(1),
     }),
+    dureeEntretien: z.object({
+      source: referenceSource,
+      /** Repères affichés par le minuteur (S3), en minutes, croissants. */
+      reperesMinutes: z
+        .array(z.number().int().positive())
+        .min(1)
+        .refine((r) => r.every((x, i) => i === 0 || x > r[i - 1]!), { message: 'repères strictement croissants attendus' }),
+    }),
     facturation: z.object({
       source: referenceSource,
       acteBilan: z.object({ code: z.string().min(1), libelle: z.string().min(1), montantEuros: z.number().positive(), rappel: z.string().min(1) }),

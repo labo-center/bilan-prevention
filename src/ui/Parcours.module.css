@@ -157,3 +157,7 @@
 .entetePanneau { display: flex; align-items: center; justify-content: space-between; gap: var(--mbp-espace-2); }
 .cadreFiche { flex: 1; width: 100%; border: var(--mbp-bordure) solid var(--mbp-trait); border-radius: var(--mbp-rayon); }
 .champTexte select { max-width: 24rem; }
+
+/* Minuteur d'entretien (S3) */
+.minuteur, .minuteurDepasse { margin: 0; flex-basis: 100%; padding: var(--mbp-espace-1) var(--mbp-espace-2); border-radius: var(--mbp-rayon); }
+.minuteurDepasse { background: var(--mbp-orange-fond); border-left: var(--mbp-espace-1) solid var(--mbp-orange-trait); }

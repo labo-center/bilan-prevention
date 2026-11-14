@@ -68,6 +68,8 @@ export const schemaOrientation = z
       modalitesSuivi: z.string().min(1),
       encouragement: z.string().min(1),
       opposition: z.string().min(1),
+      mentionOpposition: z.string().min(1),
+      origineMentionOpposition: z.string().min(1),
       freinsSuggeres: z.object({ source: referenceSource, items: z.array(z.string().min(1)).min(1) }),
     }),
   })

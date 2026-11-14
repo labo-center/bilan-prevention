@@ -42,6 +42,11 @@ export const schemaReferentielTranche = z
     mapping: schemaMapping,
     conseilsPatient: schemaConseilsPatient,
     souhaitsPatient: schemaSouhaitsPatient,
+    export: z.object({
+      source: referenceSource,
+      /** Tests dont le résultat manquant fait porter la mention « INCOMPLET » au PDF. */
+      calculsObligatoires: z.array(z.string().min(1)).min(1),
+    }),
   })
   .strict()
   .superRefine((ref, ctx) => {
@@ -62,10 +67,15 @@ export const schemaReferentielTranche = z
         [ref.mapping.source.ref, ['mapping', 'source', 'ref']],
         [ref.conseilsPatient.source.ref, ['conseilsPatient', 'source', 'ref']],
         [ref.souhaitsPatient.source.ref, ['souhaitsPatient', 'source', 'ref']],
+        [ref.export.source.ref, ['export', 'source', 'ref']],
       ],
       ctx,
     );
     verifierCoherenceSaisie(ref, ctx);
+    const tests = ref.testsApplicables.items.map((t) => t.id);
+    ref.export.calculsObligatoires.forEach((c, i) => {
+      if (!tests.includes(c)) ctx.addIssue({ code: 'custom', path: ['export', 'calculsObligatoires', i], message: `test "${c}" non applicable à la tranche` });
+    });
   });
 
 export type ReferentielTranche = z.infer<typeof schemaReferentielTranche>;

@@ -6,7 +6,9 @@ import type { ReferentielScores } from '../referentiels/schemaScores';
 import type { ReferentielTranche } from '../referentiels/schemas';
 import { Autoquestionnaire } from './Autoquestionnaire';
 import { FicheReperage } from './FicheReperage';
+import { Cloture } from './Cloture';
 import { DecisionPartagee } from './DecisionPartagee';
+import { Minuteur } from './Minuteur';
 import { PanneauFiche } from './PanneauFiche';
 import { PlanPersonnalise } from './PlanPersonnalise';
 import { TestsCliniques } from './TestsCliniques';
@@ -18,6 +20,7 @@ const ETAPES = [
   { id: 'tests', libelle: 'Tests cliniques' },
   { id: 'decision', libelle: 'Décision partagée' },
   { id: 'ppp', libelle: 'Plan personnalisé' },
+  { id: 'cloture', libelle: 'Clôture et export' },
 ] as const;
 type Etape = (typeof ETAPES)[number]['id'];
 
@@ -54,7 +57,7 @@ export function Parcours({
   const indexEtape = ETAPES.findIndex((e) => e.id === etape);
   const suivante = ETAPES[indexEtape + 1];
   // Une alerte bloquante non acquittée interdit la décision partagée et le PPP (M5).
-  const accessible = (e: Etape) => !((e === 'decision' || e === 'ppp') && bloque);
+  const accessible = (e: Etape) => !((e === 'decision' || e === 'ppp' || e === 'cloture') && bloque);
 
   return (
     <div className={styles.parcours}>
@@ -71,6 +74,7 @@ export function Parcours({
             {tranche.dateValidation ? ` - validé le ${tranche.dateValidation}` : <span className={styles.badgeAVerifier}>non validé par le pharmacien référent</span>}
           </dd>
         </dl>
+        <Minuteur debut={session.debut} reperesMinutes={scores.dureeEntretien.reperesMinutes} />
         <button type="button" className={styles.boutonSecondaire} onClick={onCloturer}>Clôturer la session</button>
       </section>
 
@@ -114,6 +118,7 @@ export function Parcours({
         {etape === 'tests' && <TestsCliniques {...props} />}
         {etape === 'decision' && <DecisionPartagee {...props} />}
         {etape === 'ppp' && <PlanPersonnalise {...props} />}
+        {etape === 'cloture' && <Cloture {...props} onCloturer={onCloturer} />}
       </div>
 
       {fiche && <PanneauFiche thematique={fiche} scores={scores} onFermer={() => setFiche(null)} />}

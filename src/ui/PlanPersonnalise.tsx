@@ -27,6 +27,10 @@ export function PlanPersonnalise(props: PropsEtape) {
           <textarea className={styles.zoneTexte} defaultValue={session.ppp.modalitesSuivi} onChange={(e) => dispatch({ type: 'modalitesSuivi', texte: e.target.value })} />
         </label>
         <p className={styles.aide}>{p.encouragement}</p>
+        <label className={styles.option}>
+          <input type="checkbox" checked={session.ppp.opposition} onChange={(e) => dispatch({ type: 'opposition', oppose: e.target.checked })} />
+          {p.opposition}
+        </label>
       </section>
       <p className={styles.aide}>{p.colonnes.filter((c) => c.note).map((c) => `${c.libelle} : ${c.note}`).join(' ')}</p>
       <p className={styles.aide}>Kit d’orientation : {orientation.kit.avertissement}</p>

@@ -26,6 +26,11 @@ Ce document trace les écarts entre le PRD et les sources officielles, et les ch
 | Questions ouvertes | Aucune liste de questions ouvertes dans les sources : l'écran affiche les consignes de la balance (p. 38) et, pour le tabac, les questions du livret p. 33 | Livret p. 33 et 38 |
 | Suggestions du PPP | Freins : raisons du stade de préintention (livret p. 37). Conseils : « Les bons conseils pour prendre soin de soi » de l'autoquestionnaire 45-50 (p. 6-7). Rien n'est pré-rempli : le professionnel clique pour ajouter | Livret p. 37, autoquestionnaire p. 6-7 |
 | Fiches thématiques | PDF officiel ouvert à la page de la fiche dans un panneau latéral, avec un lien de secours vers un nouvel onglet (certains navigateurs de tablette n'affichent pas un PDF intégré). Le PDF est livré à côté de la brique, pas dans brick.js (3,7 Mo) | PRD S5 |
+| Durée de l'entretien | Repères du minuteur à 30 et 45 min (`scores.json`) ; orange à 45 min, sans interrompre la saisie | Livret p. 3 |
+| Mention « INCOMPLET » | Portée par le PDF si l'IMC ou la PA manque (`calculsObligatoires` de `45-50.json`) ; les questionnaires (FACE, CAST…) ne sont pas obligatoires, ils dépendent des consommations | Choix du concepteur (PRD §8), à valider |
+| Opposition au médecin traitant | Case officielle du PPP cochée « [X] », plus la mention du PRD « Le patient s’oppose à la transmission au médecin traitant. » | PPP p. 1, PRD M14 |
+| Pied de page du PDF | Version des trois référentiels, état de validation et date d'édition | PRD M14 |
+| Contrôle de facturation | RDP 30 € et au plus 1 acte complémentaire (RVA ou kit DOCCR) ; deux actes cochés bloquent l'export PDF | Livret p. 21, PRD S2 |
 | PA retenue | Moyenne par bras ; bras retenu = le plus sévère au regard des seuils, puis la plus haute systolique. Comparaison sur la moyenne exacte (139,5 reste sous 140) | Livret p. 29 et 41 |
 
 ## À vérifier (absent des sources fournies)

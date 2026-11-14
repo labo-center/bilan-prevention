@@ -121,6 +121,6 @@ test('parcours 45-50 ans de bout en bout jusqu’au PPP', async ({ page }) => {
   expect(erreurs).toEqual([]);
 
   // Clôture : retour à l'écran d'ouverture.
-  await page.getByRole('button', { name: 'Clôturer la session' }).click();
+  await page.getByRole('button', { name: 'Clôturer la session' }).first().click();
   await expect(page.getByRole('button', { name: 'Ouvrir la session' })).toBeVisible();
 });

@@ -1,5 +1,5 @@
 {
-  "version": "0.3.0",
+  "version": "0.4.0",
   "dateValidation": null,
   "sources": [
     {
@@ -2152,6 +2152,17 @@
           "cancers"
         ]
       }
+    ]
+  },
+  "export": {
+    "source": {
+      "ref": "livret",
+      "page": "11",
+      "extrait": "Court examen clinique : IMC et pression artérielle pour toutes les tranches ; liste des calculs obligatoires établie pour l’outil (PRD §8), à valider"
+    },
+    "calculsObligatoires": [
+      "imc",
+      "pression-arterielle"
     ]
   }
 }
